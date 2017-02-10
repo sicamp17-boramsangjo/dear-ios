@@ -1,4 +1,6 @@
 PODS:
+  - Crashlytics (3.8.3):
+    - Fabric (~> 1.6.3)
   - Digits (2.8.0):
     - TwitterCore (= 2.8.0)
   - Fabric (1.6.11)
@@ -6,14 +8,16 @@ PODS:
     - Fabric
 
 DEPENDENCIES:
+  - Crashlytics
   - Digits
   - Fabric
 
 SPEC CHECKSUMS:
+  Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
   Digits: 401151fdcc955738142d53b89112960d3c2e3930
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   TwitterCore: e959987be23c767004d29eb7fab8d85d8585a2e5
 
-PODFILE CHECKSUM: d3fbb8bfe67419387a980d252660f80fa72b4a2c
+PODFILE CHECKSUM: ef6612c83367480c12579c375f7ceb2e724a9239
 
 COCOAPODS: 1.2.0

@@ -5,8 +5,9 @@ target 'dear' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
-pod 'Fabric'	
-pod 'Digits'
+    pod 'Fabric'
+    pod 'Digits'
+    pod 'Crashlytics'
   # Pods for dear
 
   target 'dearTests' do
