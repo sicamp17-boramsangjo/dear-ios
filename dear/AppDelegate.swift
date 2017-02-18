@@ -46,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.backgroundColor = UIColor.black
 
-        if ConfigManager.instance.isLogin {
+        if DataSource.instance.isLogin() {
             window.rootViewController = self.setupContentViewGroup()
         } else {
             window.rootViewController = self.setupIntroViewGroup()
@@ -79,11 +79,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func setupSignInViewGroup() -> UIViewController? {
-        return SignInViewController { [unowned self] phoneNumber, _ in
-            guard let loginedPhoneNumber = phoneNumber else { return }
-            ConfigManager.instance.phoneNumber = loginedPhoneNumber
+
+        let signInViewController = SignInViewController { [unowned self] user, _ in
+            guard let loginedUser = user else { return }
             self.window?.rootViewController = self.setupContentViewGroup()
         }
+        let navigationController = UINavigationController(rootViewController:signInViewController)
+
+        return navigationController
     }
 
     func setupPasswordViewGroup() -> UIViewController? {

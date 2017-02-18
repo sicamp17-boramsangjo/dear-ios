@@ -149,10 +149,12 @@ class MessageCell: UITableViewCell {
             self.photoContent.isHidden = true
         case .Image(let photoURL, _):
             self.photoContent.sd_setImage(with: photoURL)
+            self.textContent.isHidden = true
             self.photoContent.isHidden = false
             self.videoPlayButton.isHidden = true
         case .Video(_, let photoURL, _):
             self.photoContent.sd_setImage(with: photoURL)
+            self.textContent.isHidden = true
             self.photoContent.isHidden = false
             self.videoPlayButton.isHidden = false
         }

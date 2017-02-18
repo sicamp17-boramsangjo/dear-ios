@@ -10,27 +10,14 @@ class ConfigManager {
     static let instance = ConfigManager()
     private init() {}
 
-    var isLogin: Bool {
+    var pinCode: Int {
         get {
             let userDefaults = UserDefaults.standard
-            return userDefaults.bool(forKey: "isLogin")
+            return userDefaults.integer(forKey: "pinCode")
         }
         set {
             let userDefaults = UserDefaults.standard
-            userDefaults.set(newValue, forKey: "isLogin")
-            userDefaults.synchronize()
-        }
-    }
-
-    var phoneNumber: String? {
-        get {
-            let userDefaults = UserDefaults.standard
-            return userDefaults.string(forKey: "phoneNumber")
-        }
-        set {
-            let userDefaults = UserDefaults.standard
-            userDefaults.set(newValue, forKey: "phoneNumber")
-            userDefaults.set(newValue != nil ? true: false, forKey: "isLogin")
+            userDefaults.set(newValue, forKey: "pinCode")
             userDefaults.synchronize()
         }
     }

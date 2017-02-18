@@ -10,6 +10,15 @@ PODS:
   - Digits (2.8.0):
     - TwitterCore (= 2.8.0)
   - Fabric (1.6.11)
+  - FLAnimatedImage (1.0.12)
+  - ImagePicker (2.0.0)
+  - NYTPhotoViewer (1.2.0):
+    - NYTPhotoViewer/AnimatedGifSupport (= 1.2.0)
+    - NYTPhotoViewer/Core (= 1.2.0)
+  - NYTPhotoViewer/AnimatedGifSupport (1.2.0):
+    - FLAnimatedImage (~> 1.0.12)
+    - NYTPhotoViewer/Core
+  - NYTPhotoViewer/Core (1.2.0)
   - Realm (2.4.2):
     - Realm/Headers (= 2.4.2)
   - Realm/Headers (2.4.2)
@@ -19,7 +28,8 @@ PODS:
   - SDWebImage (4.0.0):
     - SDWebImage/Core (= 4.0.0)
   - SDWebImage/Core (4.0.0)
-  - SnapKit (3.1.2)
+  - SMDatePicker (0.1.0)
+  - SnapKit (3.2.0)
   - TwitterCore (2.8.0):
     - Fabric
 
@@ -31,9 +41,12 @@ DEPENDENCIES:
   - DateToolsSwift
   - Digits
   - Fabric
+  - ImagePicker
+  - NYTPhotoViewer
   - RealmSwift
   - SCPinViewController
   - SDWebImage
+  - SMDatePicker
   - SnapKit
 
 EXTERNAL SOURCES:
@@ -54,13 +67,17 @@ SPEC CHECKSUMS:
   DateToolsSwift: 27336736d877c8734159da1f37afbda2aa704649
   Digits: 401151fdcc955738142d53b89112960d3c2e3930
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
+  ImagePicker: 81175d36c2852cb543cb4f5d6c19e28f3e8d90eb
+  NYTPhotoViewer: 323217e4590a1586eb3c9674b3fefb0fb8b57896
   Realm: d27b758e12d62a3371879a065d4c40aa212c5a54
   RealmSwift: 9556c0fe0f0cfecacfb755ae9e68ff379fc6bead
   SCPinViewController: 753d6cccdd15612e9633f0637d8da1e87d368fa8
   SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
-  SnapKit: 12b24f569cb7c143acc9c22b9d91b23e7b1c84a2
+  SMDatePicker: b4843031e6b9a1c6f4fa894d212a5abe83154d0c
+  SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
   TwitterCore: e959987be23c767004d29eb7fab8d85d8585a2e5
 
-PODFILE CHECKSUM: c182ec98dd0f6f853c1aff4aa6289c070173ac4d
+PODFILE CHECKSUM: 01b0bcac7998eb4984e67166be0c9d3d63febacc
 
 COCOAPODS: 1.2.0

@@ -10,4 +10,20 @@ import UIKit
 
 class WritingMessageViewController: UIViewController {
 
+    var textView: UITextView!
+    let userId: String
+    let willItemId: String
+    let completion: ((Bool) -> Void)?
+
+    init(userId: String, willItemId: String, completion: @escaping((Bool) -> Void)) {
+        self.userId = userId
+        self.willItemId = willItemId
+        self.completion = completion
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError()
+    }
+
 }

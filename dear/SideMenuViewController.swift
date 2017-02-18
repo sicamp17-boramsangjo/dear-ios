@@ -33,7 +33,7 @@ class SideMenuViewController: UIViewController, UITableViewDataSource, UITableVi
                         //TODO: open tutorial
                     },
                     SideMenuItem(title: "Logout", iconName: "arrow") {
-                        ConfigManager.instance.isLogin = false
+                        DataSource.instance.cleanAllDB()
                         guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }
                         delegate.window?.rootViewController = delegate.setupIntroViewGroup()
                     }

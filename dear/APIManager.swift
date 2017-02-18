@@ -11,16 +11,23 @@ enum APIInternalError: Error {
     case unknown
 }
 
-
 enum APIFixture: String {
     case apiProtocol = "http"
     case apiBaseDomain = "indiweb08.cafe24.com"
+    case apiPort = "8888"
+    case apiBasePath = "app"
+}
+
+enum APIPath: String {
+    case createUser = "createUser"
+    case getUser = "getUser"
+    case getWillItem = "getWillItem"
 }
 
 typealias APICompletion = (Any?, Error?) -> Void
 
 class APIManager {
-    
+
     private let session: URLSession
     private let needUserAuthorization: Bool
 
@@ -32,45 +39,77 @@ class APIManager {
         }
         self.needUserAuthorization = needUserAuthorization
     }
-    
-    func signUp(name: String, phoneNumber:String, birth:Date, gender:Bool, completion:@escaping APICompletion) {
-        
-        var params = [String:Any]()
+
+    func createUser(name: String, phoneNumber: String, birth: Date, gender: Bool, completion:@escaping APICompletion) {
+
+#if DEBUG
+        completion(User.fixture(), nil)
+#else
+        var params = [String: Any]()
         params["name"] = name.trimmingCharacters(in: .whitespacesAndNewlines)
         params["phoneNumber"] = phoneNumber
 
         let birthdayTuple = birth.getBirthdayElements()
-        
+
         params["year"] = birthdayTuple.year
         params["month"] = birthdayTuple.month
         params["day"] = birthdayTuple.day
-        
+
         params["gender"] = gender ? "male" : "female"
-        
-        self.request(path: "signup", method:.post, params:params, completion: completion)
+
+        self.request(path: .createUser, params:params, completion: completion)
+#endif
     }
-    
 
-    private func request(path: String, method: HTTPMethod = .get, params: [String:Any]? = nil, completion: APICompletion?) {
+    func getUser(userId: String, completion:@escaping APICompletion) {
 
-        let fullPath = "\(APIFixture.apiProtocol)://\(APIFixture.apiBaseDomain)/\(path)"
-        
-        Alamofire.request(fullPath, method:method, parameters:params, encoding: PropertyListEncoding.default)
-            .validate(statusCode:200..<300)
-            .validate(contentType: ["application/json"])
-            .responseJSON { response in
-                
-                guard let responseCompletion = completion else {
-                    return
+#if DEBUG
+        completion(User.fixture(), nil)
+#else
+        var params = ["userId": userId]
+        self.request(path: .getUser, params:params, completion: completion)
+#endif
+    }
+
+    func getWillItem(willItemId: String, completion:@escaping APICompletion) {
+#if DEBUG
+        completion(WillItem.fixture(), nil)
+#else
+        var params = ["willItemId": willItemId]
+        self.request(path: .getWillItem, params: params, completion: completion)
+#endif
+    }
+
+    private func request(path: APIPath, params: [String:Any]? = nil, completion: APICompletion?) {
+
+        let headers = ["Content-Type": "application/json"]
+
+        let fullPath = "\(APIFixture.apiProtocol)://" +
+                "\(APIFixture.apiBaseDomain):" +
+                "\(APIFixture.apiPort)/" +
+                "\(APIFixture.apiBasePath)/" +
+                "\(path.rawValue)"
+
+        Alamofire.request(fullPath,
+                        method:.post,
+                        parameters:params,
+                        encoding: PropertyListEncoding.default,
+                        headers: headers)
+                .validate(statusCode:200..<300)
+                .validate(contentType: ["application/json"])
+                .responseJSON { response in
+
+                    guard let responseCompletion = completion else {
+                        return
+                    }
+
+                    switch response.result {
+                    case .success:
+                        responseCompletion(response.result.value, nil)
+                    case .failure(let error):
+                        responseCompletion(nil, error)
+                    }
                 }
-                
-                switch response.result {
-                case .success:
-                    responseCompletion(response.result.value, nil)
-                case .failure(let error):
-                    responseCompletion(nil, error)
-                }
-        }
     }
 
 }

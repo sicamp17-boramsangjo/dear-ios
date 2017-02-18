@@ -22,6 +22,7 @@
 		B3E065361E537246009B67A7 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E065351E537246009B67A7 /* DataSource.swift */; };
 		D86C9102E1DA792AD686EFEF /* ConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C99BE8FFDEA36300F9422 /* ConfigManager.swift */; };
 		D86C920F320C2C6143E1249D /* MessageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9E8AB66226AD8B307190 /* MessageListViewController.swift */; };
+		D86C942DCCA6F29589BACD20 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9ECC62F9C65C350B9FDE /* SignUpViewController.swift */; };
 		D86C9AE41B04F94050CFC9AD /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9046F26909F3F0CCDE81 /* APIManager.swift */; };
 		D86C9B10620D074D408E11BA /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9868805AEF9C6D038A37 /* SignInViewController.swift */; };
 		D86C9ED2C2F5BFF1917EC6FF /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C90BA57EFAE921DFF9A54 /* IntroViewController.swift */; };
@@ -66,6 +67,7 @@
 		D86C9868805AEF9C6D038A37 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		D86C99BE8FFDEA36300F9422 /* ConfigManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigManager.swift; sourceTree = "<group>"; };
 		D86C9E8AB66226AD8B307190 /* MessageListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListViewController.swift; sourceTree = "<group>"; };
+		D86C9ECC62F9C65C350B9FDE /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				D86C9868805AEF9C6D038A37 /* SignInViewController.swift */,
+				D86C9ECC62F9C65C350B9FDE /* SignUpViewController.swift */,
 			);
 			name = SignIn;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 				D86C9ED2C2F5BFF1917EC6FF /* IntroViewController.swift in Sources */,
 				D86C9102E1DA792AD686EFEF /* ConfigManager.swift in Sources */,
 				D86C9B10620D074D408E11BA /* SignInViewController.swift in Sources */,
+				D86C942DCCA6F29589BACD20 /* SignUpViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

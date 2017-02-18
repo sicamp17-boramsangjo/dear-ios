@@ -17,11 +17,12 @@ target 'dear' do
   pod 'ChameleonFramework/Swift', :git => 'https://github.com/christian-fei/Chameleon', :branch => 'swift3'
   pod 'DateToolsSwift'
   pod 'SCPinViewController'
-
+  pod 'NYTPhotoViewer'
+  pod 'ImagePicker'
+  pod 'SMDatePicker'
 
   target 'dearTests' do
     inherit! :search_paths
-    # Pods for testing
   end
 
   post_install do |installer|
