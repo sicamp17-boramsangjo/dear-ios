@@ -60,5 +60,11 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>HELLO</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>HELLO</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>HELLO</string>
 </dict>
 </plist>

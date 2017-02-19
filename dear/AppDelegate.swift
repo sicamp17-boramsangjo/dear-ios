@@ -11,15 +11,13 @@ import Fabric
 import DigitsKit
 import Crashlytics
 import AKSideMenu
-import ChameleonFramework
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         setupWindow()
         setupApplication()
@@ -42,6 +40,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
     }
 
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        print("did receive remote notification \(userInfo)")
+    }
+
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print("did receive remote notification completionHandler \(userInfo)")
+    }
+
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+
+        var token: String = ""
+        for i in 0..<deviceToken.count {
+            token += String(format: "%02.2hhx", deviceToken[i] as CVarArg)
+        }
+#if DEBUG
+        UIPasteboard.general.string = token
+        Alert.showAlert(message: "copied device token: \(token)")
+        print("device token: \(token)")
+#endif
+    }
+
     func setupWindow() {
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.backgroundColor = UIColor.black
@@ -58,9 +77,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func setupContentViewGroup() -> UIViewController {
-        let messageListViewController = MessageListViewController(nibName: nil, bundle: nil)
-        let navigationController = UINavigationController(rootViewController:messageListViewController)
-        navigationController.setThemeUsingPrimaryColor(UIColor.flatWhite(), with: .contrast)
+        let contentViewController = ContentBaseViewController(nibName: nil, bundle: nil)
+        let navigationController = UINavigationController(rootViewController: contentViewController)
 
         let leftMenuViewController = SideMenuViewController(nibName: nil, bundle: nil)
         let sideMenuViewController = AKSideMenu(contentViewController: navigationController,
@@ -81,7 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func setupSignInViewGroup() -> UIViewController? {
 
         let signInViewController = SignInViewController { [unowned self] user, _ in
-            guard let loginedUser = user else { return }
+            guard user != nil else { return }
             self.window?.rootViewController = self.setupContentViewGroup()
         }
         let navigationController = UINavigationController(rootViewController:signInViewController)
@@ -95,6 +113,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func setupApplication() {
         Fabric.with([Digits.self, Crashlytics.self])
+        NotificationManager.instance.requestAuthorization()
+
     }
 
 }

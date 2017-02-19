@@ -12,6 +12,7 @@ import SnapKit
 import CoreGraphics
 import SDWebImage
 import ChameleonFramework
+import DigitsKit
 
 class SideMenuViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -21,7 +22,6 @@ class SideMenuViewController: UIViewController, UITableViewDataSource, UITableVi
 
             }], [
                     SideMenuItem(title: "New message", iconName: "arrow") {
-                        //TODO: open write VC
                     },
                     SideMenuItem(title: "Config alam", iconName: "arrow") {
                         //TODO: open config Alarm
@@ -34,6 +34,7 @@ class SideMenuViewController: UIViewController, UITableViewDataSource, UITableVi
                     },
                     SideMenuItem(title: "Logout", iconName: "arrow") {
                         DataSource.instance.cleanAllDB()
+                        Digits.sharedInstance().logOut()
                         guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }
                         delegate.window?.rootViewController = delegate.setupIntroViewGroup()
                     }
@@ -112,11 +113,9 @@ class SideMenuViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
         tableView.deselectRow(at: indexPath, animated: true)
         let runnableMenuItem: SideMenuItemRunnable = self.menuItem(indexPath: indexPath)
         runnableMenuItem.handleTapEvent()
-
     }
 }
 

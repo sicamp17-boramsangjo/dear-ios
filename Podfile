@@ -20,6 +20,8 @@ target 'dear' do
   pod 'NYTPhotoViewer'
   pod 'ImagePicker'
   pod 'SMDatePicker'
+  pod 'LKAlertController'
+  pod 'SwiftMessages'
 
   target 'dearTests' do
     inherit! :search_paths
