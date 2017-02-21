@@ -29,12 +29,12 @@ class SignInViewController: UIViewController {
 
     private func setupView() {
 
-        self.view.backgroundColor = UIColor.flatWhite()
+        self.view.backgroundColor = UIColor.flatWhite
 
         let signInButton = UIButton(type:.custom)
         signInButton.setTitle("Sign in with Phone number", for: .normal)
         signInButton.setTitleColor(UIColor.white, for: .normal)
-        signInButton.backgroundColor = UIColor.flatSkyBlue()
+        signInButton.backgroundColor = UIColor.flatSkyBlue
         signInButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(signInButton)
@@ -50,8 +50,8 @@ class SignInViewController: UIViewController {
             return
         }
         let appearlance = DGTAppearance()
-        appearlance.backgroundColor = UIColor.flatWhite()
-        appearlance.accentColor = UIColor.flatSkyBlue()
+        appearlance.backgroundColor = UIColor.flatWhite
+        appearlance.accentColor = UIColor.flatSkyBlue
         configuration.appearance = appearlance
         configuration.phoneNumber = "+82"
 

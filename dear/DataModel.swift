@@ -10,6 +10,7 @@ import Foundation
 import RealmSwift
 
 class Receiver: Object {
+    dynamic var receiverID = ""
     dynamic var name = ""
     dynamic var phoneNumber = ""
 }

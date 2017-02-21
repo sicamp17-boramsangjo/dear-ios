@@ -9,9 +9,13 @@ PODS:
   - DateToolsSwift (2.0.0)
   - Digits (2.8.0):
     - TwitterCore (= 2.8.0)
+  - DKImagePickerController (3.5.0):
+    - DKImagePickerController/Camera (= 3.5.0)
+    - DKImagePickerController/ImageManager (= 3.5.0)
+  - DKImagePickerController/Camera (3.5.0)
+  - DKImagePickerController/ImageManager (3.5.0)
   - Fabric (1.6.11)
   - FLAnimatedImage (1.0.12)
-  - ImagePicker (2.0.0)
   - LKAlertController (1.12.0)
   - NYTPhotoViewer (1.2.0):
     - NYTPhotoViewer/AnimatedGifSupport (= 1.2.0)
@@ -20,11 +24,11 @@ PODS:
     - FLAnimatedImage (~> 1.0.12)
     - NYTPhotoViewer/Core
   - NYTPhotoViewer/Core (1.2.0)
-  - Realm (2.4.2):
-    - Realm/Headers (= 2.4.2)
-  - Realm/Headers (2.4.2)
-  - RealmSwift (2.4.2):
-    - Realm (= 2.4.2)
+  - Realm (2.4.3):
+    - Realm/Headers (= 2.4.3)
+  - Realm/Headers (2.4.3)
+  - RealmSwift (2.4.3):
+    - Realm (= 2.4.3)
   - SCPinViewController (1.0.2)
   - SDWebImage (4.0.0):
     - SDWebImage/Core (= 4.0.0)
@@ -32,18 +36,19 @@ PODS:
   - SMDatePicker (0.1.0)
   - SnapKit (3.2.0)
   - SwiftMessages (3.1.5)
+  - SwiftyJSON (3.1.4)
   - TwitterCore (2.8.0):
     - Fabric
 
 DEPENDENCIES:
   - AKSideMenu
   - Alamofire
-  - ChameleonFramework/Swift (from `https://github.com/christian-fei/Chameleon`, branch `swift3`)
+  - ChameleonFramework/Swift (from `https://github.com/ViccAlexander/Chameleon.git`)
   - Crashlytics
   - DateToolsSwift
   - Digits
+  - DKImagePickerController
   - Fabric
-  - ImagePicker
   - LKAlertController
   - NYTPhotoViewer
   - RealmSwift
@@ -52,16 +57,16 @@ DEPENDENCIES:
   - SMDatePicker
   - SnapKit
   - SwiftMessages
+  - SwiftyJSON
 
 EXTERNAL SOURCES:
   ChameleonFramework:
-    :branch: swift3
-    :git: https://github.com/christian-fei/Chameleon
+    :git: https://github.com/ViccAlexander/Chameleon.git
 
 CHECKOUT OPTIONS:
   ChameleonFramework:
-    :commit: c400c32eead1c6e74008983c3e7c845ae069b41d
-    :git: https://github.com/christian-fei/Chameleon
+    :commit: dcf98f9bf3a632a7f40679b7da46f09681e48526
+    :git: https://github.com/ViccAlexander/Chameleon.git
 
 SPEC CHECKSUMS:
   AKSideMenu: a731c71a954b8886d8ebefd01bd457857241d48f
@@ -70,20 +75,21 @@ SPEC CHECKSUMS:
   Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
   DateToolsSwift: 27336736d877c8734159da1f37afbda2aa704649
   Digits: 401151fdcc955738142d53b89112960d3c2e3930
+  DKImagePickerController: 0fccc62b047a6b0c64d81e7b64a3deab22b86839
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
-  ImagePicker: 81175d36c2852cb543cb4f5d6c19e28f3e8d90eb
   LKAlertController: 0e046d725fd9a7d2d04339fcbc6d1065e9fac199
   NYTPhotoViewer: 323217e4590a1586eb3c9674b3fefb0fb8b57896
-  Realm: d27b758e12d62a3371879a065d4c40aa212c5a54
-  RealmSwift: 9556c0fe0f0cfecacfb755ae9e68ff379fc6bead
+  Realm: e08d60b0048ccccd3949c8c28a92c4db5712d7e9
+  RealmSwift: 30d49739ccb3385d201242736ca4dda56aec9dfc
   SCPinViewController: 753d6cccdd15612e9633f0637d8da1e87d368fa8
   SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
   SMDatePicker: b4843031e6b9a1c6f4fa894d212a5abe83154d0c
   SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
   SwiftMessages: bb85d7c30e85256f9367214b0907e1f409e1870a
+  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   TwitterCore: e959987be23c767004d29eb7fab8d85d8585a2e5
 
-PODFILE CHECKSUM: 8e82b8f75654309100c1a74a21854c7321321cdd
+PODFILE CHECKSUM: 36d723136f2293fda0900de139038a59fc5b341b
 
 COCOAPODS: 1.2.0

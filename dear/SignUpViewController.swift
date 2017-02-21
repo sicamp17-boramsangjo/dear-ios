@@ -38,7 +38,7 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
 
     private func setupView() {
 
-        self.view.backgroundColor = UIColor.flatWhite()
+        self.view.backgroundColor = UIColor.flatWhite
 
         let nameTextField = UITextField(frame:.zero)
         nameTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -80,7 +80,7 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
         let signUpButton = UIButton(type: .custom)
         signUpButton.translatesAutoresizingMaskIntoConstraints = false
         signUpButton.setTitle("Sign up", for: .normal)
-        signUpButton.backgroundColor = UIColor.flatSkyBlue()
+        signUpButton.backgroundColor = UIColor.flatSkyBlue
         signUpButton.setTitleColor(UIColor.black, for: .normal)
         signUpButton.addTarget(self, action: #selector(signUpButtonTapped(_:)), for: .touchUpInside)
         signUpButton.snp.makeConstraints { (make) in

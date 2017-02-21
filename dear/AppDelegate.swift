@@ -16,6 +16,7 @@ import AKSideMenu
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    weak var sideMenu: AKSideMenu?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
@@ -86,6 +87,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 rightMenuViewController:nil)
         sideMenuViewController.scaleContentView = false
         sideMenuViewController.scaleMenuView = false
+
+        self.sideMenu = sideMenuViewController
 
         return sideMenuViewController
     }

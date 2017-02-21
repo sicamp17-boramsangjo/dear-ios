@@ -34,7 +34,7 @@ class SideMenuProfileCell: UITableViewCell {
         imageView.layer.cornerRadius = 40
         imageView.clipsToBounds = true
         imageView.layer.borderWidth = 2
-        imageView.layer.borderColor = UIColor.flatYellow().cgColor
+        imageView.layer.borderColor = UIColor.flatYellow.cgColor
 
         imageView.snp.makeConstraints { (make) in
             make.width.equalTo(80)
@@ -49,8 +49,8 @@ class SideMenuProfileCell: UITableViewCell {
         let progress = UIProgressView(progressViewStyle: .bar)
         progress.translatesAutoresizingMaskIntoConstraints = false
         progress.progress = 0.4
-        progress.progressTintColor = UIColor.flatYellow()
-        progress.backgroundColor = UIColor.flatYellowColorDark()
+        progress.progressTintColor = UIColor.flatYellow
+        progress.backgroundColor = UIColor.flatYellowDark
         progress.snp.makeConstraints { (make) in
             make.width.equalTo(80)
         }

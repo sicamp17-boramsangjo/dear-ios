@@ -58,7 +58,7 @@ class SideMenuViewController: UIViewController, UITableViewDataSource, UITableVi
     private func setupView() {
 
         self.tableView = UITableView(frame: .zero, style: .plain)
-        self.tableView.backgroundColor = UIColor.flatSkyBlueColorDark()
+        self.tableView.backgroundColor = UIColor.flatSkyBlueDark
         self.tableView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.tableView)
         self.tableView.snp.makeConstraints {[unowned self] (make) in

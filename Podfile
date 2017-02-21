@@ -14,14 +14,15 @@ target 'dear' do
   pod 'SnapKit'
   
   pod 'AKSideMenu'
-  pod 'ChameleonFramework/Swift', :git => 'https://github.com/christian-fei/Chameleon', :branch => 'swift3'
+  pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
   pod 'DateToolsSwift'
   pod 'SCPinViewController'
   pod 'NYTPhotoViewer'
-  pod 'ImagePicker'
+  pod 'DKImagePickerController'
   pod 'SMDatePicker'
   pod 'LKAlertController'
   pod 'SwiftMessages'
+  pod 'SwiftyJSON'
 
   target 'dearTests' do
     inherit! :search_paths

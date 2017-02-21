@@ -22,6 +22,17 @@ enum APIPath: String {
     case createUser = "createUser"
     case getUser = "getUser"
     case getWillItem = "getWillItem"
+    case uploadImage = "uploadImage"
+    case uploadVideo = "uploadVideo"
+    case createAnswer = "createAnswer"
+
+    func fullPath() -> String {
+        return "\(APIFixture.apiProtocol)://" +
+                "\(APIFixture.apiBaseDomain):" +
+                "\(APIFixture.apiPort)/" +
+                "\(APIFixture.apiBasePath)/" +
+                "\(self.rawValue)"
+    }
 }
 
 typealias APICompletion = (Any?, Error?) -> Void
@@ -30,6 +41,7 @@ class APIManager {
 
     private let session: URLSession
     private let needUserAuthorization: Bool
+    static var sessionToken: String?
 
     init(session: URLSession?, needUserAuthorization: Bool = false) {
         if session != nil {
@@ -40,7 +52,7 @@ class APIManager {
         self.needUserAuthorization = needUserAuthorization
     }
 
-    func createUser(name: String, phoneNumber: String, birth: Date, gender: Bool, completion:@escaping APICompletion) {
+    func createUser(name: String, phoneNumber: String, birth: Date, gender: Bool, completion: APICompletion) {
 
 #if DEBUG
         completion(User.fixture(), nil)
@@ -61,7 +73,7 @@ class APIManager {
 #endif
     }
 
-    func getUser(userId: String, completion:@escaping APICompletion) {
+    func getUser(userId: String, completion: APICompletion) {
 
 #if DEBUG
         completion(User.fixture(), nil)
@@ -71,7 +83,7 @@ class APIManager {
 #endif
     }
 
-    func getWillItem(willItemId: String, completion:@escaping APICompletion) {
+    func getWillItem(willItemId: String, completion: APICompletion) {
 #if DEBUG
         completion(WillItem.fixture(), nil)
 #else
@@ -80,15 +92,28 @@ class APIManager {
 #endif
     }
 
+    func createAnswer(questionID: String, answerText: String?, answerPhoto: String?, answerVideo: String?, receivers: [String]?, completion:@escaping APICompletion) {
+
+        var params: [String: Any] = [:]
+        if self.needUserAuthorization {
+             params["sessionToken"] = APIManager.sessionToken
+        }
+        params["questionID"] = questionID
+        params["answerText"] = answerText
+        params["answerPhoto"] = answerPhoto
+        params["answerVideo"] = answerVideo
+        params["receivers"] = receivers
+        params["lastUpdate"] = Date().timeIntervalSince1970
+
+        self.request(path: .createAnswer, params:params, completion:completion)
+
+    }
+
     private func request(path: APIPath, params: [String:Any]? = nil, completion: APICompletion?) {
 
         let headers = ["Content-Type": "application/json"]
 
-        let fullPath = "\(APIFixture.apiProtocol)://" +
-                "\(APIFixture.apiBaseDomain):" +
-                "\(APIFixture.apiPort)/" +
-                "\(APIFixture.apiBasePath)/" +
-                "\(path.rawValue)"
+        let fullPath = path.fullPath()
 
         Alamofire.request(fullPath,
                         method:.post,
@@ -110,6 +135,23 @@ class APIManager {
                         responseCompletion(nil, error)
                     }
                 }
+    }
+
+    func upload(path: APIPath, filePath: String, completion: APICompletion?) {
+
+        let fullPath = path.fullPath()
+        let fileUrl = URL(fileURLWithPath: filePath)
+        Alamofire.upload(multipartFormData: { (data: MultipartFormData) -> Void in
+            data.append(fileUrl, withName: fileUrl.lastPathComponent)
+        }, to: fullPath, encodingCompletion: { result in
+            switch result {
+            case .success(let upload, _, _):
+                completion?(upload, nil)
+            case .failure(let encodingError):
+                completion?(nil, encodingError)
+            }
+        })
+
     }
 
 }

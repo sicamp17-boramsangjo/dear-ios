@@ -35,7 +35,7 @@ class TextAnswerCell: UITableViewCell {
 
     private func setupView() {
         self.selectionStyle = .none
-        self.contentView.backgroundColor = UIColor.flatWhite()
+        self.contentView.backgroundColor = UIColor.flatWhite
         let answerLabel = UILabel(frame: .zero)
         answerLabel.translatesAutoresizingMaskIntoConstraints = false
         answerLabel.lineBreakMode = .byWordWrapping

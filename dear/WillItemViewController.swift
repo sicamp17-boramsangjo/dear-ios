@@ -10,11 +10,16 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
 
     weak var tableView: UITableView!
     weak var textInputView: InputView!
-    var inputViewHeight: Constraint? = nil
+    weak var inputViewBottomMargin: NSLayoutConstraint!
+
+    deinit {
+        self.unregisterNotifications()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupView()
+        self.registerNotifications()
     }
 
     private func setupView() {
@@ -22,11 +27,9 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
         textInputView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(textInputView)
         self.textInputView = textInputView
-        self.textInputView.snp.makeConstraints {[unowned self] maker in
+        self.textInputView.snp.makeConstraints { maker in
             maker.leading.equalToSuperview()
             maker.trailing.equalToSuperview()
-            maker.bottom.equalToSuperview()
-            self.inputViewHeight = maker.height.equalTo(40).priority(750).constraint
         }
 
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -42,11 +45,50 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
             maker.leading.equalToSuperview()
             maker.trailing.equalToSuperview()
             maker.top.equalToSuperview()
-            maker.bottom.equalTo(textInputView.snp.top)
         }
 
         tableView.register(QuestionCell.self, forCellReuseIdentifier: QuestionCell.identifier())
         tableView.register(TextAnswerCell.self, forCellReuseIdentifier: TextAnswerCell.identifier())
+
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[tableView][textInputView]", metrics: nil, views: ["tableView": tableView, "textInputView": textInputView]))
+        let inputViewBottomMargin = NSLayoutConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: textInputView, attribute: .bottom, multiplier: 1.0, constant: 0)
+        inputViewBottomMargin.identifier = "bottomMargin for keyboard"
+        self.view.addConstraint(inputViewBottomMargin)
+        self.inputViewBottomMargin = inputViewBottomMargin
+    }
+
+    private func registerNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(willShowKeyboard(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willHideKeyboard(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+
+    private func unregisterNotifications() {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    @objc private func willShowKeyboard(_ notification: Notification) {
+        guard let keyboardSize = notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? CGRect,
+              let duration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber,
+              let animationCurve = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber else {
+            return
+        }
+        self.view.layoutIfNeeded()
+        UIView.animate(withDuration: duration.doubleValue, delay: 0, options: UIViewAnimationOptions(rawValue: animationCurve.uintValue), animations: {
+            self.inputViewBottomMargin.constant = keyboardSize.height
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+    }
+
+    @objc private func willHideKeyboard(_ notification: Notification) {
+        guard let duration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber,
+              let animationCurve = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber else {
+            return
+        }
+        self.view.layoutIfNeeded()
+        UIView.animate(withDuration: duration.doubleValue, delay: 0, options: UIViewAnimationOptions(rawValue: animationCurve.uintValue), animations: {
+            self.inputViewBottomMargin.constant = 0
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
 
     // MARK: TableView
@@ -78,7 +120,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
 
         var sampleAnswer = Answer(value: [
                 "textContent": "4학년때 아버지가 갖고싶어하던 컴퓨터를 사주셨을때.. 그때는 몰랐지만 그로인해 더 넓은 세상을 보게 되었고 지금은 개발자가 되어있네",
-                "lastUpdate":Date().timeIntervalSince1970
+                "lastUpdate": Date().timeIntervalSince1970
         ])
         cell.answer = sampleAnswer
 
