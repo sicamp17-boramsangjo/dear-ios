@@ -31,7 +31,7 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
 
     public func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Swift.Void) {
         print("alert: willPresentNotification \(notification.request.content.userInfo)")
-        Alert.showAlert(message: "copied \(notification.request.content.userInfo)")
+        Alert.showMessage(message: "copied \(notification.request.content.userInfo)")
 #if DEBUG
         UIPasteboard.general.string = "\(notification.request.content.userInfo)"
 #endif

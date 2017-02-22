@@ -44,6 +44,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
     }
 
+    func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
+
+        // Example: dear://readonly/AKIWDKSIWK
+
+        guard url.scheme == "dear" && url.pathComponents.count == 2 && url.host == "readonly", let userID = url.pathComponents[1] as? String else {
+            return false
+        }
+
+        let readOnlyPasswordViewController = ReadyOnlyPasswordViewController(userID: userID)
+        let navigationController = UINavigationController(rootViewController: readOnlyPasswordViewController)
+        UIWindow.visibleViewController()?.present(navigationController, animated: true)
+
+        return true
+    }
+
+
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
         print("did receive remote notification \(userInfo)")
     }
@@ -60,13 +76,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 #if DEBUG
         UIPasteboard.general.string = token
-        Alert.showAlert(message: "copied device token: \(token)")
+        Alert.showMessage(message: "copied device token: \(token)")
         print("device token: \(token)")
 #endif
 
         self.deviceToken = token
 
-        self.updateDeviceToken()
+        self.updateDeviceTokenIfAvailable()
     }
 
     func setupWindowWithLoginStatus() {
@@ -90,7 +106,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 window.rootViewController = self.setupIntroViewGroup()
             }
 
-            self.updateDeviceToken()
+            self.updateDeviceTokenIfAvailable()
         }
     }
 
@@ -112,23 +128,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func setupIntroViewGroup() -> UIViewController {
         return IntroViewController(completion: { [unowned self] in
-            self.window?.rootViewController = self.setupSignInViewGroup()
+            self.window?.rootViewController = self.setupCheckPhoneNumberViewGroup()
         })
     }
 
-    func setupSignInViewGroup() -> UIViewController? {
+    func setupCheckPhoneNumberViewGroup() -> UIViewController? {
 
-        let signInViewController = SignInViewController { [unowned self] user, _ in
-            guard user != nil else { return }
+        let checkPhoneNumberViewController = CheckPhoneNumberViewController { [unowned self] user, error in
+            guard user != nil else {
+                Alert.showError(error ?? InternalError.loginFail)
+                return
+            }
             self.window?.rootViewController = self.setupContentViewGroup()
         }
-        let navigationController = UINavigationController(rootViewController:signInViewController)
 
+        let navigationController = UINavigationController(rootViewController: checkPhoneNumberViewController)
         return navigationController
-    }
-
-    func setupPasswordViewGroup() -> UIViewController? {
-        return nil
     }
 
     func setupApplication() {
@@ -136,7 +151,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationManager.instance.requestAuthorization()
     }
 
-    private func updateDeviceToken() {
+    private func updateDeviceTokenIfAvailable() {
 
         guard APIManager.sessionToken != nil, let deviceToken = self.deviceToken else {
             print("not prepared")

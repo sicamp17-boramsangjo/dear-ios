@@ -1,20 +1,22 @@
 //
-// Created by kyungtaek on 2017. 2. 15..
+// Created by kyungtaek on 2017. 2. 22..
 // Copyright (c) 2017 sicamp. All rights reserved.
 //
 
 import UIKit
-import DigitsKit
-import SnapKit
-import ChameleonFramework
 
 class SignInViewController: UIViewController {
 
-    var loginCompletion: (User?, Error?) -> Void
+    let phoneNumber: String
     let apiManager: APIManager = APIManager()
+    let loginCompletion: (User?, Error?) -> Void
 
-    init (completion: @escaping (User?, Error?) -> Void) {
-        self.loginCompletion = completion
+    weak var textField: UITextField!
+    weak var doneButton: UIButton!
+
+    init(phoneNumber:String, loginCompletion:@escaping (User?, Error?) -> Void) {
+        self.phoneNumber = phoneNumber
+        self.loginCompletion = loginCompletion
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -29,72 +31,58 @@ class SignInViewController: UIViewController {
 
     private func setupView() {
 
-        self.view.backgroundColor = UIColor.flatWhite
-
-        let signInButton = UIButton(type:.custom)
-        signInButton.setTitle("Sign in with Phone number", for: .normal)
-        signInButton.setTitleColor(UIColor.white, for: .normal)
-        signInButton.backgroundColor = UIColor.flatSkyBlue
-        signInButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
-        signInButton.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(signInButton)
-        signInButton.snp.makeConstraints { makes in
-            makes.centerX.equalToSuperview()
-            makes.bottom.equalTo(-60)
+        let textField = UITextField(frame:.zero)
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(textField)
+        textField.snp.makeConstraints { maker in
+            maker.size.equalTo(CGSize(width: 240, height: 60))
+            maker.centerX.equalToSuperview()
+            maker.topMargin.equalTo(120)
         }
+        self.textField = textField
+
+        let doneButton = UIButton(type: .roundedRect)
+        doneButton.setTitle("Login", for: .normal)
+        doneButton.translatesAutoresizingMaskIntoConstraints = false
+        doneButton.addTarget(self, action: #selector(loginButtonTapped(_:)), for: .touchUpInside)
+        self.view.addSubview(doneButton)
+        doneButton.snp.makeConstraints { maker in
+            maker.size.equalTo(CGSize(width: 240, height: 60))
+            maker.centerX.equalToSuperview()
+            maker.top.equalTo(textField.snp.bottom).offset(12)
+        }
+        self.doneButton = doneButton
     }
 
-    @objc private func signInButtonTapped() {
-        let digits = Digits.sharedInstance()
-        guard let configuration = DGTAuthenticationConfiguration(accountFields: .defaultOptionMask) else {
+    @objc private func loginButtonTapped(_ button: UIButton) {
+
+        guard let password = self.textField.text else {
             return
         }
-        let appearlance = DGTAppearance()
-        appearlance.backgroundColor = UIColor.flatWhite
-        appearlance.accentColor = UIColor.flatSkyBlue
-        configuration.appearance = appearlance
-        configuration.phoneNumber = "+82"
 
-        digits.authenticate(with:nil, configuration:configuration) { [unowned self] (session, error) in
-
-            guard let currentSession = session else {
+        self.apiManager.login(phoneNumber: self.phoneNumber, password:password ) { [unowned self] loginResult, error in
+            if error != nil {
+                Alert.showError(error!)
                 return
             }
 
-            self.checkUser(phoneNumber: currentSession.phoneNumber) { user, error in
+            if loginResult == false {
+                self.loginCompletion(nil, InternalError.loginFail)
+                return
+            }
 
-                guard user != nil && error == nil else {
-                    self.launchSignUpViewController(phoneNumber: currentSession.phoneNumber, loginCompletion: self.loginCompletion)
+            self.apiManager.getUserInfo {[unowned self] dictionary, error in
+
+                guard let loginUserValue = dictionary else {
+                    self.loginCompletion(nil, error ?? InternalError.loginFail)
                     return
                 }
 
-                self.loginCompletion(user, nil)
+                DataSource.instance.storeLoginUser(loginUserValue: loginUserValue)
+                self.loginCompletion(DataSource.instance.fetchLoginUser(), nil)
             }
 
         }
-    }
-
-    private func checkUser(phoneNumber: String, completion: @escaping (User?, Error?) -> Void) {
-
-        self.apiManager.getUserInfo(userId: phoneNumber) {[unowned self] loginUser, error in
-
-#if DEBUG
-            completion(nil, APIInternalError.notFound)
-#else
-            guard let loginedUser = loginUser else {
-                completion(nil, error)
-                return
-            }
-
-            DataSource.instance.storeLoginUser(loginUserValue: loginUser as! [String:Any])
-            completion(DataSource.instance.fetchLoginUser(), nil)
-#endif
-        }
-    }
-
-    private func launchSignUpViewController(phoneNumber: String, loginCompletion: @escaping (User?, Error?) -> Void) {
-        let signUpViewController = SignUpViewController(phoneNumber: phoneNumber, completion: loginCompletion)
-        self.navigationController?.pushViewController(signUpViewController, animated: true)
     }
 
 }

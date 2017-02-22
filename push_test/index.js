@@ -2,7 +2,7 @@ const apn = require("apn");
 
 let users = [
   //{ name: "Wendy", "devices": ["<insert device token>", "<insert device token>"]},
-  { name: "Kyungtaek",  "devices": ["28bc683c685d75dfb358724dcb5693e9ead64e37d94fcfc41988a389d0712c33"]},
+  { name: "Kyungtaek",  "devices": ["c3231fbbb26c109bbc808b89f896e5fe65f4a8dd0cf38af8e29ea317b7a8f795"]},
 ];
 
 let service = new apn.Provider({
@@ -14,6 +14,7 @@ users.forEach( (user) => {
 
   let note = new apn.Notification();
   note.alert = `Hey ${user.name}, I just sent my first Push Notification`;
+  note.payload = {'question':'question', 'questionID':'questionID', 'willItemID':'willItemID'}
 
   // The topic is usually the bundle identifier of your application.
   //note.topic = "<bundle identifier>";

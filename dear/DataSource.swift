@@ -13,7 +13,7 @@ class DataSource {
 
     static let modelRevision = 6
 
-    let realm = try! Realm()
+    var realm = try! Realm()
 
     static let instance = DataSource()
     private init() {
@@ -31,11 +31,11 @@ class DataSource {
 //            let receiver = Receiver(value: Receiver.fixture())
 //            self.realm.add(receiver)
 //            let answer = Answer(value: Answer.fixture())
-//            self.realm.add(answer)
+//            //self.realm.add(answer)
 //            let willItem = WillItem(value: WillItem.fixture())
-//            self.realm.add(willItem)
+//            //self.realm.add(willItem)
 //            let user = User(value: User.fixture())
-//            self.realm.add(user)
+//            //self.realm.add(user)
 //        }
 //
 //        DispatchQueue.main.async {
@@ -59,6 +59,8 @@ class DataSource {
                 print(error)
             }
         }
+
+        self.realm = try! Realm()
     }
 
     func storeLoginUser(loginUserValue: [String: Any]) {

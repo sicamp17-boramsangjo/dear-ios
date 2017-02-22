@@ -47,7 +47,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
         if let willItemID = self.willItemID {
             self.fetchWillItem(willItemID: willItemID) { [unowned self] willItem, error in
                 guard error == nil else {
-                    StatusBarNotification.showError(error!)
+                    Alert.showError(error!)
                     return
                 }
                 self.willItem = willItem
@@ -55,7 +55,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
         } else {
             self.fetchTodaysQuestion { [unowned self] question, willItem, error in
                 guard error == nil else {
-                    StatusBarNotification.showError(error!)
+                    Alert.showError(error!)
                     return
                 }
 
@@ -76,7 +76,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
                 return
             }
             guard let willItemID = response?["willItemID"] as? String, let willItemRawInfo = response else {
-                completion(nil, APIInternalError.unknown)
+                completion(nil, InternalError.unknown)
                 return
             }
 
@@ -101,7 +101,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
             let willItemRaw:[String:Any]? = dictionary?["willItem"] as? Dictionary<String, Any>
 
             guard let willItemID = willItemRaw!["willItemID"] as? String else {
-                completion(nil, nil, APIInternalError.unknown)
+                completion(nil, nil, InternalError.unknown)
                 return
             }
 

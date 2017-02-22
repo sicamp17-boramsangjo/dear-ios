@@ -22,7 +22,6 @@ target 'dear' do
   pod 'SMDatePicker'
   pod 'LKAlertController'
   pod 'SwiftMessages'
-  pod "BPStatusBarAlert"
 
   target 'dearTests' do
     inherit! :search_paths

@@ -6,7 +6,7 @@
 import Foundation
 import Alamofire
 
-enum APIInternalError: Error {
+enum InternalError: Error {
     case notFound
     case unknown
     case loginFail
@@ -17,7 +17,8 @@ enum APIInternalError: Error {
 
 enum APIStatusCode: Int {
     case success = 200
-    case error = 500
+    case logicalError = 400
+    case unknownError = 500
 }
 
 enum APIFixture: String {
@@ -44,6 +45,8 @@ enum APIPath: String {
     case deleteAnswer = "deleteAnswer"
     case getWillItemList = "getWillItems"
     case getWillItem = "getWillItem"
+    case getSessionTokenForReadOnly = "getSessionTokenForReadOnly"
+    case checkAlreadyJoin = "checkAlreadyJoin"
 
     func fullPath() -> String {
         return "\(APIFixture.apiProtocol.rawValue)://" +
@@ -60,6 +63,7 @@ typealias APICompletion = ([String:Any]?, Error?) -> Void
 class APIManager {
 
     static var sessionToken: String?
+    var readOnlySessionToken: String?
 
     func createUser(userName: String, phoneNumber: String, birthDay: Date, password: String, completion: @escaping APICompletion) {
 
@@ -82,7 +86,7 @@ class APIManager {
             }
 
             guard let sessionToken = dictionary?["sessionToken"] as? String else {
-                completion(nil, APIInternalError.unknown)
+                completion(nil, InternalError.unknown)
                 return
             }
 
@@ -108,7 +112,7 @@ class APIManager {
             }
 
             guard let sessionToken = dictionary?["sessionToken"] as? String else {
-                completion(false, APIInternalError.unknown)
+                completion(false, InternalError.unknown)
                 return
             }
 
@@ -148,7 +152,7 @@ class APIManager {
         }
 
         if params.count == 0 {
-            completion(false, APIInternalError.unknown)
+            completion(false, InternalError.unknown)
         }
 
         self.request(path: .updateUserInfo, params:params) { dictionary, error in
@@ -157,7 +161,7 @@ class APIManager {
     }
 
 
-    func getUserInfo(userId: String, completion: @escaping APICompletion) {
+    func getUserInfo(completion: @escaping APICompletion) {
 
 #if DEBUG
         completion(User.fixture(), nil)
@@ -174,6 +178,26 @@ class APIManager {
         }
 #endif
     }
+
+
+    func checkAlreadyJoin(phoneNumber: String, completion: @escaping APIBoolCompletion) {
+
+#if DEBUG
+        completion(true, nil)
+        return
+#else
+        self.request(path: .checkAlreadyJoin) { dictionary, error in
+
+            if error != nil {
+                completion(false, error)
+                return
+            }
+
+            completion(dictionary["result"], nil)
+        }
+#endif
+    }
+
 
 
     func addReceiver(name: String, phoneNumber: String, completion:@escaping APICompletion) {
@@ -243,13 +267,23 @@ class APIManager {
     }
 
 
-    func getWillItem(willItemId: String, completion: APICompletion) {
+    func getWillItem(willItemId: String, completion: @escaping APICompletion) {
 #if DEBUG
         completion(WillItem.fixture(), nil)
         return
 #else
         var params = ["willItemId": willItemId]
         self.request(path: .getWillItem, params: params, completion: completion)
+#endif
+    }
+
+    func getSessionTokenForReadOnly(userID:String, birthDay:Date, completion: @escaping APICompletion) {
+#if DEBUG
+        completion(["sessionToken":"sessionToken"], nil)
+        return
+#else
+
+    self.request(path: .getSessionTokenForReadOnly, params: ["userID":userID, "birthDay":birthDay.timeIntervalSince1970], completion: completion)
 #endif
     }
 
@@ -262,7 +296,7 @@ class APIManager {
 
         var paramsWithDefaultParam: [String:Any] = params != nil ? params! : [:]
 
-        paramsWithDefaultParam["sessionToken"] = APIManager.sessionToken
+        paramsWithDefaultParam["sessionToken"] = self.readOnlySessionToken ?? APIManager.sessionToken
 
         Alamofire.request(fullPath,
                         method:.post,
@@ -281,12 +315,17 @@ class APIManager {
                     case .success:
 
                         guard let dictionary = response.result.value as? [String:Any] else {
-                            responseCompletion(nil, APIInternalError.parsingError)
+                            responseCompletion(nil, InternalError.parsingError)
                             return
                         }
 
-                        guard dictionary["statusCode"] as? Int != APIStatusCode.success.rawValue, let msg = dictionary["msg"] else {
-                            responseCompletion(nil, APIInternalError.logicError)
+                        guard dictionary["status"] as? Int == APIStatusCode.success.rawValue else {
+#if DEBUG
+                            if let msg = dictionary["msg"] as? String {
+                                Alert.showMessage(message: msg)
+                            }
+#endif
+                            responseCompletion(nil, InternalError.logicError)
                             return
                         }
 
@@ -306,12 +345,12 @@ class APIManager {
             switch response.result {
             case .success:
                 guard let dictionary = response.result.value as? [String:Any] else {
-                    completion(nil, APIInternalError.parsingError)
+                    completion(nil, InternalError.parsingError)
                     return
                 }
 
                 guard dictionary["statusCode"] as? Int != APIStatusCode.success.rawValue, let msg = dictionary["msg"] else {
-                    completion(nil, APIInternalError.logicError)
+                    completion(nil, InternalError.logicError)
                     return
                 }
 
