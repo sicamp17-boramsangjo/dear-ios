@@ -13,38 +13,62 @@ class Receiver: Object {
     dynamic var receiverID = ""
     dynamic var name = ""
     dynamic var phoneNumber = ""
+
+    override class func primaryKey() -> String? {
+        return "receiverID"
+    }
 }
 
 class User: Object {
-    dynamic var name: String = ""
-    dynamic var profileImage: String = ""
+    dynamic var userName: String = ""
+    dynamic var password: String = ""
     dynamic var phoneNumber: String = ""
-    dynamic var deviceToken: String = ""
     dynamic var birthDay: Double = 0
-    dynamic var gender: String = "unknown"
-    dynamic var isDead: Bool = false
+    dynamic var deviceToken: String = ""
+    dynamic var profileImageUrl: String = ""
     dynamic var pushDuration: Double = 60*60*24
     dynamic var lastLoginAlarmDuration: Double = 60*60*24*365
+    dynamic var isDead: Bool = false
     dynamic var readKey: String = ""
-    dynamic var receiver: Receiver?
+    let receivers = List<Receiver>()
+
+    override class func primaryKey() -> String? {
+        return "phoneNumber"
+    }
+
 }
 
 class Answer: Object {
-    var textContent: String?
-    var imageContent: String?
-    var videoContent: String?
-    var lastUpdate: Double = 0
+    dynamic var answerID: String = ""
+    dynamic var answerText: String?
+    dynamic var answerPhoto: String?
+    dynamic var answerVideo: String?
+    dynamic var lastUpdate: Double = 0
+
+    let receivers = List<Receiver>()
+
+    override class func primaryKey() -> String? {
+        return "answerID"
+    }
 }
 
 class WillItem: Object {
+    dynamic var willItemID: String = ""
+    dynamic var questionID: String = ""
     dynamic var question: String = ""
     dynamic var lastUpdate: Double = 0
+
     let answers = List<Answer>()
+
+    override class func primaryKey() -> String? {
+        return "willItemID"
+    }
 }
 
 extension Receiver {
     static func fixture() -> [String:Any] {
         return [
+                "receiverID":"\(UUID().uuidString)",
                 "name": "Hannah",
                 "phoneNumber": "010-1234-1234"
         ]
@@ -54,12 +78,17 @@ extension Receiver {
 extension User {
     static func fixture() -> [String:Any] {
         return [
-                "name": "Kyungtaek",
-                "profileImage": "https://avatars3.githubusercontent.com/u/1677561?v=3&s=460",
-                "birthDay":366508800,
+                "userName": "Kyungtaek",
+                "password": "password",
                 "phoneNumber": "821098769876",
-                "gender": "male",
-                "receiver": Receiver.fixture()
+                "birthDay":366508800,
+                "deviceToken":"deviceToken",
+                "profileImageUrl": "https://avatars3.githubusercontent.com/u/1677561?v=3&s=460",
+                "pushDuration":60*60*24,
+                "lastLoginAlarmDuration":60*60*24*365,
+                "readKey":"readKeyRandom",
+                "isDead":false,
+                "receivers":[Receiver.fixture()]
         ]
     }
 }
@@ -67,9 +96,11 @@ extension User {
 extension Answer {
     static func fixture() -> [String:Any] {
         return [
-            "textContent": "싸움이 급하니 내 죽음을 ㅇ라리지 말라",
-                "imageContent":"http://cfile10.uf.tistory.com/image/247ECD4E5577CE25211A10",
-                "videoContent":"http://techslides.com/demos/sample-videos/small.mp4",
+                "answerID":"\(UUID().uuidString)",
+                "answerText": "싸움이 급하니 내 죽음을 알리지 말라",
+                "answerPhoto":"http://cfile10.uf.tistory.com/image/247ECD4E5577CE25211A10",
+                "answerVideo":"http://techslides.com/demos/sample-videos/small.mp4",
+                "receivers":[Receiver.fixture()],
                 "lastUpdate":1487439527
         ]
     }
@@ -78,12 +109,25 @@ extension Answer {
 extension WillItem {
     static func fixture() -> [String:Any] {
         return [
+                "willItemID":"\(UUID().uuidString)",
+                "questionID":"questionID",
                 "question":"당신의 유언은?",
                 "answers":[
-                    Answer.fixture(),
-                    Answer.fixture()
+                        Answer.fixture(),
+                        Answer.fixture()
                 ],
                 "lastUpdate":1487439527
         ]
+    }
+
+    static func fixtureList() -> [String:Any] {
+        return ["results":[
+                WillItem.fixture(),
+                WillItem.fixture(),
+                WillItem.fixture(),
+                WillItem.fixture(),
+                WillItem.fixture(),
+                WillItem.fixture()
+        ]]
     }
 }

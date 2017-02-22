@@ -20,6 +20,8 @@
 		B3D9D7B71E59F6FB00699DCD /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D9D7B61E59F6FB00699DCD /* AlertHelper.swift */; };
 		B3E065341E536D40009B67A7 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E065331E536D40009B67A7 /* DataModel.swift */; };
 		B3E065361E537246009B67A7 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E065351E537246009B67A7 /* DataSource.swift */; };
+		D86C90076E761F83CB2B7425 /* TimelineAnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9FF94240360B8E719A85 /* TimelineAnswerCell.swift */; };
+		D86C904D108F6C53AB0C2166 /* TimelineQuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9BAAC4AA35CFFDF7E5B5 /* TimelineQuestionCell.swift */; };
 		D86C906EE82E13DEABB36457 /* ContentBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9B2671E058EBF44FB0BA /* ContentBaseViewController.swift */; };
 		D86C9102E1DA792AD686EFEF /* ConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C99BE8FFDEA36300F9422 /* ConfigManager.swift */; };
 		D86C93E26F7B5ABE22B59DEF /* WillItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C97C9C0570F22D92F13FA /* WillItemViewController.swift */; };
@@ -34,6 +36,7 @@
 		D86C9ABAAE36D512B38C74FC /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9FE730136671E3B0457B /* UIColorExtension.swift */; };
 		D86C9AE41B04F94050CFC9AD /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9046F26909F3F0CCDE81 /* APIManager.swift */; };
 		D86C9B10620D074D408E11BA /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9868805AEF9C6D038A37 /* SignInViewController.swift */; };
+		D86C9D0460B341D4ADA3408A /* StatusBarNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9CB713E3499C6068349B /* StatusBarNotification.swift */; };
 		D86C9E294B377B907F68447B /* UIWindowExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C90743BA33E536BEC6B74 /* UIWindowExtension.swift */; };
 		D86C9ED2C2F5BFF1917EC6FF /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C90BA57EFAE921DFF9A54 /* IntroViewController.swift */; };
 		D86C9F83E51EB845F506139C /* TextAnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C97D01A83EC2F13D382AC /* TextAnswerCell.swift */; };
@@ -89,8 +92,11 @@
 		D86C9868805AEF9C6D038A37 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		D86C99BE8FFDEA36300F9422 /* ConfigManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigManager.swift; sourceTree = "<group>"; };
 		D86C9B2671E058EBF44FB0BA /* ContentBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentBaseViewController.swift; sourceTree = "<group>"; };
+		D86C9BAAC4AA35CFFDF7E5B5 /* TimelineQuestionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineQuestionCell.swift; sourceTree = "<group>"; };
+		D86C9CB713E3499C6068349B /* StatusBarNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarNotification.swift; sourceTree = "<group>"; };
 		D86C9ECC62F9C65C350B9FDE /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		D86C9FE730136671E3B0457B /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		D86C9FF94240360B8E719A85 /* TimelineAnswerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineAnswerCell.swift; sourceTree = "<group>"; };
 		E09043D320DD25DB25752A3B /* Pods-dearTests.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dearTests.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-dearTests/Pods-dearTests.adhoc.xcconfig"; sourceTree = "<group>"; };
 		FEBDB65FC6581244E8ACE678 /* Pods-dear.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dear.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-dear/Pods-dear.adhoc.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -206,6 +212,7 @@
 				D86C90743BA33E536BEC6B74 /* UIWindowExtension.swift */,
 				D86C92DE988FD7BC5C07C1B1 /* FIleManagerExtension.swift */,
 				D86C92F213A4640C8715E693 /* UploadManager.swift */,
+				D86C9CB713E3499C6068349B /* StatusBarNotification.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -227,6 +234,8 @@
 				D86C92F2DFAD778663F94D8C /* QuestionCell.swift */,
 				D86C91E49229C094A24F3FC8 /* InputView.swift */,
 				D86C97D01A83EC2F13D382AC /* TextAnswerCell.swift */,
+				D86C9BAAC4AA35CFFDF7E5B5 /* TimelineQuestionCell.swift */,
+				D86C9FF94240360B8E719A85 /* TimelineAnswerCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -507,6 +516,9 @@
 				D86C9E294B377B907F68447B /* UIWindowExtension.swift in Sources */,
 				D86C99D4150DF5263EB278A4 /* FIleManagerExtension.swift in Sources */,
 				D86C9A7C0B21580A090EECBE /* UploadManager.swift in Sources */,
+				D86C904D108F6C53AB0C2166 /* TimelineQuestionCell.swift in Sources */,
+				D86C90076E761F83CB2B7425 /* TimelineAnswerCell.swift in Sources */,
+				D86C9D0460B341D4ADA3408A /* StatusBarNotification.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

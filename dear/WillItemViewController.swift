@@ -11,6 +11,29 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
     weak var tableView: UITableView!
     weak var textInputView: InputView!
     weak var inputViewBottomMargin: NSLayoutConstraint!
+    var apiManager: APIManager = APIManager()
+
+    var willItemID: String?
+    var willItem: WillItem? {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
+    var question:[String: String]? {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
+
+    init(willItemID: String?) {
+        super.init(nibName: nil, bundle: nil)
+        self.willItemID = willItemID
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError()
+    }
+
 
     deinit {
         self.unregisterNotifications()
@@ -20,9 +43,86 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
         super.viewDidLoad()
         self.setupView()
         self.registerNotifications()
+
+        if let willItemID = self.willItemID {
+            self.fetchWillItem(willItemID: willItemID) { [unowned self] willItem, error in
+                guard error == nil else {
+                    StatusBarNotification.showError(error!)
+                    return
+                }
+                self.willItem = willItem
+            }
+        } else {
+            self.fetchTodaysQuestion { [unowned self] question, willItem, error in
+                guard error == nil else {
+                    StatusBarNotification.showError(error!)
+                    return
+                }
+
+                self.question = question
+                if willItem != nil {
+                    self.willItem = willItem
+                }
+            }
+        }
     }
 
+    private func fetchWillItem(willItemID: String, completion:@escaping ((WillItem?, Error?) -> Void)) {
+
+        self.apiManager.getWillItem(willItemId: willItemID) { response, error in
+
+            guard error == nil else {
+                completion(nil, error)
+                return
+            }
+            guard let willItemID = response?["willItemID"] as? String, let willItemRawInfo = response else {
+                completion(nil, APIInternalError.unknown)
+                return
+            }
+
+            DataSource.instance.storeWIllItem(willItemRawInfo: willItemRawInfo)
+            DataSource.instance.fetchWillItem(willItemId: willItemID) { item in
+                completion(item, nil)
+            }
+
+        }
+    }
+
+    private func fetchTodaysQuestion(completion:@escaping ([String:String]?, WillItem?, Error? ) -> Void) {
+
+        self.apiManager.getTodayQuestion { dictionary, error in
+
+            if error != nil {
+                completion(nil, nil, error)
+                return
+            }
+
+            let question:[String:String]? = dictionary?["question"] as? Dictionary<String, String>
+            let willItemRaw:[String:Any]? = dictionary?["willItem"] as? Dictionary<String, Any>
+
+            guard let willItemID = willItemRaw!["willItemID"] as? String else {
+                completion(nil, nil, APIInternalError.unknown)
+                return
+            }
+
+            if willItemRaw != nil {
+                DataSource.instance.storeWIllItem(willItemRawInfo: willItemRaw!)
+                DataSource.instance.fetchWillItem(willItemId: willItemID) { willItem in
+                    completion(question, willItem, nil)
+                }
+            } else {
+                completion(question, nil, nil)
+            }
+        }
+    }
+
+
     private func setupView() {
+
+        if self.navigationController != nil {
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(closeButtonTapped(_:)))
+        }
+
         let textInputView = InputView(frame: .zero)
         textInputView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(textInputView)
@@ -91,13 +191,26 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
         }, completion: nil)
     }
 
+    @objc private func closeButtonTapped(_ button: UIBarButtonItem) {
+        self.dismiss(animated: true)
+    }
+
     // MARK: TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
+
+            guard self.question == nil else {
+                return 0
+            }
+
             return 1
         }
 
-        return 3
+        guard let willItem = self.willItem else {
+            return 0
+        }
+
+        return willItem.answers.count
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -110,7 +223,11 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
                 fatalError()
             }
 
-            cell.question = "살아오는 동안 생각나는 가장 기뻣던 부모님과의 추억은 무엇인가요?"
+            if let currentWillItem = self.willItem {
+                cell.question = currentWillItem.question
+            } else {
+                cell.question = self.question?["question"]
+            }
             return cell
         }
 
@@ -118,11 +235,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
             fatalError()
         }
 
-        var sampleAnswer = Answer(value: [
-                "textContent": "4학년때 아버지가 갖고싶어하던 컴퓨터를 사주셨을때.. 그때는 몰랐지만 그로인해 더 넓은 세상을 보게 되었고 지금은 개발자가 되어있네",
-                "lastUpdate": Date().timeIntervalSince1970
-        ])
-        cell.answer = sampleAnswer
+        cell.answer = self.willItem?.answers[indexPath.row]
 
         return cell
     }

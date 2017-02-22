@@ -18,8 +18,8 @@ class TextAnswerCell: UITableViewCell {
                 return
             }
 
-            if newAnwser.textContent != nil {
-                textAnswerLabel.text = newAnwser.textContent
+            if newAnwser.answerText != nil {
+                textAnswerLabel.text = newAnwser.answerText
             }
         }
     }

@@ -9,6 +9,14 @@ import Alamofire
 enum APIInternalError: Error {
     case notFound
     case unknown
+    case loginFail
+    case alreadyExistUser
+    case parsingError
+    case logicError
+}
+
+enum APIStatusCode: Int {
+    case success = 200
 }
 
 enum APIFixture: String {
@@ -20,68 +28,210 @@ enum APIFixture: String {
 
 enum APIPath: String {
     case createUser = "createUser"
-    case getUser = "getUser"
-    case getWillItem = "getWillItem"
+    case login = "login"
+    case logout = "logout"
+    case deleteUser = "deleteUser"
+    case updateUserInfo = "updateUserInfo"
+    case getUserInfo = "getUserInfo"
+    case addReceiver = "addReceiver"
+    case removeReceiver = "removeReceiver"
+    case getReceivers = "getReceivers"
+    case getTodaysQuestion = "getTodaysQuestion"
     case uploadImage = "uploadImage"
     case uploadVideo = "uploadVideo"
     case createAnswer = "createAnswer"
+    case deleteAnswer = "deleteAnswer"
+    case getWillItemList = "getWillItems"
+    case getWillItem = "getWillItem"
 
     func fullPath() -> String {
-        return "\(APIFixture.apiProtocol)://" +
-                "\(APIFixture.apiBaseDomain):" +
-                "\(APIFixture.apiPort)/" +
-                "\(APIFixture.apiBasePath)/" +
+        return "\(APIFixture.apiProtocol.rawValue)://" +
+                "\(APIFixture.apiBaseDomain.rawValue):" +
+                "\(APIFixture.apiPort.rawValue)/" +
+                "\(APIFixture.apiBasePath.rawValue)/" +
                 "\(self.rawValue)"
     }
 }
 
-typealias APICompletion = (Any?, Error?) -> Void
+typealias APIBoolCompletion = (Bool, Error?) -> Void
+typealias APICompletion = ([String:Any]?, Error?) -> Void
 
 class APIManager {
 
-    private let session: URLSession
-    private let needUserAuthorization: Bool
     static var sessionToken: String?
 
-    init(session: URLSession?, needUserAuthorization: Bool = false) {
-        if session != nil {
-            self.session = session!
-        } else {
-            self.session = URLSession.shared
-        }
-        self.needUserAuthorization = needUserAuthorization
-    }
+    func createUser(userName: String, phoneNumber: String, birthDay: Date, password: String, completion: @escaping APICompletion) {
 
-    func createUser(name: String, phoneNumber: String, birth: Date, gender: Bool, completion: APICompletion) {
-
-#if DEBUG
-        completion(User.fixture(), nil)
-#else
         var params = [String: Any]()
-        params["name"] = name.trimmingCharacters(in: .whitespacesAndNewlines)
+#if DEBUG
+        completion(User.fixture(), nil)
+#else
+        params["userName"] = userName.trimmingCharacters(in: .whitespacesAndNewlines)
         params["phoneNumber"] = phoneNumber
-
-        let birthdayTuple = birth.getBirthdayElements()
-
-        params["year"] = birthdayTuple.year
-        params["month"] = birthdayTuple.month
-        params["day"] = birthdayTuple.day
-
-        params["gender"] = gender ? "male" : "female"
-
-        self.request(path: .createUser, params:params, completion: completion)
+        params["birthDay"] = birthDay.timeIntervalSince1970
+        params["password"] = password
 #endif
+
+        self.request(path: .createUser, params: params) { [unowned self] dictionary, error in
+
+            if error != nil {
+                completion(nil, error)
+                return
+            }
+
+            guard let sessionToken = dictionary?["sessionToken"] as? String else {
+                completion(nil, APIInternalError.unknown)
+                return
+            }
+
+            APIManager.sessionToken = sessionToken
+            self.request(path: .getUserInfo, completion: completion)
+        }
     }
 
-    func getUser(userId: String, completion: APICompletion) {
+
+
+    func login(phoneNumber: String, password: String, completion: @escaping (Bool, Error?) -> Void) {
+        self.request(path: .login) { dictionary, error in
+
+            if error != nil {
+                completion(false, error)
+                return
+            }
+
+            guard let sessionToken = dictionary?["sessionToken"] as? String else {
+                completion(false, APIInternalError.unknown)
+                return
+            }
+
+            APIManager.sessionToken = sessionToken
+            completion(true, nil)
+        }
+    }
+
+
+    func logout(completion: @escaping APIBoolCompletion) {
+        self.request(path: .logout) { dictionary, error in
+            completion(error == nil, error)
+        }
+    }
+
+
+    func deleteUser(completion: @escaping APIBoolCompletion) {
+        self.request(path: .deleteUser) { dictionary, error in
+            completion(error == nil, error)
+        }
+    }
+
+    func updateUserInfo(deviceToken:String? = nil, profileImageUrl: String? = nil, pushDuration: Double = -1, lastLoginAlarmDuration: Double = -1, completion:@escaping APIBoolCompletion) {
+        var params:[String:Any] = [:]
+
+        if deviceToken != nil {
+            params["deviceToken"] = deviceToken
+        }
+        if profileImageUrl != nil {
+            params["profileImageUrl"] = profileImageUrl
+        }
+        if pushDuration != -1 {
+            params["pushDuration"] = pushDuration
+        }
+        if lastLoginAlarmDuration != -1 {
+            params["lastLoginAlarmDuration"] = lastLoginAlarmDuration
+        }
+
+        if params.count == 0 {
+            completion(false, APIInternalError.unknown)
+        }
+
+        self.request(path: .updateUserInfo, params:params) { dictionary, error in
+            completion(error == nil, error)
+        }
+    }
+
+
+    func getUserInfo(userId: String, completion: @escaping APICompletion) {
 
 #if DEBUG
         completion(User.fixture(), nil)
 #else
-        var params = ["userId": userId]
-        self.request(path: .getUser, params:params, completion: completion)
+        self.request(path: .getUserInfo) { dictionary, error in
+
+            if error != nil {
+                completion(nil, error)
+                return
+            }
+
+            completion(dictionary["user"], nil)
+        }
 #endif
     }
+
+
+    func addReceiver(name: String, phoneNumber: String, completion:@escaping APICompletion) {
+        let params:[String:Any] = [
+                "name":name,
+                "phoneNumber":phoneNumber
+        ]
+
+        self.request(path: .addReceiver, params: params, completion: completion)
+    }
+
+
+    func removeReceiver(receiverID: String, completion:@escaping APICompletion) {
+        let params:[String:Any] = [
+                "receiverID":receiverID
+        ]
+
+        self.request(path: .removeReceiver, params: params, completion: completion)
+    }
+
+
+    func getReceiverList(completion:@escaping APICompletion) {
+        self.request(path: .getReceivers, completion: completion)
+    }
+
+
+    func getTodayQuestion(completion: @escaping APICompletion) {
+        self.request(path: .getTodaysQuestion, completion: completion)
+    }
+
+    func uploadImage(filePath: String, completion: @escaping APICompletion) {
+        self.upload(path: .uploadImage, filePath: filePath, completion: completion)
+    }
+
+    func uploadVideo(filePath: String, completion: @escaping APICompletion) {
+        self.upload(path: .uploadVideo, filePath: filePath, completion: completion)
+    }
+
+
+    func createAnswer(questionID: String, answerText: String?, answerPhoto: String?, answerVideo: String?, receivers: [String]?, completion:@escaping APICompletion) {
+
+        var params: [String: Any] = [:]
+        params["questionID"] = questionID
+        params["answerText"] = answerText
+        params["answerPhoto"] = answerPhoto
+        params["answerVideo"] = answerVideo
+        params["receivers"] = receivers
+        params["lastUpdate"] = Date().timeIntervalSince1970
+
+        self.request(path: .createAnswer, params:params, completion:completion)
+    }
+
+    func deleteAnswer(answerID: String, completion:@escaping APIBoolCompletion) {
+        self.request(path: .deleteAnswer) { dictionary, error in
+            completion(error == nil, error)
+        }
+    }
+
+
+    func getWillItemList(completion: @escaping APICompletion) {
+#if DEBUG
+        completion(WillItem.fixtureList(), nil)
+#else
+        self.request(path: .getWillItemList, completion:completion)
+#endif
+    }
+
 
     func getWillItem(willItemId: String, completion: APICompletion) {
 #if DEBUG
@@ -92,32 +242,20 @@ class APIManager {
 #endif
     }
 
-    func createAnswer(questionID: String, answerText: String?, answerPhoto: String?, answerVideo: String?, receivers: [String]?, completion:@escaping APICompletion) {
 
-        var params: [String: Any] = [:]
-        if self.needUserAuthorization {
-             params["sessionToken"] = APIManager.sessionToken
-        }
-        params["questionID"] = questionID
-        params["answerText"] = answerText
-        params["answerPhoto"] = answerPhoto
-        params["answerVideo"] = answerVideo
-        params["receivers"] = receivers
-        params["lastUpdate"] = Date().timeIntervalSince1970
-
-        self.request(path: .createAnswer, params:params, completion:completion)
-
-    }
-
-    private func request(path: APIPath, params: [String:Any]? = nil, completion: APICompletion?) {
+    private func request(path: APIPath, params: [String:Any]? = nil, completion:APICompletion?) {
 
         let headers = ["Content-Type": "application/json"]
 
         let fullPath = path.fullPath()
 
+        var paramsWithDefaultParam: [String:Any] = params != nil ? params! : [:]
+
+        paramsWithDefaultParam["sessionToken"] = APIManager.sessionToken
+
         Alamofire.request(fullPath,
                         method:.post,
-                        parameters:params,
+                        parameters:paramsWithDefaultParam,
                         encoding: PropertyListEncoding.default,
                         headers: headers)
                 .validate(statusCode:200..<300)
@@ -130,28 +268,48 @@ class APIManager {
 
                     switch response.result {
                     case .success:
-                        responseCompletion(response.result.value, nil)
+
+                        guard let dictionary = response.result.value as? [String:Any] else {
+                            responseCompletion(nil, APIInternalError.parsingError)
+                            return
+                        }
+
+                        guard dictionary["statusCode"] as? Int != APIStatusCode.success.rawValue, let msg = dictionary["msg"] else {
+                            responseCompletion(nil, APIInternalError.logicError)
+                            return
+                        }
+
+                        responseCompletion(dictionary, nil)
                     case .failure(let error):
                         responseCompletion(nil, error)
                     }
                 }
     }
 
-    func upload(path: APIPath, filePath: String, completion: APICompletion?) {
+    private func upload(path: APIPath, filePath: String, completion: @escaping APICompletion) {
 
         let fullPath = path.fullPath()
         let fileUrl = URL(fileURLWithPath: filePath)
-        Alamofire.upload(multipartFormData: { (data: MultipartFormData) -> Void in
-            data.append(fileUrl, withName: fileUrl.lastPathComponent)
-        }, to: fullPath, encodingCompletion: { result in
-            switch result {
-            case .success(let upload, _, _):
-                completion?(upload, nil)
-            case .failure(let encodingError):
-                completion?(nil, encodingError)
-            }
-        })
 
+        Alamofire.upload(fileUrl, to: fullPath).responseJSON { response in
+            switch response.result {
+            case .success:
+                guard let dictionary = response.result.value as? [String:Any] else {
+                    completion(nil, APIInternalError.parsingError)
+                    return
+                }
+
+                guard dictionary["statusCode"] as? Int != APIStatusCode.success.rawValue, let msg = dictionary["msg"] else {
+                    completion(nil, APIInternalError.logicError)
+                    return
+                }
+
+                completion(dictionary, nil)
+
+            case .failure(let error):
+                completion(nil, error)
+            }
+        }
     }
 
 }

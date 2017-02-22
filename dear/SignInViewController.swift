@@ -11,7 +11,7 @@ import ChameleonFramework
 class SignInViewController: UIViewController {
 
     var loginCompletion: (User?, Error?) -> Void
-    let apiManager: APIManager = APIManager(session: nil, needUserAuthorization: false)
+    let apiManager: APIManager = APIManager()
 
     init (completion: @escaping (User?, Error?) -> Void) {
         self.loginCompletion = completion
@@ -76,7 +76,7 @@ class SignInViewController: UIViewController {
 
     private func checkUser(phoneNumber: String, completion: @escaping (User?, Error?) -> Void) {
 
-        self.apiManager.getUser(userId: phoneNumber) {[unowned self] loginUser, error in
+        self.apiManager.getUserInfo(userId: phoneNumber) {[unowned self] loginUser, error in
 
 #if DEBUG
             completion(nil, APIInternalError.notFound)
@@ -86,7 +86,7 @@ class SignInViewController: UIViewController {
                 return
             }
 
-            DataSource.instance.storeLoginUser(loginUser: loginUser as! [String:Any])
+            DataSource.instance.storeLoginUser(loginUserValue: loginUser as! [String:Any])
             completion(DataSource.instance.fetchLoginUser(), nil)
 #endif
         }

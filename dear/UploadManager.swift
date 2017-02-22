@@ -10,7 +10,7 @@ class UploadManager {
 
     static let instance = UploadManager()
 
-    let apiManager: APIManager = APIManager(session: nil, needUserAuthorization: true)
+    let apiManager: APIManager = APIManager()
 
     private init() {}
 
@@ -25,7 +25,7 @@ class UploadManager {
         if imageAnswer != nil {
             dispatchGroup.enter()
             queue.async(group: dispatchGroup) {
-                self.apiManager.upload(path: .uploadImage, filePath: imageAnswer!) { response, _ in
+                self.apiManager.uploadImage(filePath: imageAnswer!) { response, _ in
 
                     defer {
                         dispatchGroup.leave()
@@ -43,7 +43,7 @@ class UploadManager {
         if videoAnswer != nil {
             dispatchGroup.enter()
             queue.async(group: dispatchGroup) {
-                self.apiManager.upload(path: .uploadVideo, filePath: videoAnswer!) { response, _ in
+                self.apiManager.uploadVideo(filePath: videoAnswer!) { response, _ in
                     defer {
                         dispatchGroup.leave()
                     }

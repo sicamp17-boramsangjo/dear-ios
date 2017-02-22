@@ -106,7 +106,7 @@ class ContentBaseViewController: UIViewController {
         self.todayButton.isSelected = true
         self.timelineButton.isSelected = false
 
-        let willItemVC = WillItemViewController(nibName: nil, bundle: nil)
+        let willItemVC = WillItemViewController(willItemID: nil)
         self.addChildViewController(willItemVC)
         willItemVC.view.frame = self.contentBaseView.bounds
         self.contentBaseView.addSubview(willItemVC.view)

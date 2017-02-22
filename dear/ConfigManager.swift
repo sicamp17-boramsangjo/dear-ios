@@ -22,4 +22,15 @@ class ConfigManager {
         }
     }
 
+    var dataModelRevision: Int {
+        get {
+            let userDefaults = UserDefaults.standard
+            return userDefaults.integer(forKey: "dataModelRevision")
+        }
+        set {
+            let userDefaults = UserDefaults.standard
+            userDefaults.set(newValue, forKey: "dataModelRevision")
+            userDefaults.synchronize()
+        }
+    }
 }

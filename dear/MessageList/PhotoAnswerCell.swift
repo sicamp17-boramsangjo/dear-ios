@@ -18,8 +18,8 @@ class PhotoAnswerCell: UITableViewCell {
                 return
             }
 
-            if newAnwser.imageContent != nil {
-                self.imageAnswerView.sd_setImage(with: URL(string:newAnwser.imageContent!))
+            if newAnwser.answerPhoto != nil {
+                self.imageAnswerView.sd_setImage(with: URL(string:newAnwser.answerPhoto!))
             }
         }
     }

@@ -16,12 +16,15 @@ import AKSideMenu
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var apiManager: APIManager = APIManager()
+    var deviceToken: String?
+
     weak var sideMenu: AKSideMenu?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        setupWindow()
-        setupApplication()
+        self.setupWindowWithLoginStatus()
+        self.setupApplication()
 
         return true
     }
@@ -60,16 +63,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Alert.showAlert(message: "copied device token: \(token)")
         print("device token: \(token)")
 #endif
+
+        self.deviceToken = token
+
+        self.updateDeviceToken()
     }
 
-    func setupWindow() {
+    func setupWindowWithLoginStatus() {
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.backgroundColor = UIColor.black
 
-        if DataSource.instance.isLogin() {
-            window.rootViewController = self.setupContentViewGroup()
-        } else {
+        guard let user = DataSource.instance.fetchLoginUser() else {
             window.rootViewController = self.setupIntroViewGroup()
+            return
+        }
+
+        window.rootViewController = self.setupContentViewGroup()
+
+        self.apiManager.login(phoneNumber: user.phoneNumber, password: user.password) {[unowned self] loginResult, error in
+            if error != nil {
+                window.rootViewController = self.setupIntroViewGroup()
+            }
+
+            self.updateDeviceToken()
         }
 
         window.makeKeyAndVisible()
@@ -117,7 +133,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func setupApplication() {
         Fabric.with([Digits.self, Crashlytics.self])
         NotificationManager.instance.requestAuthorization()
+    }
 
+    private func updateDeviceToken() {
+
+        guard APIManager.sessionToken != nil, let deviceToken = self.deviceToken else {
+            print("not prepared")
+            return
+        }
+
+        self.apiManager.updateUserInfo(deviceToken: deviceToken) { _, _ in }
     }
 
 }

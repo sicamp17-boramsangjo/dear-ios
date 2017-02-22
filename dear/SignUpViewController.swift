@@ -18,7 +18,7 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
 
     let phoneNumber: String
     let loginCompletion: ((User?, Error?) -> Void)
-    let apiManager: APIManager = APIManager(session: nil, needUserAuthorization: false)
+    let apiManager: APIManager = APIManager()
     var birthDay: Date?
 
     init(phoneNumber: String, completion: @escaping (User?, Error?) -> Void) {
@@ -116,10 +116,10 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
     }
 
     @objc private func signUpButtonTapped(_ sender: UIButton) {
-        self.apiManager.createUser(name: "kyungtaek", phoneNumber: self.phoneNumber, birth:self.birthDay!, gender: true) { userRawInfo, error in
+        self.apiManager.createUser(userName: "kyungtaek", phoneNumber: self.phoneNumber, birthDay:self.birthDay!, password:"password") { userRawInfo, error in
 
             if userRawInfo != nil {
-                DataSource.instance.storeLoginUser(loginUser: userRawInfo as! [String:Any])
+                DataSource.instance.storeLoginUser(loginUserValue: userRawInfo!)
                 self.loginCompletion(DataSource.instance.fetchLoginUser(), nil)
                 return
             } else {
@@ -127,6 +127,7 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
             }
 
         }
+
     }
 
 }
