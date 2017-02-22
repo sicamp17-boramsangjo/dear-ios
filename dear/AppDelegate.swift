@@ -73,6 +73,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.backgroundColor = UIColor.black
 
+        defer {
+            window.makeKeyAndVisible()
+            self.window = window
+        }
+
         guard let user = DataSource.instance.fetchLoginUser() else {
             window.rootViewController = self.setupIntroViewGroup()
             return
@@ -87,10 +92,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             self.updateDeviceToken()
         }
-
-        window.makeKeyAndVisible()
-
-        self.window = window
     }
 
     func setupContentViewGroup() -> UIViewController {

@@ -17,6 +17,7 @@ enum APIInternalError: Error {
 
 enum APIStatusCode: Int {
     case success = 200
+    case error = 500
 }
 
 enum APIFixture: String {
@@ -65,6 +66,7 @@ class APIManager {
         var params = [String: Any]()
 #if DEBUG
         completion(User.fixture(), nil)
+        return
 #else
         params["userName"] = userName.trimmingCharacters(in: .whitespacesAndNewlines)
         params["phoneNumber"] = phoneNumber
@@ -92,6 +94,12 @@ class APIManager {
 
 
     func login(phoneNumber: String, password: String, completion: @escaping (Bool, Error?) -> Void) {
+
+#if DEBUG
+        completion(true, nil)
+        return
+#endif
+
         self.request(path: .login) { dictionary, error in
 
             if error != nil {
@@ -153,6 +161,7 @@ class APIManager {
 
 #if DEBUG
         completion(User.fixture(), nil)
+        return
 #else
         self.request(path: .getUserInfo) { dictionary, error in
 
@@ -227,6 +236,7 @@ class APIManager {
     func getWillItemList(completion: @escaping APICompletion) {
 #if DEBUG
         completion(WillItem.fixtureList(), nil)
+        return
 #else
         self.request(path: .getWillItemList, completion:completion)
 #endif
@@ -236,6 +246,7 @@ class APIManager {
     func getWillItem(willItemId: String, completion: APICompletion) {
 #if DEBUG
         completion(WillItem.fixture(), nil)
+        return
 #else
         var params = ["willItemId": willItemId]
         self.request(path: .getWillItem, params: params, completion: completion)
