@@ -1,0 +1,6 @@
+framework module Pods_dear {
+  umbrella header "Pods-dear-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -12,7 +12,9 @@ target 'dear' do
   pod 'SDWebImage'
   pod 'Alamofire'
   pod 'SnapKit'
-  
+  pod 'RxSwift'
+  pod 'RxCocoa'
+
   pod 'AKSideMenu'
   pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
   pod 'DateToolsSwift'
