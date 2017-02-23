@@ -5,8 +5,10 @@
 
 import UIKit
 import SnapKit
+import NYTPhotoViewer
+import SDWebImage
 
-class WillItemViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class WillItemViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NYTPhotosViewControllerDelegate {
 
     weak var tableView: UITableView!
     weak var textInputView: InputView!
@@ -144,6 +146,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
 
         tableView.register(QuestionCell.self, forCellReuseIdentifier: QuestionCell.identifier())
         tableView.register(TextAnswerCell.self, forCellReuseIdentifier: TextAnswerCell.identifier())
+        tableView.register(PhotoAnswerCell.self, forCellReuseIdentifier: PhotoAnswerCell.identifier())
 
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[tableView][textInputView]", metrics: nil, views: ["tableView": tableView, "textInputView": textInputView]))
         let inputViewBottomMargin = NSLayoutConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: textInputView, attribute: .bottom, multiplier: 1.0, constant: 0)
@@ -227,13 +230,49 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
             return cell
         }
 
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TextAnswerCell.identifier(), for: indexPath) as? TextAnswerCell else {
-            fatalError()
+        guard let answer = self.willItem?.answers[indexPath.row] else { fatalError() }
+
+        if answer.answerPhoto != nil {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: PhotoAnswerCell.identifier(), for: indexPath) as? PhotoAnswerCell else { fatalError() }
+            cell.answer = answer
+            return cell
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: TextAnswerCell.identifier(), for: indexPath) as? TextAnswerCell else { fatalError() }
+            cell.answer = answer
+            return cell
+        }
+    }
+
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        defer {
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        cell.answer = self.willItem?.answers[indexPath.row]
+        guard let cell = tableView.cellForRow(at: indexPath) as? PhotoAnswerCell else {
+            return
+        }
 
-        return cell
+        guard let answer = self.willItem?.answers[indexPath.row], let question = self.question?["text"] as? String, let imagePath = answer.answerPhoto else {
+            return
+        }
+
+        if answer.answerVideo != nil {
+            //TODO: VideoViewer
+        } else {
+            let lastUpdate = Date(timeIntervalSince1970: answer.lastUpdate).timeAgoSinceDate()
+            let photo = Photo(image:cell.imageAnswerView.image, summary:question, credit: lastUpdate)
+            let photosViewController = NYTPhotosViewController(photos: [photo])
+
+            self.present(photosViewController, animated: true)
+
+            if photo.image == nil {
+                SDWebImageDownloader(sessionConfiguration: nil).downloadImage(with: URL(string: imagePath), options: .highPriority, progress: nil) { (image, _, error, _) in
+                    photo.image = image
+                    photosViewController.updateImage(for: photo)
+                }
+            }
+        }
     }
 
 }

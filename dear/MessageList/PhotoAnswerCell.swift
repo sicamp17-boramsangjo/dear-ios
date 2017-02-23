@@ -7,6 +7,7 @@ import UIKit
 import SDWebImage
 import SnapKit
 import ChameleonFramework
+import AVFoundation
 
 class PhotoAnswerCell: UITableViewCell {
 
@@ -14,12 +15,12 @@ class PhotoAnswerCell: UITableViewCell {
 
     weak var answer: Answer? {
         didSet {
-            guard let newAnwser = self.answer else {
+            guard let newAnswer = self.answer else {
                 return
             }
 
-            if newAnwser.answerPhoto != nil {
-                self.imageAnswerView.sd_setImage(with: URL(string:newAnwser.answerPhoto!))
+            if newAnswer.answerPhoto != nil {
+                self.imageAnswerView.sd_setImage(with: URL(string: newAnswer.answerPhoto!))
             }
         }
     }
@@ -39,14 +40,14 @@ class PhotoAnswerCell: UITableViewCell {
 
         let imageView = UIImageView(frame:.zero)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         self.contentView.addSubview(imageView)
         self.imageAnswerView = imageView
         self.imageAnswerView.snp.makeConstraints { maker in
             maker.leading.equalTo(16)
             maker.top.equalTo(4)
             maker.bottom.equalTo(4)
-            maker.size.equalTo(CGSize(width: 80, height: 80))
+            maker.size.equalTo(CGSize(width:240,height:240))
         }
 
     }

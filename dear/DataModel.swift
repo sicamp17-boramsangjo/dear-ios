@@ -46,6 +46,8 @@ class Answer: Object {
     dynamic var answerText: String?
     dynamic var answerPhoto: String?
     dynamic var answerVideo: String?
+    dynamic var mediaWidth: Int = 0
+    dynamic var mediaHeight: Int = 0
     dynamic var lastUpdate: Double = 0
 
     private let SEPARATOR = "||"
@@ -77,6 +79,10 @@ class Answer: Object {
                 }
             }
         }
+    }
+
+    func mediaSize() -> CGSize {
+        return CGSize(width: self.mediaWidth, height: self.mediaHeight)
     }
 
     override static func ignoredProperties() -> [String] {

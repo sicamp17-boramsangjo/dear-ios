@@ -2,12 +2,12 @@
   "status": 200,
   "msg": "OK",
   "result":{
-    "willItemID":"WILL_ITEM_ID1",
-    "questionID":"QUESTION_ID1",
-    "question":"질문1",
+    "willItemID":"WILL_ITEM_ID2",
+    "questionID":"QUESTION_ID2",
+    "question":"질문2",
     "answers":[
       {
-        "answerID":"ANSWER_ID1",
+        "answerID":"ANSWER_ID4",
         "answerText":"엔써텍스트",
         "lastUpdate":498841200,
         "receivers":[
@@ -15,17 +15,21 @@
         ]
       },
       {
-        "answerID":"ANSWER_ID2",
+        "answerID":"ANSWER_ID5",
         "answerPhoto":"https://avatars2.githubusercontent.com/u/1677561?v=3&u=a07928a44ab238497c194f525538af5711e52847",
+        "mediaWidth":320,
+        "mediaHeight":240,
         "lastUpdate":498841200,
         "receivers":[
           "RECEIVER_ID1"
         ]
       },
       {
-        "answerID":"ANSWER_ID3",
+        "answerID":"ANSWER_ID6",
         "answerPhoto":"https://avatars2.githubusercontent.com/u/1677561?v=3&u=a07928a44ab238497c194f525538af5711e52847",
         "answerVideo":"http://techslides.com/demos/sample-videos/small.mp4",
+        "mediaWidth":320,
+        "mediaHeight":240,
         "lastUpdate":498841200,
         "receivers":[
           "RECEIVER_ID1"

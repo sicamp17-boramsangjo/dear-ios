@@ -11,7 +11,7 @@ import RealmSwift
 
 class DataSource {
 
-    static let modelRevision = 8
+    static let modelRevision = 2
 
     var realm = try! Realm()
 
@@ -19,10 +19,6 @@ class DataSource {
     private init() {
 
         print("Realm home: \(Realm.Configuration.defaultConfiguration.fileURL)")
-
-#if DEBUG
-        self.cleanAllDB()
-#endif
 
         let currentModelRevision = ConfigManager.instance.dataModelRevision
         if currentModelRevision != DataSource.modelRevision {
@@ -43,13 +39,23 @@ class DataSource {
         }
 
         self.realm = try! Realm()
+
+        print("New Realm home: \(Realm.Configuration.defaultConfiguration.fileURL)")
     }
 
     func storeLoginUser(loginUserValue: [String: Any]) {
         let loginUser = User(value: loginUserValue)
 
-        try! self.realm.write() {
+        try! self.realm.write {
             self.realm.add(loginUser, update: true)
+        }
+    }
+
+    func storeReceiver(receiverValue: [String: Any]) {
+        let receiver = Receiver(value: receiverValue)
+
+        try! self.realm.write {
+            self.realm.add(receiver, update: true)
         }
     }
 
@@ -83,6 +89,33 @@ class DataSource {
         }
     }
 
+    func deleteWillItem(willItemID: String) -> Bool {
+        guard let willItem = self.fetchWillItem(willItemId: willItemID) else {
+            return false
+        }
+
+        self.realm.delete(willItem)
+        return true
+    }
+
+    func deleteAnswer(answerID: String) -> Bool {
+        guard let answer = self.fetchAnswer(answerID: answerID) else {
+            return false
+        }
+
+        self.realm.delete(answer)
+        return true
+    }
+
+    func removeReceiver(receiverID: String) -> Bool {
+        guard let receiver = self.fetchReceiver(receiverID: receiverID) else {
+            return false
+        }
+
+        self.realm.delete(receiver)
+        return true
+    }
+
     func hasUserInfo() -> Bool {
         return self.fetchLoginUser() != nil
     }
@@ -97,6 +130,10 @@ class DataSource {
 
     func fetchWillItem(willItemId: String) -> WillItem? {
         return self.realm.objects(WillItem.self).filter("willItemID = '\(willItemId)'").first
+    }
+
+    func fetchAnswer(answerID: String) -> Answer? {
+        return self.realm.objects(Answer.self).filter("answerID = '\(answerID)'").first
     }
 
     func fetchReceiver(receiverID: String) -> Receiver? {

@@ -26,6 +26,7 @@
 		D86C906EE82E13DEABB36457 /* ContentBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9B2671E058EBF44FB0BA /* ContentBaseViewController.swift */; };
 		D86C9102E1DA792AD686EFEF /* ConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C99BE8FFDEA36300F9422 /* ConfigManager.swift */; };
 		D86C93E26F7B5ABE22B59DEF /* WillItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C97C9C0570F22D92F13FA /* WillItemViewController.swift */; };
+		D86C941868EAD4216C270815 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C989EAADF697D50308A97 /* Photo.swift */; };
 		D86C942DCCA6F29589BACD20 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9ECC62F9C65C350B9FDE /* SignUpViewController.swift */; };
 		D86C953118E2280259AE2653 /* UITableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9348163543568AD90FCE /* UITableViewCellExtension.swift */; };
 		D86C95487D63570544CF6829 /* ReadOnlyContnetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C91AF1F82A176A6A599FD /* ReadOnlyContnetViewController.swift */; };
@@ -99,6 +100,7 @@
 		D86C97C9C0570F22D92F13FA /* WillItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WillItemViewController.swift; sourceTree = "<group>"; };
 		D86C97D01A83EC2F13D382AC /* TextAnswerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAnswerCell.swift; sourceTree = "<group>"; };
 		D86C9868805AEF9C6D038A37 /* CheckPhoneNumberViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckPhoneNumberViewController.swift; sourceTree = "<group>"; };
+		D86C989EAADF697D50308A97 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		D86C99BE8FFDEA36300F9422 /* ConfigManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigManager.swift; sourceTree = "<group>"; };
 		D86C9A37A6AF3657F6FBB595 /* ReadOnlyDeceasedProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadOnlyDeceasedProfileCell.swift; sourceTree = "<group>"; };
 		D86C9B2671E058EBF44FB0BA /* ContentBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentBaseViewController.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				D86C9F9BE493F445CF264818 /* SignIn */,
 				D86C9B360B92996274DFAD3E /* ContentList */,
 				D86C9C0BCAECFEFAA42006BA /* ReadOnlyMode */,
+				D86C9F88E6464DE01C8EDE84 /* PhotoViewer */,
 			);
 			path = dear;
 			sourceTree = "<group>";
@@ -290,6 +293,14 @@
 				D86C96ACFEE3D1CEE5C1AD77 /* View */,
 			);
 			name = ReadOnlyMode;
+			sourceTree = "<group>";
+		};
+		D86C9F88E6464DE01C8EDE84 /* PhotoViewer */ = {
+			isa = PBXGroup;
+			children = (
+				D86C989EAADF697D50308A97 /* Photo.swift */,
+			);
+			name = PhotoViewer;
 			sourceTree = "<group>";
 		};
 		D86C9F9BE493F445CF264818 /* SignIn */ = {
@@ -559,6 +570,7 @@
 				D86C9E556F78C7736113558F /* ReadOnlyDeceasedProfileCell.swift in Sources */,
 				D86C975CF7640EED8B13A69F /* ReadOnlyQuestionCell.swift in Sources */,
 				D86C955BF84F7A1712A4F904 /* ReadOnlyAnswerCell.swift in Sources */,
+				D86C941868EAD4216C270815 /* Photo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
