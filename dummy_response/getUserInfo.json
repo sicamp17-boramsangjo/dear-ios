@@ -1,0 +1,32 @@
+{
+  "status": 200,
+  "msg": "OK",
+  "user": {
+    "userName": "sjkim",
+    "_id": "58ae628ebf825f4bb046dd24",
+    "receivers": [
+      {
+        "receiverID":"RECEIVER_ID1",
+        "name":"ReceiverName1",
+        "phoneNumber":"phoneNumber1"
+      },
+      {
+        "receiverID":"RECEIVER_ID2",
+        "name":"ReceiverName2",
+        "phoneNumber":"phoneNumber2"
+      }
+    ],
+    "pushDuration": 31536000,
+    "todaysQuestion": {
+      "questionId": "58ac500abf825f120f773d22",
+      "deliveredAt": 1487823502
+    },
+    "profileImageUrl": "",
+    "birthDay": 49881200,
+    "phoneNumber": "011-1274-5313",
+    "lastLoginTime": 1487823502,
+    "willitems": {},
+    "password": "sjsj!",
+    "deviceToken": ""
+  }
+}
