@@ -1,0 +1,43 @@
+{
+  "status": 200,
+  "msg": "OK",
+  "question": {
+    "text": "현실공간이 비현실적이거나 가상현실처럼 느껴진 적이 있나요?",
+    "questionId": "58ae5b08bf825f489ae9ff86",
+    "deliveredAt": 1487823502,
+    "answered": 0
+  },
+  "willItem":{
+    "willItemID":"WILL_ITEM_ID1",
+    "questionID":"QUESTION_ID1",
+    "question":"질문1",
+    "answers":[
+      {
+        "answerID":"ANSWER_ID1",
+        "answerText":"엔써텍스트",
+        "lastUpdate":498841200,
+        "receivers":[
+          "RECEIVER_ID1"
+        ]
+      },
+      {
+        "answerID":"ANSWER_ID2",
+        "answerPhoto":"https://avatars2.githubusercontent.com/u/1677561?v=3&u=a07928a44ab238497c194f525538af5711e52847",
+        "lastUpdate":498841200,
+        "receivers":[
+          "RECEIVER_ID1"
+        ]
+      },
+      {
+        "answerID":"ANSWER_ID3",
+        "answerPhoto":"https://avatars2.githubusercontent.com/u/1677561?v=3&u=a07928a44ab238497c194f525538af5711e52847",
+        "answerVideo":"http://techslides.com/demos/sample-videos/small.mp4",
+        "lastUpdate":498841200,
+        "receivers":[
+          "RECEIVER_ID1"
+        ]
+      }
+    ],
+    "lastUpdate":498841200
+  }
+}

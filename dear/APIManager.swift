@@ -68,15 +68,10 @@ class APIManager {
     func createUser(userName: String, phoneNumber: String, birthDay: Date, password: String, completion: @escaping APICompletion) {
 
         var params = [String: Any]()
-#if DEBUG
-        completion(User.fixture(), nil)
-        return
-#else
         params["userName"] = userName.trimmingCharacters(in: .whitespacesAndNewlines)
         params["phoneNumber"] = phoneNumber
         params["birthDay"] = birthDay.timeIntervalSince1970
         params["password"] = password
-#endif
 
         self.request(path: .createUser, params: params) { [unowned self] dictionary, error in
 
@@ -91,18 +86,24 @@ class APIManager {
             }
 
             APIManager.sessionToken = sessionToken
-            self.request(path: .getUserInfo, completion: completion)
+            self.request(path: .getUserInfo) { dictionary, error in
+                if error != nil {
+                    completion(nil, error)
+                    return
+                }
+                guard let userRawInfo = dictionary?["user"] as? Dictionary<String, Any> else {
+                    completion(nil, InternalError.parsingError)
+                    return
+                }
+
+                completion(userRawInfo, nil)
+            }
         }
     }
 
 
 
     func login(phoneNumber: String, password: String, completion: @escaping (Bool, Error?) -> Void) {
-
-#if DEBUG
-        completion(true, nil)
-        return
-#endif
 
         self.request(path: .login) { dictionary, error in
 
@@ -163,10 +164,6 @@ class APIManager {
 
     func getUserInfo(completion: @escaping APICompletion) {
 
-#if DEBUG
-        completion(User.fixture(), nil)
-        return
-#else
         self.request(path: .getUserInfo) { dictionary, error in
 
             if error != nil {
@@ -174,18 +171,19 @@ class APIManager {
                 return
             }
 
-            completion(dictionary["user"], nil)
+            guard let userRawInfo = dictionary?["user"] as? Dictionary<String, Any> else {
+                completion(nil, InternalError.parsingError)
+                return
+            }
+
+            completion(userRawInfo, nil)
         }
-#endif
+
     }
 
 
     func checkAlreadyJoin(phoneNumber: String, completion: @escaping APIBoolCompletion) {
 
-#if DEBUG
-        completion(true, nil)
-        return
-#else
         self.request(path: .checkAlreadyJoin) { dictionary, error in
 
             if error != nil {
@@ -193,9 +191,8 @@ class APIManager {
                 return
             }
 
-            completion(dictionary["result"], nil)
+            completion(dictionary?["result"] as! Bool, nil)
         }
-#endif
     }
 
 
@@ -224,8 +221,16 @@ class APIManager {
     }
 
 
-    func getTodayQuestion(completion: @escaping APICompletion) {
-        self.request(path: .getTodaysQuestion, completion: completion)
+    func getTodayQuestion(completion: @escaping ([String:Any]?, [String:Any]?, Error?) -> Void) {
+        self.request(path: .getTodaysQuestion) { dictionary, error in
+            guard let questionRaw = dictionary?["question"] as? Dictionary<String, Any>,
+                  let willItemRaw = dictionary?["willItem"] as? Dictionary<String, Any> else {
+                completion(nil, nil, InternalError.parsingError)
+                return
+            }
+
+            completion(questionRaw, willItemRaw, nil)
+        }
     }
 
     func uploadImage(filePath: String, completion: @escaping APICompletion) {
@@ -258,33 +263,17 @@ class APIManager {
 
 
     func getWillItemList(completion: @escaping APICompletion) {
-#if DEBUG
-        completion(WillItem.fixtureList(), nil)
-        return
-#else
         self.request(path: .getWillItemList, completion:completion)
-#endif
     }
 
 
     func getWillItem(willItemId: String, completion: @escaping APICompletion) {
-#if DEBUG
-        completion(WillItem.fixture(), nil)
-        return
-#else
-        var params = ["willItemId": willItemId]
+        let params = ["willItemId": willItemId]
         self.request(path: .getWillItem, params: params, completion: completion)
-#endif
     }
 
     func getSessionTokenForReadOnly(userID:String, birthDay:Date, completion: @escaping APICompletion) {
-#if DEBUG
-        completion(["sessionToken":"sessionToken"], nil)
-        return
-#else
-
-    self.request(path: .getSessionTokenForReadOnly, params: ["userID":userID, "birthDay":birthDay.timeIntervalSince1970], completion: completion)
-#endif
+        self.request(path: .getSessionTokenForReadOnly, params: ["userID":userID, "birthDay":birthDay.timeIntervalSince1970], completion: completion)
     }
 
 
@@ -349,7 +338,12 @@ class APIManager {
                     return
                 }
 
-                guard dictionary["statusCode"] as? Int != APIStatusCode.success.rawValue, let msg = dictionary["msg"] else {
+                guard dictionary["status"] as? Int == APIStatusCode.success.rawValue else {
+#if DEBUG
+                    if let msg = dictionary["msg"] as? String {
+                        Alert.showMessage(message: msg)
+                    }
+#endif
                     completion(nil, InternalError.logicError)
                     return
                 }

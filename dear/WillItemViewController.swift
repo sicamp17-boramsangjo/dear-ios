@@ -19,7 +19,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
             self.tableView.reloadData()
         }
     }
-    var question:[String: String]? {
+    var question:[String: Any]? {
         didSet {
             self.tableView.reloadData()
         }
@@ -81,37 +81,32 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
             }
 
             DataSource.instance.storeWIllItem(willItemRawInfo: willItemRawInfo)
-            DataSource.instance.fetchWillItem(willItemId: willItemID) { item in
-                completion(item, nil)
-            }
+            let willItem = DataSource.instance.fetchWillItem(willItemId: willItemID)
+            completion(willItem, nil)
 
         }
     }
 
-    private func fetchTodaysQuestion(completion:@escaping ([String:String]?, WillItem?, Error? ) -> Void) {
+    private func fetchTodaysQuestion(completion:@escaping ([String:Any]?, WillItem?, Error? ) -> Void) {
 
-        self.apiManager.getTodayQuestion { dictionary, error in
+        self.apiManager.getTodayQuestion { questionRaw, willItemRaw, error in
 
             if error != nil {
                 completion(nil, nil, error)
                 return
             }
 
-            let question:[String:String]? = dictionary?["question"] as? Dictionary<String, String>
-            let willItemRaw:[String:Any]? = dictionary?["willItem"] as? Dictionary<String, Any>
-
-            guard let willItemID = willItemRaw!["willItemID"] as? String else {
+            guard let willItemID = willItemRaw?["willItemID"] as? String else {
                 completion(nil, nil, InternalError.unknown)
                 return
             }
 
             if willItemRaw != nil {
                 DataSource.instance.storeWIllItem(willItemRawInfo: willItemRaw!)
-                DataSource.instance.fetchWillItem(willItemId: willItemID) { willItem in
-                    completion(question, willItem, nil)
-                }
+                let willItem = DataSource.instance.fetchWillItem(willItemId: willItemID)
+                completion(questionRaw, willItem, nil)
             } else {
-                completion(question, nil, nil)
+                completion(questionRaw, nil, nil)
             }
         }
     }
@@ -199,7 +194,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
 
-            guard self.question == nil else {
+            guard self.question != nil else {
                 return 0
             }
 
@@ -226,7 +221,8 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
             if let currentWillItem = self.willItem {
                 cell.question = currentWillItem.question
             } else {
-                cell.question = self.question?["question"]
+                cell.question = self.question?["text"] as? String
+                cell.deliveredAt = Date(timeIntervalSince1970: self.question?["deliveredAt"] as! TimeInterval)
             }
             return cell
         }

@@ -11,42 +11,24 @@ import RealmSwift
 
 class DataSource {
 
-    static let modelRevision = 6
+    static let modelRevision = 8
 
     var realm = try! Realm()
 
     static let instance = DataSource()
     private init() {
+
+        print("Realm home: \(Realm.Configuration.defaultConfiguration.fileURL)")
+
+#if DEBUG
+        self.cleanAllDB()
+#endif
+
         let currentModelRevision = ConfigManager.instance.dataModelRevision
         if currentModelRevision != DataSource.modelRevision {
             self.cleanAllDB()
             ConfigManager.instance.dataModelRevision = DataSource.modelRevision
         }
-
-//#if DEBUG
-//
-//        self.cleanAllDB()
-//
-//        try! self.realm.write {
-//            let receiver = Receiver(value: Receiver.fixture())
-//            self.realm.add(receiver)
-//            let answer = Answer(value: Answer.fixture())
-//            //self.realm.add(answer)
-//            let willItem = WillItem(value: WillItem.fixture())
-//            //self.realm.add(willItem)
-//            let user = User(value: User.fixture())
-//            //self.realm.add(user)
-//        }
-//
-//        DispatchQueue.main.async {
-//            let a = self.realm.objects(Receiver.self).first
-//            let b = self.realm.objects(Answer.self).first
-//            let c = self.realm.objects(WillItem.self).first
-//            let d = self.realm.objects(User.self).first
-//        }
-//
-//#endif
-
     }
 
     func cleanAllDB() {
@@ -64,7 +46,6 @@ class DataSource {
     }
 
     func storeLoginUser(loginUserValue: [String: Any]) {
-
         let loginUser = User(value: loginUserValue)
 
         try! self.realm.write() {
@@ -72,22 +53,19 @@ class DataSource {
         }
     }
 
-    func fetchLoginUser() -> User? {
-        let searchResults = self.realm.objects(User.self)
-        if searchResults.count > 0 {
-            return searchResults.first
-        } else {
-            return nil
-        }
-    }
-
-    func hasUserInfo() -> Bool {
-        return self.fetchLoginUser() != nil
-    }
-
     func storeWIllItem(willItemRawInfo:[String:Any]) {
+        let willItem = WillItem(value: willItemRawInfo)
+
+        if let answerRawList = willItemRawInfo["answers"] as? Array<Dictionary<String, Any>> {
+            for (index, item) in answerRawList.enumerated() {
+
+                if let answerRaw = item as? Dictionary<String, Any> {
+                    willItem.answers[index].receivers = answerRaw["receivers"] as! Array<String>
+                }
+            }
+        }
+
         try! self.realm.write {
-            let willItem = WillItem(value: willItemRawInfo)
             self.realm.add(willItem, update: true)
         }
     }
@@ -105,18 +83,24 @@ class DataSource {
         }
     }
 
+    func hasUserInfo() -> Bool {
+        return self.fetchLoginUser() != nil
+    }
+
+    func fetchLoginUser() -> User? {
+        return self.realm.objects(User.self).first
+    }
+
     func fetchAllWillItemList() -> Results<WillItem>? {
         return self.realm.objects(WillItem.self)
     }
 
-    func fetchWillItem(willItemId: String, completion: (WillItem?) -> Void) {
-        let searchResults = self.realm.objects(WillItem.self).filter("willItemID = '\(willItemId)'")
+    func fetchWillItem(willItemId: String) -> WillItem? {
+        return self.realm.objects(WillItem.self).filter("willItemID = '\(willItemId)'").first
+    }
 
-        if searchResults.count > 0 {
-            completion(searchResults.first)
-        } else {
-            completion(nil)
-        }
+    func fetchReceiver(receiverID: String) -> Receiver? {
+        return self.realm.objects(Receiver.self).filter("receiverID = '\(receiverID)'").first
     }
 
 }

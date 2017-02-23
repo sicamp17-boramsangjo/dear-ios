@@ -4,3 +4,5 @@ dear.xcworkspace/xcuserdata/kyungtaek.xcuserdatad/UserInterfaceState.xcuserstate
 fastlane/Fastfile.old
 Breakpoints_v2.xcbkptlist
 report.xml
+.DS_Store
+Pods

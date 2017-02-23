@@ -1,0 +1,16 @@
+{
+  "status": 200,
+  "msg": "OK",
+  "receivers":[
+    {
+      "receiverID":"RECEIVER_ID1",
+      "name":"엄마",
+      "phoneNumber":"010-9876-9876"
+    },
+    {
+      "receiverID":"RECEIVER_ID2",
+      "name":"아빠",
+      "phoneNumber":"010-3456-3456"
+    }
+  ]
+}
