@@ -9,6 +9,10 @@
 import Foundation
 import RealmSwift
 
+//class RealmString: Object {
+//    dynamic var rawValue = ""
+//}
+
 class Receiver: Object {
     dynamic var receiverID = ""
     dynamic var name = ""
@@ -35,7 +39,6 @@ class User: Object {
     override class func primaryKey() -> String? {
         return "phoneNumber"
     }
-
 }
 
 class Answer: Object {
@@ -45,7 +48,40 @@ class Answer: Object {
     dynamic var answerVideo: String?
     dynamic var lastUpdate: Double = 0
 
-    let receivers = List<Receiver>()
+    private let SEPARATOR = "||"
+
+//    dynamic var combinedReceiverIDs: String? = nil
+//    var receivers: [String] {
+//        get {
+//            guard let perms = self.combinedReceiverIDs else { return [] }
+//            return perms.components(separatedBy: SEPARATOR)
+//        }
+//        set {
+//            combinedReceiverIDs = newValue.count > 0 ? newValue.joined(separator:SEPARATOR) : nil
+//        }
+//    }
+//
+//    override static func ignoredProperties() -> [String] {
+//        return ["receivers"]
+//    }
+
+    let receiverObjects = List<Receiver>()
+    var receivers: [String] {
+        get {
+            return []
+        }
+        set {
+            for receiverID in newValue {
+                if let receiver = DataSource.instance.fetchReceiver(receiverID: receiverID) {
+                    self.receiverObjects.append(receiver)
+                }
+            }
+        }
+    }
+
+    override static func ignoredProperties() -> [String] {
+        return ["receivers"]
+    }
 
     override class func primaryKey() -> String? {
         return "answerID"
@@ -62,72 +98,5 @@ class WillItem: Object {
 
     override class func primaryKey() -> String? {
         return "willItemID"
-    }
-}
-
-extension Receiver {
-    static func fixture() -> [String:Any] {
-        return [
-                "receiverID":"\(UUID().uuidString)",
-                "name": "Hannah",
-                "phoneNumber": "010-1234-1234"
-        ]
-    }
-}
-
-extension User {
-    static func fixture() -> [String:Any] {
-        return [
-                "userName": "Kyungtaek",
-                "password": "password",
-                "phoneNumber": "821098769876",
-                "birthDay":366508800,
-                "deviceToken":"deviceToken",
-                "profileImageUrl": "https://avatars3.githubusercontent.com/u/1677561?v=3&s=460",
-                "pushDuration":60*60*24,
-                "lastLoginAlarmDuration":60*60*24*365,
-                "readKey":"readKeyRandom",
-                "isDead":false,
-                "receivers":[Receiver.fixture()]
-        ]
-    }
-}
-
-extension Answer {
-    static func fixture() -> [String:Any] {
-        return [
-                "answerID":"\(UUID().uuidString)",
-                "answerText": "싸움이 급하니 내 죽음을 알리지 말라",
-                "answerPhoto":"http://cfile10.uf.tistory.com/image/247ECD4E5577CE25211A10",
-                "answerVideo":"http://techslides.com/demos/sample-videos/small.mp4",
-                "receivers":[Receiver.fixture()],
-                "lastUpdate":1487439527
-        ]
-    }
-}
-
-extension WillItem {
-    static func fixture() -> [String:Any] {
-        return [
-                "willItemID":"\(UUID().uuidString)",
-                "questionID":"questionID",
-                "question":"당신의 유언은?",
-                "answers":[
-                        Answer.fixture(),
-                        Answer.fixture()
-                ],
-                "lastUpdate":1487439527
-        ]
-    }
-
-    static func fixtureList() -> [String:Any] {
-        return ["results":[
-                WillItem.fixture(),
-                WillItem.fixture(),
-                WillItem.fixture(),
-                WillItem.fixture(),
-                WillItem.fixture(),
-                WillItem.fixture()
-        ]]
     }
 }

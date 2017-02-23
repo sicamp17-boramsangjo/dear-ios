@@ -9,9 +9,16 @@ import SnapKit
 class QuestionCell: UITableViewCell {
 
     weak var questionLabel: UILabel!
+
     var question: String? {
         didSet {
             self.questionLabel.text = self.question
+        }
+    }
+
+    var deliveredAt: Date? {
+        didSet {
+            //TODO: 남은 시간 출력하기
         }
     }
 
