@@ -11,12 +11,22 @@ enum ReceiverSelectionConfig {
     case forFilter
     case forRecommand
 
-    func getLayoutConfig() -> (direction:UICollectionViewScrollDirection, itemSpacing:Float, lineSpacing:Float) {
+    func getLayoutConfig() -> (direction:UICollectionViewScrollDirection, itemSpacing:Float, lineSpacing:Float, bgColor:UIColor, contentInset: UIEdgeInsets) {
         switch self {
         case .forFilter:
-            return (direction: .vertical, itemSpacing:15, lineSpacing:15)
+            return (direction: .vertical,
+                    itemSpacing:15,
+                    lineSpacing:15,
+                    bgColor:UIColor.rgb256(225, 230, 234),
+                    contentInset: UIEdgeInsetsMake(15, 20, 15, 20)
+            )
         case .forRecommand:
-            return (direction: .horizontal, itemSpacing:15, lineSpacing:15)
+            return (direction: .horizontal,
+                    itemSpacing:15,
+                    lineSpacing:15,
+                    bgColor:UIColor.rgb256(225, 230, 234),
+                    contentInset: UIEdgeInsetsMake(15, 20, 15, 20)
+            )
         }
     }
 }
@@ -24,7 +34,7 @@ enum ReceiverSelectionConfig {
 
 class ReceiverNameCell: UICollectionViewCell {
 
-    static let font = UIFont.systemFont(ofSize: 14)
+    static let font = UIFont.drSDULight155Font()
     weak var nameLabel: UILabel!
 
     override init(frame:CGRect) {
@@ -37,10 +47,11 @@ class ReceiverNameCell: UICollectionViewCell {
     }
 
     func setupViewIfNeeds() {
+
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.backgroundColor = UIColor.orange
-        label.textColor = UIColor.white
+        label.backgroundColor = UIColor.white
+        label.textColor = UIColor.drOR
         label.font = ReceiverNameCell.font
         label.textAlignment = .center
         self.addSubview(label)
@@ -82,11 +93,11 @@ class ReceiverSelectionView: UIView, UICollectionViewDelegate, UICollectionViewD
         layout.scrollDirection = config.getLayoutConfig().direction
         layout.minimumInteritemSpacing = CGFloat(config.getLayoutConfig().itemSpacing)
         layout.minimumLineSpacing = CGFloat(config.getLayoutConfig().lineSpacing)
-        layout.itemSize = CGSize(width: 10, height: 10)
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = UIColor.white
+        collectionView.backgroundColor = config.getLayoutConfig().bgColor
+        collectionView.contentInset = config.getLayoutConfig().contentInset
         collectionView.delegate = self
         collectionView.dataSource = self
         self.addSubview(collectionView)

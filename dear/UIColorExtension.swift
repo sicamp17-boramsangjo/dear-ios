@@ -12,4 +12,9 @@ extension UIColor {
         let randomBlue: CGFloat = CGFloat(drand48())
         return UIColor(red: randomRed, green: randomGreen, blue: randomBlue, alpha: 1.0)
     }
+
+    static func rgb256(_ red:Int, _ green:Int, _ blue:Int) -> UIColor {
+        return UIColor(red: CGFloat(red) / CGFloat(255) , green: CGFloat(green) / CGFloat(255) , blue: CGFloat(blue) / CGFloat(255), alpha: 1.0)
+    }
+
 }

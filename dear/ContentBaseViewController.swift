@@ -14,10 +14,10 @@ enum MenuMode {
 
 class ContentBaseViewController: UIViewController {
 
-    weak var topToolbar: UIView!
     weak var menuBar: UIView!
     weak var contentBaseView: UIView!
 
+    weak var sideMenuButton: UIButton!
     weak var todayButton: UIButton!
     weak var timelineButton: UIButton!
 
@@ -31,60 +31,58 @@ class ContentBaseViewController: UIViewController {
     private func setupView() {
 
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-
-        let topToolbar = UIView(frame: .zero)
-        topToolbar.translatesAutoresizingMaskIntoConstraints = false
-        topToolbar.backgroundColor = UIColor.random()
-        self.view.addSubview(topToolbar)
-        self.topToolbar = topToolbar
-        self.topToolbar.snp.makeConstraints { maker in
-            maker.leading.equalToSuperview()
-            maker.trailing.equalToSuperview()
-            maker.top.equalToSuperview()
-            maker.height.equalTo(60)
-        }
-
-        let sideMenuButton = UIButton(type: .custom)
-        sideMenuButton.setTitle("Menu", for: .normal)
-        sideMenuButton.addTarget(self, action: #selector(sideMenuButtonTapped(_:)), for: .touchUpInside)
-        topToolbar.addSubview(sideMenuButton)
-        sideMenuButton.snp.makeConstraints { maker in
-            maker.centerY.equalToSuperview()
-            maker.leading.equalToSuperview().offset(8)
-        }
+        self.view.backgroundColor = UIColor.white
 
         let menubar = UIView(frame: .zero)
         menubar.translatesAutoresizingMaskIntoConstraints = false
-        menubar.backgroundColor = UIColor.random()
+        menubar.backgroundColor = UIColor.white
         self.view.addSubview(menubar)
         self.menuBar = menubar
         self.menuBar.snp.makeConstraints { maker in
             maker.leading.equalToSuperview()
             maker.trailing.equalToSuperview()
-            maker.top.equalTo(topToolbar.snp.bottom)
-            maker.height.equalTo(60)
+            maker.top.equalToSuperview().offset(20)
+            maker.height.equalTo(40)
         }
 
-        let todayButton = UIButton(type: .roundedRect)
-        todayButton.setTitle("Today", for: .normal)
+        let sideMenuButton = UIButton(type: .custom)
+        sideMenuButton.setTitle("M", for: .normal)
+        sideMenuButton.titleLabel?.font = UIFont.drSDMedium155Font()
+        sideMenuButton.setTitleColor(UIColor.drGR02, for: .normal)
+        sideMenuButton.addTarget(self, action: #selector(sideMenuButtonTapped(_:)), for: .touchUpInside)
+        menuBar.addSubview(sideMenuButton)
+        self.sideMenuButton = sideMenuButton
+        sideMenuButton.snp.makeConstraints { maker in
+            maker.centerY.equalToSuperview()
+            maker.leading.equalToSuperview().offset(10)
+            maker.size.equalTo(CGSize(width: 40, height: 40))
+        }
+
+        let todayButton = UIButton(type: .custom)
+        todayButton.setTitle("2017년 2월 22일", for: .normal)
+        todayButton.titleLabel?.font = UIFont.drSDMedium155Font()
+        todayButton.setTitleColor(UIColor.drGR04, for: .normal)
+        todayButton.setTitleColor(UIColor.drGR01, for: .selected)
         todayButton.addTarget(self, action: #selector(menuChanged(_:)), for: .touchUpInside)
-
-        let timelineButton = UIButton(type: .roundedRect)
-        timelineButton.setTitle("Timeline", for: .normal)
-        timelineButton.addTarget(self, action: #selector(menuChanged(_:)), for: .touchUpInside)
-
-        let menuButtonContainer = UIStackView(arrangedSubviews: [todayButton, timelineButton])
-        menuButtonContainer.translatesAutoresizingMaskIntoConstraints = false
-        menuButtonContainer.axis = .horizontal
-        menuButtonContainer.alignment = .center
-        menuButtonContainer.spacing = 10
-        menuBar.addSubview(menuButtonContainer)
-        menuButtonContainer.snp.makeConstraints { maker in
+        menuBar.addSubview(todayButton)
+        self.todayButton = todayButton
+        todayButton.snp.makeConstraints { maker in
             maker.center.equalToSuperview()
         }
 
+        let timelineButton = UIButton(type: .custom)
+        timelineButton.setTitle("H", for: .normal)
+        timelineButton.titleLabel?.font = UIFont.drSDMedium155Font()
+        timelineButton.setTitleColor(UIColor.drGR04, for: .normal)
+        timelineButton.setTitleColor(UIColor.drGR02, for: .selected)
+        timelineButton.addTarget(self, action: #selector(menuChanged(_:)), for: .touchUpInside)
+        menuBar.addSubview(timelineButton)
         self.timelineButton = timelineButton
-        self.todayButton = todayButton
+        timelineButton.snp.makeConstraints { maker in
+            maker.centerY.equalToSuperview()
+            maker.trailing.equalToSuperview().offset(-10)
+            maker.size.equalTo(CGSize(width: 40, height: 40))
+        }
 
         let contentBaseView = UIView(frame: .zero)
         contentBaseView.translatesAutoresizingMaskIntoConstraints = false

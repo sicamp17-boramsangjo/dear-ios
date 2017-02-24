@@ -13,6 +13,7 @@ class PhotoAnswerCell: UITableViewCell {
 
     weak var imageAnswerView: UIImageView!
     weak var videoButton: UIButton!
+    weak var dateLabel: UILabel!
 
     weak var answer: Answer? {
         didSet {
@@ -47,10 +48,10 @@ class PhotoAnswerCell: UITableViewCell {
         self.contentView.addSubview(imageView)
         self.imageAnswerView = imageView
         self.imageAnswerView.snp.makeConstraints { maker in
-            maker.leading.equalTo(16)
-            maker.top.equalTo(4)
-            maker.bottom.equalTo(4)
-            maker.size.equalTo(CGSize(width:240,height:240))
+            maker.leading.equalToSuperview().offset(30)
+            maker.trailing.equalToSuperview().offset(30)
+            maker.top.equalToSuperview()
+            maker.size.equalTo(CGSize(width:(UIScreen.main.bounds.width - 60),height:(UIScreen.main.bounds.width - 60) * 0.6))
         }
 
         let videoButton = UIButton(type:.custom)
@@ -62,6 +63,21 @@ class PhotoAnswerCell: UITableViewCell {
         videoButton.snp.makeConstraints { maker in
             maker.size.equalTo(CGSize(width: 40, height: 40))
             maker.center.equalTo(imageView.snp.center)
+        }
+
+        let dateLabel = UILabel(frame: .zero)
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.lineBreakMode = .byWordWrapping
+        dateLabel.textAlignment = .left
+        dateLabel.font = UIFont.drNMB13Font()
+        dateLabel.textColor = UIColor.drGR01
+        dateLabel.numberOfLines = 0
+        self.contentView.addSubview(dateLabel)
+        self.dateLabel = dateLabel
+        dateLabel.snp.makeConstraints { maker in
+            maker.left.equalTo(imageView.snp.left)
+            maker.right.equalTo(imageView.snp.right)
+            maker.top.equalTo(imageView.snp.bottom).offset(9)
         }
     }
 

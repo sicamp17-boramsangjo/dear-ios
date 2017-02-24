@@ -11,15 +11,16 @@ import ChameleonFramework
 class TextAnswerCell: UITableViewCell {
 
     weak var textAnswerLabel: UILabel!
+    weak var dateLabel: UILabel!
 
     weak var answer: Answer? {
         didSet {
-            guard let newAnwser = self.answer else {
+            guard let newAnswer = self.answer else {
                 return
             }
 
-            if newAnwser.answerText != nil {
-                textAnswerLabel.text = newAnwser.answerText
+            if newAnswer.answerText != nil {
+                textAnswerLabel.text = newAnswer.answerText
             }
         }
     }
@@ -35,18 +36,36 @@ class TextAnswerCell: UITableViewCell {
 
     private func setupView() {
         self.selectionStyle = .none
-        self.contentView.backgroundColor = UIColor.flatWhite
+        self.contentView.backgroundColor = UIColor.drGR00
+
         let answerLabel = UILabel(frame: .zero)
         answerLabel.translatesAutoresizingMaskIntoConstraints = false
         answerLabel.lineBreakMode = .byWordWrapping
         answerLabel.textAlignment = .left
-        answerLabel.font = UIFont.systemFont(ofSize: 14)
-        answerLabel.textColor = UIColor.black
+        answerLabel.font = UIFont.drSDULight16Font()
+        answerLabel.textColor = UIColor.drBK
         answerLabel.numberOfLines = 0
         self.contentView.addSubview(answerLabel)
         self.textAnswerLabel = answerLabel
         self.textAnswerLabel.snp.makeConstraints { maker in
-            maker.edges.equalTo(UIEdgeInsetsMake(4, 16, 4, 8))
+            maker.leading.equalTo(30)
+            maker.trailing.equalTo(30)
+            maker.top.equalTo(23)
+        }
+
+        let dateLabel = UILabel(frame: .zero)
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.lineBreakMode = .byWordWrapping
+        dateLabel.textAlignment = .left
+        dateLabel.font = UIFont.drNMB13Font()
+        dateLabel.textColor = UIColor.drGR01
+        dateLabel.numberOfLines = 0
+        self.contentView.addSubview(dateLabel)
+        self.dateLabel = dateLabel
+        dateLabel.snp.makeConstraints { maker in
+            maker.left.equalTo(answerLabel.snp.left)
+            maker.right.equalTo(answerLabel.snp.right)
+            maker.top.equalTo(answerLabel.snp.bottom).offset(9)
         }
     }
 }
