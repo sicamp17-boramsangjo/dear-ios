@@ -102,7 +102,7 @@ class TimelineAnswerCell: UICollectionViewCell {
 
         let textAnswer = UILabel(frame:.zero)
         textAnswer.translatesAutoresizingMaskIntoConstraints = false
-        timeLabel.font = UIFont.drSDULight155Font()
+        timeLabel.font = UIFont.drSDULight16Font()
         textAnswer.textColor = UIColor.drBK
         self.addSubview(textAnswer)
         self.textAnswer = textAnswer

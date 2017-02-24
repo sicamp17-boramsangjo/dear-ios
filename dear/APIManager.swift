@@ -269,7 +269,19 @@ class APIManager {
 
     func getWillItem(willItemId: String, completion: @escaping APICompletion) {
         let params = ["willItemId": willItemId]
-        self.request(path: .getWillItem, params: params, completion: completion)
+        self.request(path: .getWillItem, params: params) { dictionary, error in
+            if error != nil {
+                completion(nil, error)
+                return
+            }
+
+            guard let result = dictionary?["result"] as? [String:Any] else {
+                completion(nil, InternalError.parsingError)
+                return
+            }
+
+            completion(result, nil)
+         }
     }
 
     func getSessionTokenForReadOnly(userID:String, birthDay:Date, completion: @escaping APICompletion) {

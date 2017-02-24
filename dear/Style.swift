@@ -20,7 +20,7 @@ extension UIColor {
     }
 
     class var drGR00: UIColor {
-        return UIColor(red: 244.0 / 255.0, green: 247.0 / 255.0, blue: 249.0 / 255.0, alpha: 1.0)
+        return UIColor(red: 241.0 / 255.0, green: 242.0 / 255.0, blue: 243.0 / 255.0, alpha: 1.0)
     }
 
     class var drGR03: UIColor {
@@ -29,6 +29,18 @@ extension UIColor {
 
     class var drGR04: UIColor {
         return UIColor(red: 140.0 / 255.0, green: 150.0 / 255.0, blue: 165.0 / 255.0, alpha: 0.3)
+    }
+
+    class var drGR05: UIColor {
+        return UIColor(white: 85.0 / 255.0, alpha: 1.0)
+    }
+
+    class var drGR06: UIColor {
+        return UIColor(white: 170.0 / 255.0, alpha: 1.0)
+    }
+
+    class var drGR08: UIColor {
+        return UIColor(white: 85.0 / 255.0, alpha: 0.3)
     }
 
 }
@@ -56,24 +68,40 @@ extension UIFont {
         return UIFont(name: "NanumMyeongjoOTF", size: 24.0)
     }
 
+    class func drNM13Font() -> UIFont? {
+        return UIFont(name: "NanumMyeongjoOTF", size: 13)
+    }
+
+    class func drNM15Font() -> UIFont? {
+        return UIFont(name: "NanumMyeongjoOTF", size: 15)
+    }
+
+    class func drNM16Font() -> UIFont? {
+        return UIFont(name: "NanumMyeongjoOTF", size: 16)
+    }
+
+    class func drNM20Font() -> UIFont? {
+        return UIFont(name: "NanumMyeongjoOTF", size: 20)
+    }
+
     class func drNM23Font() -> UIFont? {
         return UIFont(name: "NanumMyeongjoOTF", size: 23.12)
     }
 
-    class func drSDMedium155Font() -> UIFont? {
-        return UIFont(name: "AppleSDGothicNeo-Medium", size: 15.5)
+    class func drSDMedium16Font() -> UIFont? {
+        return UIFont(name: "AppleSDGothicNeo-Medium", size: 16)
     }
 
-    class func drSDLight155Font() -> UIFont? {
-        return UIFont(name: "AppleSDGothicNeo-Light", size: 15.5)
-    }
-
-    class func drSDULight155Font() -> UIFont? {
-        return UIFont(name: "AppleSDGothicNeo-UltraLight", size: 15.5)
+    class func drSDLight16Font() -> UIFont? {
+        return UIFont(name: "AppleSDGothicNeo-Light", size: 16)
     }
 
     class func drSDULight16Font() -> UIFont? {
         return UIFont(name: "AppleSDGothicNeo-UltraLight", size: 16)
+    }
+
+    class func drSDULight14Font() -> UIFont? {
+        return UIFont(name: "AppleSDGothicNeo-UltraLight", size: 14)
     }
 
     class func drTextStyleFont() -> UIFont? {
@@ -82,6 +110,10 @@ extension UIFont {
 
     class func drSDLight14Font() -> UIFont? {
         return UIFont(name: "AppleSDGothicNeo-Light", size: 13.82)
+    }
+
+    class func drSDRegular12Font() -> UIFont? {
+        return UIFont(name: "AppleSDGothicNeo-Regular", size: 12.0)
     }
 
     class func drSDRegular13Font() -> UIFont? {

@@ -9,12 +9,18 @@ import SnapKit
 import DKImagePickerController
 
 class InputView: UIView, UITextViewDelegate {
+
     weak var textView: UITextView!
+    weak var placeholderLabel: UILabel!
+    weak var sendButton: UIButton!
+
     weak var attachmentButton: UIButton!
     weak var heightConstraint: Constraint?
 
     var questionID: String?
     var receivers: [Receiver] = []
+    let apiManager = APIManager()
+    var reloadWillItem:((String) -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,36 +28,74 @@ class InputView: UIView, UITextViewDelegate {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        fatalError()
     }
 
     func setupView() {
-        let textView = UITextView(frame: .zero, textContainer: nil)
-        textView.delegate = self
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(textView)
-        self.textView = textView
+
+        self.backgroundColor = UIColor.drGR00
 
         let button = UIButton(type: .custom)
-        button.setTitle("Add", for: .normal)
+        button.setImage(UIImage(named: "add"), for: .normal)
         button.addTarget(self, action: #selector(addButtonTapped(_:)), for: .touchUpInside)
         self.addSubview(button)
         self.attachmentButton = button
 
         button.snp.makeConstraints { maker in
-            maker.left.equalToSuperview().offset(8)
-            maker.bottom.equalToSuperview()
-            maker.size.equalTo(CGSize(width: 60, height: 40))
+            maker.leadingMargin.equalTo(15)
+            maker.bottomMargin.equalTo(-17)
+            maker.size.equalTo(CGSize(width: 34, height: 34))
         }
 
+        let textView = UITextView(frame: .zero, textContainer: nil)
+        textView.delegate = self
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.layer.cornerRadius = 5
+        textView.clipsToBounds = true
+        textView.applyCommonShadow()
+        textView.tintColor = UIColor.drOR
+        textView.textContainerInset = UIEdgeInsetsMake(12.5, 19.5, 12.5, 52)
+        textView.textColor = UIColor.drGR01
+        textView.font = UIFont.drSDLight16Font()
+        self.addSubview(textView)
+        self.textView = textView
+
         textView.snp.makeConstraints { [unowned self] maker in
-            maker.left.equalTo(button.snp.right).offset(4).priority(750)
-            maker.top.equalToSuperview().offset(4)
-            maker.bottom.equalToSuperview().offset(-4).priority(750)
-            maker.right.equalToSuperview().offset(-8)
-            self.heightConstraint = maker.height.equalTo(30).priority(750).constraint
+            maker.left.equalTo(button.snp.right).offset(12).priority(750)
+            maker.topMargin.equalTo(15)
+            maker.bottomMargin.equalTo(-15).priority(750)
+            maker.right.equalToSuperview().offset(-16)
+            self.heightConstraint = maker.height.equalTo(40).priority(750).constraint
         }
+
+        let placeholderLabel = UILabel(frame:.zero)
+        placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
+        placeholderLabel.font = UIFont.drSDLight16Font()
+        placeholderLabel.textColor = UIColor.drGR08
+        placeholderLabel.text = "\(DataSource.instance.numOfAnswers())번째 메시지를 남겨보세요"
+        self.textView.addSubview(placeholderLabel)
+        placeholderLabel.snp.makeConstraints { maker in
+            maker.centerY.equalToSuperview()
+            maker.leadingMargin.equalTo(11)
+         }
+        self.placeholderLabel = placeholderLabel
+
+        let sendButton = UIButton(type: .custom)
+        sendButton.translatesAutoresizingMaskIntoConstraints = false
+        sendButton.setTitle("Send", for:.normal)
+        sendButton.setTitleColor(UIColor.drOR, for: .normal)
+        sendButton.titleLabel?.font = UIFont.drSDMedium16Font()
+        sendButton.addTarget(self, action: #selector(sendButtonTapped(_:)), for: .touchUpInside)
+        self.addSubview(sendButton)
+        sendButton.snp.makeConstraints { maker in
+            maker.bottom.equalTo(textView.snp.bottom).offset(-2)
+            maker.trailingMargin.equalTo(-25)
+         }
+
+        self.sendButton = sendButton
+        self.sendButton.isHidden = true
     }
+
 
     @objc func addButtonTapped(_ button: UIButton) {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -98,10 +142,17 @@ class InputView: UIView, UITextViewDelegate {
             let savedVideoFilePath = "\(FileManager.uploadCachePath())/\(FileManager.uniqueFileName(fileExtension: "mp4"))"
 
             selectedAsset.writeAVToFile(savedVideoFilePath, presetName:AVAssetExportPresetLowQuality) { _ in
-                UploadManager.instance.createAnswer(questionID: self.questionID!, textAnswer:nil, imageAnswer:nil, videoAnswer: savedVideoFilePath, receivers: self.receivers.map { $0.receiverID }) { (_, error: Error?) in
+                UploadManager.instance.createAnswer(questionID: self.questionID!, textAnswer:nil, imageAnswer:nil, videoAnswer: savedVideoFilePath, receivers: self.receivers.map { $0.receiverID }) { [unowned self] (dictionary, error: Error?) in
                     if error != nil {
                         print(error)
+                        return
                     }
+
+                    guard let willItemID = dictionary?["willItemID"] as? String else {
+                        return
+                    }
+
+                    self.reloadWillItem?(willItemID)
                 }
             }
         }
@@ -109,6 +160,53 @@ class InputView: UIView, UITextViewDelegate {
         DispatchQueue.main.async {
             UIWindow.visibleViewController()?.present(pickerController, animated: true)
         }
+    }
+
+    @objc private func sendButtonTapped(_ button:UIButton) {
+        guard let textContent = self.textView.text, textContent.characters.count > 0, let questionID = self.questionID else {
+            return
+        }
+
+        self.apiManager.createAnswer(questionID:questionID, answerText: textContent, answerPhoto: nil, answerVideo: nil, receivers:self.receivers.map{$0.receiverID}) { [unowned self] dictionary, error in
+            if error != nil {
+                Alert.showError(error!)
+                return
+            }
+
+            self.textView.text.removeAll()
+
+            guard let willItemID = dictionary?["willItemID"] as? String else {
+                return
+            }
+
+            self.reloadWillItem?(willItemID)
+        }
+    }
+
+    public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        self.placeholderLabel.isHidden = true
+        self.sendButton.isHidden = false
+        return true
+    }
+
+    public func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.characters.count == 0 {
+            self.placeholderLabel.isHidden = false
+            self.sendButton.isHidden = true
+        }
+    }
+
+    public func textViewDidChange(_ textView: UITextView) {
+
+        guard let font = UIFont.drSDLight14Font() else {
+            return
+        }
+
+        var height = textView.text.findHeight(havingWidth:textView.bounds.width - 72 , andFont: font).height
+        var lineHeight = font.lineHeight
+        var numLine = Int(height / lineHeight)
+
+        self.heightConstraint?.updateOffset(amount: min(90, (25 * numLine + 15)))
     }
 
 }

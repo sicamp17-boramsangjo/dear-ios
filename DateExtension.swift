@@ -37,57 +37,57 @@ extension Date {
         let components = calendar.dateComponents(unitFlags, from: earliest, to: latest)
 
         if (components.year! >= 2) {
-            return "\(components.year!) years ago"
+            return self.format(format: "yyyy-MM-dd")
         } else if (components.year! >= 1) {
             if (numericDates) {
-                return "1 year ago"
+                return "1년 전"
             } else {
-                return "Last year"
+                return "작년"
             }
         } else if (components.month! >= 2) {
-            return "\(components.month!) months ago"
+            return "\(components.month!)달 전"
         } else if (components.month! >= 1) {
             if (numericDates) {
-                return "1 month ago"
+                return "1달 전"
             } else {
-                return "Last month"
+                return "한달 전"
             }
         } else if (components.weekOfYear! >= 2) {
-            return "\(components.weekOfYear!) weeks ago"
+            return "\(components.weekOfYear!)주 전"
         } else if (components.weekOfYear! >= 1) {
             if (numericDates) {
-                return "1 week ago"
+                return "1주 전"
             } else {
-                return "Last week"
+                return "지난 주"
             }
         } else if (components.day! >= 2) {
-            return "\(components.day!) days ago"
+            return "\(components.day!)일 전"
         } else if (components.day! >= 1) {
             if (numericDates) {
-                return "1 day ago"
+                return "1일 전"
             } else {
-                return "Yesterday"
+                return "어제"
             }
         } else if (components.hour! >= 2) {
-            return "\(components.hour!) hours ago"
+            return "\(components.hour!)시간 전"
         } else if (components.hour! >= 1) {
             if (numericDates) {
-                return "1 hour ago"
+                return "1시간 전"
             } else {
-                return "An hour ago"
+                return "한시간 전"
             }
         } else if (components.minute! >= 2) {
-            return "\(components.minute!) minutes ago"
+            return "\(components.minute!)분 전"
         } else if (components.minute! >= 1) {
             if (numericDates) {
-                return "1 minute ago"
+                return "1분 전"
             } else {
-                return "A minute ago"
+                return "일분 전"
             }
         } else if (components.second! >= 3) {
-            return "\(components.second!) seconds ago"
+            return "지금 막"
         } else {
-            return "Just now"
+            return "지금 막"
         }
 
     }

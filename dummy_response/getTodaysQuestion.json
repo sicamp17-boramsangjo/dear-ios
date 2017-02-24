@@ -14,7 +14,7 @@
     "answers":[
       {
         "answerID":"ANSWER_ID1",
-        "answerText":"엔써텍스트",
+        "answerText":"비현실적인거 까지는 모르겠고, 버스타고 집에 가는데 문득 예전 일과 오버랩 되는 그런 날이 있는듯 @나를아는모든사람들도 다들 그럴까?",
         "lastUpdate":498841200,
         "receivers":[
           "RECEIVER_ID1"
@@ -22,7 +22,7 @@
       },
       {
         "answerID":"ANSWER_ID2",
-        "answerPhoto":"https://avatars2.githubusercontent.com/u/1677561?v=3&u=a07928a44ab238497c194f525538af5711e52847",
+        "answerPhoto":"http://indiweb08.cafe24.com:8888/images/sunflower.jpg",
         "mediaWidth":320,
         "mediaHeight":240,
         "lastUpdate":498841200,
@@ -32,8 +32,8 @@
       },
       {
         "answerID":"ANSWER_ID3",
-        "answerPhoto":"https://avatars2.githubusercontent.com/u/1677561?v=3&u=a07928a44ab238497c194f525538af5711e52847",
-        "answerVideo":"http://techslides.com/demos/sample-videos/small.mp4",
+        "answerPhoto":"http://indiweb08.cafe24.com:8888/images/sunflower.jpg",
+        "answerVideo":"http://indiweb08.cafe24.com:8888/videos/small.mp4",
         "mediaWidth":320,
         "mediaHeight":240,
         "lastUpdate":498841200,

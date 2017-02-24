@@ -47,7 +47,7 @@ class ContentBaseViewController: UIViewController {
 
         let sideMenuButton = UIButton(type: .custom)
         sideMenuButton.setTitle("M", for: .normal)
-        sideMenuButton.titleLabel?.font = UIFont.drSDMedium155Font()
+        sideMenuButton.titleLabel?.font = UIFont.drSDMedium16Font()
         sideMenuButton.setTitleColor(UIColor.drGR02, for: .normal)
         sideMenuButton.addTarget(self, action: #selector(sideMenuButtonTapped(_:)), for: .touchUpInside)
         menuBar.addSubview(sideMenuButton)
@@ -59,8 +59,8 @@ class ContentBaseViewController: UIViewController {
         }
 
         let todayButton = UIButton(type: .custom)
-        todayButton.setTitle("2017년 2월 22일", for: .normal)
-        todayButton.titleLabel?.font = UIFont.drSDMedium155Font()
+        todayButton.setTitle("오늘의 질문", for: .normal)
+        todayButton.titleLabel?.font = UIFont.drNM13Font()
         todayButton.setTitleColor(UIColor.drGR04, for: .normal)
         todayButton.setTitleColor(UIColor.drGR01, for: .selected)
         todayButton.addTarget(self, action: #selector(menuChanged(_:)), for: .touchUpInside)
@@ -68,11 +68,12 @@ class ContentBaseViewController: UIViewController {
         self.todayButton = todayButton
         todayButton.snp.makeConstraints { maker in
             maker.center.equalToSuperview()
+            maker.height.equalTo(40)
         }
 
         let timelineButton = UIButton(type: .custom)
-        timelineButton.setTitle("H", for: .normal)
-        timelineButton.titleLabel?.font = UIFont.drSDMedium155Font()
+        timelineButton.setTitle("전체보기", for: .normal)
+        timelineButton.titleLabel?.font = UIFont.drSDMedium16Font()
         timelineButton.setTitleColor(UIColor.drGR04, for: .normal)
         timelineButton.setTitleColor(UIColor.drGR02, for: .selected)
         timelineButton.addTarget(self, action: #selector(menuChanged(_:)), for: .touchUpInside)
@@ -81,7 +82,7 @@ class ContentBaseViewController: UIViewController {
         timelineButton.snp.makeConstraints { maker in
             maker.centerY.equalToSuperview()
             maker.trailing.equalToSuperview().offset(-10)
-            maker.size.equalTo(CGSize(width: 40, height: 40))
+            maker.size.equalTo(CGSize(width: 80, height: 40))
         }
 
         let contentBaseView = UIView(frame: .zero)
