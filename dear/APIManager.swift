@@ -70,7 +70,7 @@ class APIManager {
         var params = [String: Any]()
         params["userName"] = userName.trimmingCharacters(in: .whitespacesAndNewlines)
         params["phoneNumber"] = phoneNumber
-        params["birthDay"] = birthDay.timeIntervalSince1970
+        params["birthDay"] = Int64(birthDay.timeIntervalSince1970)
         params["password"] = password
 
         self.request(path: .createUser, params: params) { [unowned self] dictionary, error in
@@ -105,7 +105,9 @@ class APIManager {
 
     func login(phoneNumber: String, password: String, completion: @escaping (Bool, Error?) -> Void) {
 
-        self.request(path: .login) { dictionary, error in
+        let params = ["phoneNumber":phoneNumber, "password":password]
+
+        self.request(path: .login, params:params) { dictionary, error in
 
             if error != nil {
                 completion(false, error)
@@ -146,10 +148,10 @@ class APIManager {
             params["profileImageUrl"] = profileImageUrl
         }
         if pushDuration != -1 {
-            params["pushDuration"] = pushDuration
+            params["pushDuration"] = Int64(pushDuration)
         }
         if lastLoginAlarmDuration != -1 {
-            params["lastLoginAlarmDuration"] = lastLoginAlarmDuration
+            params["lastLoginAlarmDuration"] = Int64(lastLoginAlarmDuration)
         }
 
         if params.count == 0 {
@@ -250,7 +252,7 @@ class APIManager {
         params["answerPhoto"] = answerPhoto
         params["answerVideo"] = answerVideo
         params["receivers"] = receivers
-        params["lastUpdate"] = Date().timeIntervalSince1970
+        params["lastUpdate"] = Int64(Date().timeIntervalSince1970)
 
         self.request(path: .createAnswer, params:params, completion:completion)
     }
@@ -285,7 +287,7 @@ class APIManager {
     }
 
     func getSessionTokenForReadOnly(userID:String, birthDay:Date, completion: @escaping APICompletion) {
-        self.request(path: .getSessionTokenForReadOnly, params: ["userID":userID, "birthDay":birthDay.timeIntervalSince1970], completion: completion)
+        self.request(path: .getSessionTokenForReadOnly, params: ["userID":userID, "birthDay":Int64(birthDay.timeIntervalSince1970)], completion: completion)
     }
 
 
