@@ -17,10 +17,15 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
             }
         }
     }
-    private var filteredReceiver: Receiver?
+    private var filteredReceiver: Receiver? {
+        didSet {
+            self.filteringReceiverCancelButton.isHidden = self.filteredReceiver == nil
+        }
+    }
+    weak var receiverSelectionView: ReceiverSelectionView!
+    weak var filteringReceiverCancelButton: UIButton!
 
     weak var tableView: UITableView!
-    weak var receiverSelectionView: ReceiverSelectionView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +60,19 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         self.receiverSelectionView = receiverSelectionView
         self.receiverSelectionView.receivers = DataSource.instance.fetchAllReceivers()
+
+        let filteringReceiverCancelButton = UIButton(type: .roundedRect)
+        filteringReceiverCancelButton.setTitle("Reset", for: .normal)
+        filteringReceiverCancelButton.addTarget(self, action: #selector(resetFilteringReceiverButtonTapped(_:)), for: .touchUpInside)
+        filteringReceiverCancelButton.translatesAutoresizingMaskIntoConstraints = false
+        filteringReceiverCancelButton.isHidden = true
+        self.view.addSubview(filteringReceiverCancelButton)
+        self.filteringReceiverCancelButton = filteringReceiverCancelButton
+        self.filteringReceiverCancelButton.snp.makeConstraints { maker in
+            maker.size.equalTo(CGSize(width: 40, height: 30))
+            maker.centerY.equalTo(receiverSelectionView.snp.centerY)
+            maker.right.equalTo(receiverSelectionView.snp.right)
+        }
 
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.delegate = self
@@ -141,8 +159,8 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         self.launchWillItemDetailViewController(willItem: willItem)
     }
 
-
-
-
-
+    @objc private func resetFilteringReceiverButtonTapped(_ button:UIButton) {
+        self.receiverSelectionView.receivers = DataSource.instance.fetchAllReceivers()
+        self.willItemList = DataSource.instance.fetchAllWillItemList()
+    }
 }

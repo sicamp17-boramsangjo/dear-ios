@@ -49,5 +49,4 @@ class TextAnswerCell: UITableViewCell {
             maker.edges.equalTo(UIEdgeInsetsMake(4, 16, 4, 8))
         }
     }
-
 }
