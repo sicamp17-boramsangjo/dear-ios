@@ -11,7 +11,10 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
 
     private let apiManager: APIManager = APIManager()
     private var willItemList: Results<WillItem>?
+    private var filteredReceiver: Receiver?
+
     weak var tableView: UITableView!
+    weak var receiverSelectionView: ReceiverSelectionView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +27,30 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
     private func setupView() {
+
+        let receiverSelectionView = ReceiverSelectionView(config: .forFilter) {[unowned self] selectedReceiver in
+            self.filteredReceiver = selectedReceiver
+
+            if selectedReceiver != nil {
+                self.receiverSelectionView.receivers = DataSource.instance.searchReceiver(receiverID: selectedReceiver!.receiverID)
+            } else {
+                self.receiverSelectionView.receivers = DataSource.instance.fetchAllReceivers()
+            }
+
+            //TODO: Timeline filter 추가
+        }
+
+        receiverSelectionView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(receiverSelectionView)
+        receiverSelectionView.snp.makeConstraints { maker in
+            maker.leading.equalToSuperview()
+            maker.top.equalToSuperview()
+            maker.trailing.equalToSuperview()
+            maker.height.equalTo(60)
+        }
+        self.receiverSelectionView = receiverSelectionView
+        self.receiverSelectionView.receivers = DataSource.instance.fetchAllReceivers()
+
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.delegate = self
         tableView.dataSource = self
@@ -33,7 +60,10 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         self.view.addSubview(tableView)
         self.tableView = tableView
         self.tableView.snp.makeConstraints { maker in
-            maker.edges.equalToSuperview()
+            maker.leading.equalToSuperview()
+            maker.top.equalTo(receiverSelectionView.snp.bottom)
+            maker.trailing.equalToSuperview()
+            maker.bottom.equalToSuperview()
         }
         self.tableView.register(TimelineQuestionCell.self, forCellReuseIdentifier: TimelineQuestionCell.identifier())
         self.tableView.register((TimelineAnswerCell.self), forCellReuseIdentifier: TimelineAnswerCell.identifier())

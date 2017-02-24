@@ -136,8 +136,15 @@ class DataSource {
         return self.realm.objects(Answer.self).filter("answerID = '\(answerID)'").first
     }
 
+    func fetchAllReceivers() -> Results<Receiver>? {
+        return self.realm.objects(Receiver.self)
+    }
+
     func fetchReceiver(receiverID: String) -> Receiver? {
         return self.realm.objects(Receiver.self).filter("receiverID = '\(receiverID)'").first
     }
 
+    func searchReceiver(receiverID: String) -> Results<Receiver>? {
+        return self.realm.objects(Receiver.self).filter("receiverID = '\(receiverID)'")
+    }
 }
