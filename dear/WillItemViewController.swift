@@ -259,9 +259,13 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
 
         if answer.answerVideo != nil {
             //TODO: VideoViewer
+
+            let videoViewer = VideoViewer(videoPath: answer.answerVideo!)
+            self.present(videoViewer, animated: true)
+
         } else {
             let lastUpdate = Date(timeIntervalSince1970: answer.lastUpdate).timeAgoSinceDate()
-            let photo = Photo(image:cell.imageAnswerView.image, summary:question, credit: lastUpdate)
+            let photo = PhotoModel(image:cell.imageAnswerView.image, summary:question, credit: lastUpdate)
             let photosViewController = NYTPhotosViewController(photos: [photo])
 
             self.present(photosViewController, animated: true)

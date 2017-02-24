@@ -24,6 +24,7 @@ target 'dear' do
   pod 'SMDatePicker'
   pod 'LKAlertController'
   pod 'SwiftMessages'
+  pod "ASPVideoPlayer"
 
   target 'dearTests' do
     inherit! :search_paths

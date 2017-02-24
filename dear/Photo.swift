@@ -6,7 +6,7 @@
 import UIKit
 import NYTPhotoViewer
 
-class Photo: NSObject, NYTPhoto {
+class PhotoModel: NSObject, NYTPhoto {
 
     var image: UIImage?
     var imageData: Data?

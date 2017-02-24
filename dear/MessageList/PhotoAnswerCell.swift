@@ -12,6 +12,7 @@ import AVFoundation
 class PhotoAnswerCell: UITableViewCell {
 
     weak var imageAnswerView: UIImageView!
+    weak var videoButton: UIButton!
 
     weak var answer: Answer? {
         didSet {
@@ -22,6 +23,8 @@ class PhotoAnswerCell: UITableViewCell {
             if newAnswer.answerPhoto != nil {
                 self.imageAnswerView.sd_setImage(with: URL(string: newAnswer.answerPhoto!))
             }
+
+            self.videoButton.isHidden = newAnswer.answerVideo == nil
         }
     }
 
@@ -50,6 +53,16 @@ class PhotoAnswerCell: UITableViewCell {
             maker.size.equalTo(CGSize(width:240,height:240))
         }
 
+        let videoButton = UIButton(type:.custom)
+        videoButton.translatesAutoresizingMaskIntoConstraints = false
+        videoButton.backgroundColor = UIColor.red
+        videoButton.isUserInteractionEnabled = false
+        self.contentView.addSubview(videoButton)
+        self.videoButton = videoButton
+        videoButton.snp.makeConstraints { maker in
+            maker.size.equalTo(CGSize(width: 40, height: 40))
+            maker.center.equalTo(imageView.snp.center)
+        }
     }
 
 }

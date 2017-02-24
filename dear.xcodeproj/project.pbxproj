@@ -39,6 +39,7 @@
 		D86C99D4150DF5263EB278A4 /* FIleManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C92DE988FD7BC5C07C1B1 /* FIleManagerExtension.swift */; };
 		D86C9A7C0B21580A090EECBE /* UploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C92F213A4640C8715E693 /* UploadManager.swift */; };
 		D86C9A7F5A62DBD2B2DDF6D4 /* PhotoAnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9300D95365432A664E0E /* PhotoAnswerCell.swift */; };
+		D86C9ABA905A9A6C4772ABAE /* VideoViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C929C89B18C22FF94E7C9 /* VideoViewer.swift */; };
 		D86C9ABAAE36D512B38C74FC /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9FE730136671E3B0457B /* UIColorExtension.swift */; };
 		D86C9AE41B04F94050CFC9AD /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9046F26909F3F0CCDE81 /* APIManager.swift */; };
 		D86C9B10620D074D408E11BA /* CheckPhoneNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9868805AEF9C6D038A37 /* CheckPhoneNumberViewController.swift */; };
@@ -92,6 +93,7 @@
 		D86C90BA57EFAE921DFF9A54 /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		D86C91AF1F82A176A6A599FD /* ReadOnlyContnetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadOnlyContnetViewController.swift; sourceTree = "<group>"; };
 		D86C91E49229C094A24F3FC8 /* InputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
+		D86C929C89B18C22FF94E7C9 /* VideoViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoViewer.swift; sourceTree = "<group>"; };
 		D86C92DE988FD7BC5C07C1B1 /* FIleManagerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FIleManagerExtension.swift; sourceTree = "<group>"; };
 		D86C92F213A4640C8715E693 /* UploadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadManager.swift; sourceTree = "<group>"; };
 		D86C92F2DFAD778663F94D8C /* QuestionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionCell.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				D86C9B360B92996274DFAD3E /* ContentList */,
 				D86C9C0BCAECFEFAA42006BA /* ReadOnlyMode */,
 				D86C9F88E6464DE01C8EDE84 /* PhotoViewer */,
+				D86C9D07103D668E21879F3C /* VideoViewer */,
 			);
 			path = dear;
 			sourceTree = "<group>";
@@ -293,6 +296,14 @@
 				D86C96ACFEE3D1CEE5C1AD77 /* View */,
 			);
 			name = ReadOnlyMode;
+			sourceTree = "<group>";
+		};
+		D86C9D07103D668E21879F3C /* VideoViewer */ = {
+			isa = PBXGroup;
+			children = (
+				D86C929C89B18C22FF94E7C9 /* VideoViewer.swift */,
+			);
+			name = VideoViewer;
 			sourceTree = "<group>";
 		};
 		D86C9F88E6464DE01C8EDE84 /* PhotoViewer */ = {
@@ -571,6 +582,7 @@
 				D86C975CF7640EED8B13A69F /* ReadOnlyQuestionCell.swift in Sources */,
 				D86C955BF84F7A1712A4F904 /* ReadOnlyAnswerCell.swift in Sources */,
 				D86C941868EAD4216C270815 /* Photo.swift in Sources */,
+				D86C9ABA905A9A6C4772ABAE /* VideoViewer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
