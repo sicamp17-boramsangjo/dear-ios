@@ -54,6 +54,7 @@ class CheckPhoneNumberViewController: UIViewController {
         button1.titleLabel?.font = UIFont.drSDLight155Font()
         button1.setTitle("전화번호로 시작하기", for: .normal)
         button1.tintColor = UIColor.white
+        button1.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
         view.addSubview(button1)
     }
 
