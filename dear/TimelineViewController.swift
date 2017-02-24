@@ -10,7 +10,13 @@ import RealmSwift
 class TimelineViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     private let apiManager: APIManager = APIManager()
-    private var willItemList: Results<WillItem>?
+    private var willItemList: [WillItem]? {
+        didSet {
+            if willItemList != nil && self.tableView != nil {
+                self.tableView.reloadData()
+            }
+        }
+    }
     private var filteredReceiver: Receiver?
 
     weak var tableView: UITableView!
@@ -22,7 +28,6 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
 
         self.fetchWillItemList { [unowned self] results in
             self.willItemList = results
-            self.tableView.reloadData()
         }
     }
 
@@ -33,11 +38,11 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
 
             if selectedReceiver != nil {
                 self.receiverSelectionView.receivers = DataSource.instance.searchReceiver(receiverID: selectedReceiver!.receiverID)
+                self.willItemList = DataSource.instance.searchWIllItem(includeReceiverID: selectedReceiver!.receiverID)
             } else {
                 self.receiverSelectionView.receivers = DataSource.instance.fetchAllReceivers()
+                self.willItemList = DataSource.instance.fetchAllWillItemList()
             }
-
-            //TODO: Timeline filter 추가
         }
 
         receiverSelectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -69,7 +74,7 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         self.tableView.register((TimelineAnswerCell.self), forCellReuseIdentifier: TimelineAnswerCell.identifier())
     }
 
-    private func fetchWillItemList(completion:@escaping ((Results<WillItem>?) -> Void)) {
+    private func fetchWillItemList(completion:@escaping ([WillItem]) -> Void) {
         self.apiManager.getWillItemList { response, error in
 
             guard let willItemList = response?["results"] as? Array<Any> else {

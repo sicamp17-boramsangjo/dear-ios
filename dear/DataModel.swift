@@ -9,10 +9,6 @@
 import Foundation
 import RealmSwift
 
-//class RealmString: Object {
-//    dynamic var rawValue = ""
-//}
-
 class Receiver: Object {
     dynamic var receiverID = ""
     dynamic var name = ""
@@ -50,22 +46,7 @@ class Answer: Object {
     dynamic var mediaHeight: Int = 0
     dynamic var lastUpdate: Double = 0
 
-    private let SEPARATOR = "||"
-
-//    dynamic var combinedReceiverIDs: String? = nil
-//    var receivers: [String] {
-//        get {
-//            guard let perms = self.combinedReceiverIDs else { return [] }
-//            return perms.components(separatedBy: SEPARATOR)
-//        }
-//        set {
-//            combinedReceiverIDs = newValue.count > 0 ? newValue.joined(separator:SEPARATOR) : nil
-//        }
-//    }
-//
-//    override static func ignoredProperties() -> [String] {
-//        return ["receivers"]
-//    }
+    let willItem = LinkingObjects(fromType: WillItem.self, property: "answers")
 
     let receiverObjects = List<Receiver>()
     var receivers: [String] {

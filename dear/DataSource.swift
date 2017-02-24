@@ -124,8 +124,8 @@ class DataSource {
         return self.realm.objects(User.self).first
     }
 
-    func fetchAllWillItemList() -> Results<WillItem>? {
-        return self.realm.objects(WillItem.self)
+    func fetchAllWillItemList() -> [WillItem] {
+        return self.realm.objects(WillItem.self).toArray(WillItem)
     }
 
     func fetchWillItem(willItemId: String) -> WillItem? {
@@ -136,15 +136,47 @@ class DataSource {
         return self.realm.objects(Answer.self).filter("answerID = '\(answerID)'").first
     }
 
-    func fetchAllReceivers() -> Results<Receiver>? {
-        return self.realm.objects(Receiver.self)
+    func fetchAllAnswers() -> [Answer] {
+        return self.realm.objects(Answer.self).toArray(Answer)
+    }
+
+
+    func fetchAllReceivers() -> [Receiver] {
+        return self.realm.objects(Receiver.self).toArray(Receiver)
     }
 
     func fetchReceiver(receiverID: String) -> Receiver? {
         return self.realm.objects(Receiver.self).filter("receiverID = '\(receiverID)'").first
     }
 
-    func searchReceiver(receiverID: String) -> Results<Receiver>? {
-        return self.realm.objects(Receiver.self).filter("receiverID = '\(receiverID)'")
+    func searchReceiver(receiverID: String) -> [Receiver] {
+        return self.realm.objects(Receiver.self).filter("receiverID = '\(receiverID)'").toArray(Receiver)
+    }
+
+    func searchWIllItem(includeReceiverID:String) -> [WillItem] {
+
+        let answerList = self.realm.objects(Answer.self)
+
+        var result:[WillItem] = []
+        for answer in answerList {
+            var isFind = false
+            for receiver in answer.receiverObjects {
+                if receiver.receiverID == includeReceiverID {
+                    isFind = true
+                }
+            }
+
+            if isFind {
+                guard let willItem = answer.willItem.first else {
+                    continue
+                }
+                if result.contains(willItem) == false {
+                    result.append(willItem)
+                }
+
+            }
+        }
+
+        return result
     }
 }

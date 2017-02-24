@@ -56,7 +56,7 @@ class ReceiverSelectionView: UIView, UICollectionViewDelegate, UICollectionViewD
     weak var collectionView: UICollectionView!
     let didSelectReceiver:(Receiver?) -> (Void)
 
-    var receivers:Results<Receiver>? {
+    var receivers:[Receiver]? {
         didSet {
             if self.receivers != nil && self.collectionView != nil {
                 self.collectionView.reloadData()
@@ -90,6 +90,7 @@ class ReceiverSelectionView: UIView, UICollectionViewDelegate, UICollectionViewD
         collectionView.delegate = self
         collectionView.dataSource = self
         self.addSubview(collectionView)
+        self.collectionView = collectionView
         collectionView.snp.makeConstraints { maker in
             maker.edges.equalToSuperview()
         }
