@@ -40,7 +40,7 @@ extension UIView: Universal {
     
 }
 
-extension UIViewController {
+extension UIViewController: Universal {
     
     func keyboardWillShow(_ completion: @escaping (KeyboardObserver.keyboardRect) -> Void) {
         KeyboardObserver.shared.willShow {completion($0)}

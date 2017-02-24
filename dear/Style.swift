@@ -59,6 +59,14 @@ extension UIFont {
     class func drNM23Font() -> UIFont? {
         return UIFont(name: "NanumMyeongjoOTF", size: 23.12)
     }
+    
+    class func drNM17Font() -> UIFont? {
+        return UIFont(name: "NanumMyeongjoOTF", size: 17)
+    }
+    
+    class func drSDMedium12Font() -> UIFont? {
+        return UIFont(name: "AppleSDGothicNeo-Medium", size: 12)
+    }
 
     class func drSDMedium155Font() -> UIFont? {
         return UIFont(name: "AppleSDGothicNeo-Medium", size: 15.5)

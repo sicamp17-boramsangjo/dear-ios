@@ -57,17 +57,16 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
 
     private func setupView() {
         let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 120
+        tableView.backgroundColor = UIColor.white
         self.view.addSubview(tableView)
         tableView.snp.makeConstraints { maker in
             maker.edges.equalToSuperview()
         }
-
-        let tableHeaderView = ReadOnlyDeceasedProfileHeaderView(frame:.zero)
+        
+        tableView.separatorStyle = .none
+        let tableHeaderView = ReadOnlyDeceasedProfileHeaderView()
         tableView.tableHeaderView = tableHeaderView
 
         tableView.register(ReadOnlyQuestionCell.self, forCellReuseIdentifier: ReadOnlyQuestionCell.identifier())
@@ -94,47 +93,54 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
         }
     }
 
-
     private func getDeceasedInfo(completion: @escaping (User?, Error?) -> Void) {
         self.apiManager.getUserInfo {[unowned self] loginUser, error in
-
             guard loginUser != nil else {
                 completion(nil, error)
                 return
             }
-
             //WARN: !!! 내 유언이 아니기 때문에 Datastore에 save하지 말아야 한다 !!!!
             completion(User(value: loginUser!), nil)
         }
-
-    }
-
-    func numberOfSections(in tableView: UITableView) -> Int {
-        guard let count = self.willItemList?.count else { return 0 }
-        return count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let willItem = self.willItemList?[section] else { return 0 }
-        return willItem.answers.count + 1 // +1 == question
+        //guard let willItem = self.willItemList?[section] else { return 0 }
+        return 10//willItem.answers.count + 1 // +1 == question
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        /*
+         uni(height: [79]) +
+         "현실공간이 비현실적이거나 가상현실처럼 느껴진 적이 있나요? 그것은 어떤 경험이었나요?".boundingRect(with: CGSize.init(width: uni(width: [265]), height: CGFloat.greatestFiniteMagnitude),
+         options: [.usesLineFragmentOrigin, .usesFontLeading],
+         attributes: nil, context: nil).height
+         */
+        
+        /*
+         uni(height: [72]) +
+         "현실공간이 비현실적이거나 가상현실처럼 느껴진 적이 있나요? 그것은 어떤 경험이었나요?".boundingRect(with: CGSize.init(width: uni(width: [265]), height: CGFloat.greatestFiniteMagnitude),
+         options: [.usesLineFragmentOrigin, .usesFontLeading],
+         attributes: nil, context: nil).height
+         */
+
+        return uni(height: [72]) +
+            "비현실적인거 까지는 모르겠고, 버스타고 집에 가는데 문득 예전 일과 오버랩 되는 그런 날이 있는듯. 다 그럴까?".boundingRect(with: CGSize.init(width: uni(width: [265]), height: CGFloat.greatestFiniteMagnitude),
+                                                                         options: [.usesLineFragmentOrigin, .usesFontLeading],
+                                                                        attributes: nil, context: nil).height
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        if indexPath.row == 0 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ReadOnlyQuestionCell.identifier(), for: indexPath) as? ReadOnlyQuestionCell else { fatalError() }
-
-            //TODO: setup Question Cell
-
-            return cell
-        }
-
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ReadOnlyAnswerCell.identifier(), for: indexPath) as? ReadOnlyAnswerCell else { fatalError() }
-
-        //TODO: setup Answer Cell
-
+        /*
+        let cell = tableView.dequeueReusableCell(withIdentifier: ReadOnlyQuestionCell.identifier()) as! ReadOnlyQuestionCell
+        cell.label1.text = "현실공간이 비현실적이거나 가상현실처럼 느껴진 적이 있나요? 그것은 어떤 경험이었나요?"
+         */
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: ReadOnlyAnswerCell.identifier()) as! ReadOnlyAnswerCell
+        cell.label1.text = "비현실적인거 까지는 모르겠고, 버스타고 집에 가는데 문득 예전 일과 오버랩 되는 그런 날이 있는듯. 다 그럴까?"
+        cell.label2.text = "2016.02.10"
+        
         return cell
     }
-
 
 }
