@@ -10,6 +10,7 @@ import SDWebImage
 
 class WillItemViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NYTPhotosViewControllerDelegate {
 
+    weak var questionView: QuestionView!
     weak var tableView: UITableView!
     weak var textInputView: InputView!
     weak var inputViewBottomMargin: NSLayoutConstraint!
@@ -23,7 +24,14 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     var question:[String: Any]? {
         didSet {
-            self.tableView.reloadData()
+            if self.question != nil {
+
+                guard let question = self.question?["question"] as? String, let deliveredAt = self.question?["deliveredAt"] as? Double else {
+                    return
+                }
+                self.questionView.question = question
+                self.questionView.deliveredAt = deliveredAt
+            }
         }
     }
 
@@ -120,6 +128,16 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(closeButtonTapped(_:)))
         }
 
+        let questionView = QuestionView(frame: .zero)
+        questionView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(questionView)
+        self.questionView = questionView
+        questionView.snp.makeConstraints { maker in
+            maker.top.equalToSuperview()
+            maker.leading.equalToSuperview()
+            maker.trailing.equalToSuperview()
+         }
+
         let textInputView = InputView(frame: .zero)
         textInputView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(textInputView)
@@ -141,10 +159,9 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
         self.tableView.snp.makeConstraints { maker in
             maker.leading.equalToSuperview()
             maker.trailing.equalToSuperview()
-            maker.top.equalToSuperview()
+            maker.top.equalTo(questionView.snp.bottom)
         }
 
-        tableView.register(QuestionCell.self, forCellReuseIdentifier: QuestionCell.identifier())
         tableView.register(TextAnswerCell.self, forCellReuseIdentifier: TextAnswerCell.identifier())
         tableView.register(PhotoAnswerCell.self, forCellReuseIdentifier: PhotoAnswerCell.identifier())
 
@@ -193,7 +210,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
         self.dismiss(animated: true)
     }
 
-    // MARK: TableView
+    // MARK: TableViewDelegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
 
@@ -216,19 +233,6 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: QuestionCell.identifier(), for: indexPath) as? QuestionCell else {
-                fatalError()
-            }
-
-            if let currentWillItem = self.willItem {
-                cell.question = currentWillItem.question
-            } else {
-                cell.question = self.question?["text"] as? String
-                cell.deliveredAt = Date(timeIntervalSince1970: self.question?["deliveredAt"] as! TimeInterval)
-            }
-            return cell
-        }
 
         guard let answer = self.willItem?.answers[indexPath.row] else { fatalError() }
 
@@ -258,11 +262,8 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
         }
 
         if answer.answerVideo != nil {
-            //TODO: VideoViewer
-
             let videoViewer = VideoViewer(videoPath: answer.answerVideo!)
             self.present(videoViewer, animated: true)
-
         } else {
             let lastUpdate = Date(timeIntervalSince1970: answer.lastUpdate).timeAgoSinceDate()
             let photo = PhotoModel(image:cell.imageAnswerView.image, summary:question, credit: lastUpdate)

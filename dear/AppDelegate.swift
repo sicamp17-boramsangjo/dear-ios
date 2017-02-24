@@ -147,6 +147,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func setupApplication() {
+        UIApplication.shared.setStatusBarHidden(true, with: .none)
         Fabric.with([Digits.self, Crashlytics.self])
         NotificationManager.instance.requestAuthorization()
     }

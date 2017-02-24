@@ -21,6 +21,13 @@ extension Date {
         return "\(elements.year)-\(elements.month)-\(elements.day)"
     }
 
+
+    func format(format: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.string(from: self)
+    }
+
     func timeAgoSinceDate(numericDates: Bool = false) -> String {
         let calendar = NSCalendar.current
         let unitFlags: Set<Calendar.Component> = [.minute, .hour, .day, .weekOfYear, .month, .year, .second]
