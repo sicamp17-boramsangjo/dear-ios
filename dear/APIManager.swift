@@ -302,7 +302,7 @@ class APIManager {
         Alamofire.request(fullPath,
                         method:.post,
                         parameters:paramsWithDefaultParam,
-                        encoding: PropertyListEncoding.default,
+                        encoding: JSONEncoding.default,
                         headers: headers)
                 .validate(statusCode:200..<300)
                 .validate(contentType: ["application/json"])
