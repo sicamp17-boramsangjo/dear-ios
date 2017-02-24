@@ -20,4 +20,11 @@ extension String {
 
         return attrString
     }
+
+    func findHeight(havingWidth widthValue: CGFloat, andFont font: UIFont) -> CGSize {
+        var size = CGSize()
+        var frame = NSString(string: self).boundingRect(with: CGSize(width:widthValue, height:9999), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        size = CGSize(width: frame.size.width, height: frame.size.height + 1)
+        return size
+    }
 }

@@ -179,4 +179,8 @@ class DataSource {
 
         return result
     }
+
+    func numOfAnswers() -> Int {
+        return self.realm.objects(Answer.self).count
+    }
 }

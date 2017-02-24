@@ -6,7 +6,6 @@
 import UIKit
 import SnapKit
 
-
 enum QuestionViewStatus {
     case close
     case open
@@ -14,15 +13,15 @@ enum QuestionViewStatus {
     func questionStringAttribute(text:String) -> NSAttributedString? {
 
         var lineSpacing:CGFloat = 1.0
-        var font:UIFont? = UIFont.drNM23Font()
-        var color:UIColor? = UIColor.drBK
+        var font:UIFont? = UIFont.drNM20Font()
+        var color:UIColor? = UIColor.rgb256(102, 102, 102)
 
         if self == .close {
             lineSpacing = 7
-            font = UIFont.drNM13Font()
+            font = UIFont.drNM15Font()
         } else {
             lineSpacing = 10
-            font = UIFont.drNM23Font()
+            font = UIFont.drNM20Font()
         }
 
         return text.attrString(font: font, color: color, lineSpacing: lineSpacing, alignment: .center)
@@ -31,11 +30,21 @@ enum QuestionViewStatus {
     func topMargin() -> Int {
         switch self {
         case .close:
-            return 4
+            return 12
         case .open:
-            return 40
+            return 50
         }
     }
+
+    func bottomMargin() -> Int {
+        switch self {
+        case .close:
+            return -50
+        case .open:
+            return -62
+        }
+    }
+
 
     func isHiddenRemainTime() -> Bool {
         switch self {
@@ -54,6 +63,7 @@ class QuestionView: UIView {
     weak var toggleButton: UIButton!
 
     weak var topMargin: Constraint?
+    weak var bottomMargin: Constraint?
 
     var status: QuestionViewStatus = .open {
         didSet {
@@ -63,12 +73,13 @@ class QuestionView: UIView {
                 self.updateConstraints()
                 self.remainTimeLabel.isHidden = self.status.isHiddenRemainTime()
                 self.topMargin?.updateOffset(amount: self.status.topMargin())
+                self.bottomMargin?.updateOffset(amount: self.status.bottomMargin())
             }
 
         }
     }
 
-    var question: String? = "오늘의 질문을 불러오는 중입니다..." {
+    var question: String? = "..." {
         didSet {
             if self.question != nil {
                 self.questionLabel.attributedText = self.status.questionStringAttribute(text: self.question!)
@@ -94,7 +105,8 @@ class QuestionView: UIView {
     }
 
     private func setupView() {
-        self.backgroundColor = UIColor.white
+
+        self.applyCommonShadow()
 
         let questionLabel = UILabel(frame: .zero)
         questionLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -119,7 +131,7 @@ class QuestionView: UIView {
         let container = UIStackView(arrangedSubviews: [questionLabel, remainTimeLabel])
         container.translatesAutoresizingMaskIntoConstraints = false
         container.axis = .vertical
-        container.spacing = 20
+        container.spacing = 44
         self.addSubview(container)
 
         self.questionLabel = questionLabel
@@ -128,24 +140,20 @@ class QuestionView: UIView {
         container.snp.makeConstraints { maker in
             maker.centerX.equalToSuperview()
             maker.width.equalTo(UIScreen.main.bounds.width - 80)
-            self.topMargin = maker.topMargin.equalTo(40).constraint
-            maker.bottomMargin.equalTo(-20).priority(.high)
+            self.topMargin = maker.topMargin.equalTo(50).constraint
+            self.bottomMargin = maker.bottomMargin.equalTo(-62).priority(.high).constraint
          }
 
         let toggleButton = UIButton(type: .custom)
-        toggleButton.setTitle("CLOSE", for: .normal)
-        toggleButton.setTitle("OPEN", for: .selected)
-        toggleButton.titleLabel?.font = UIFont.drSDMedium155Font()
-        toggleButton.setTitleColor(UIColor.drBK, for: .normal)
-        toggleButton.setTitleColor(UIColor.drBK, for: .selected)
-        toggleButton.backgroundColor = UIColor.drGR04
+        toggleButton.setImage(UIImage(named: "arrowUp"), for: .normal)
+        toggleButton.setImage(UIImage(named: "arrowDown"), for: .selected)
         toggleButton.addTarget(self, action: #selector(toggleCell(_:)), for: .touchUpInside)
         self.addSubview(toggleButton)
         self.toggleButton = toggleButton
         toggleButton.snp.remakeConstraints { maker in
-            maker.size.equalTo(CGSize(width: 80, height: 30))
+            maker.size.equalTo(CGSize(width: 40, height: 40))
             maker.centerX.equalToSuperview()
-            maker.bottom.equalToSuperview().offset(15)
+            maker.bottomMargin.equalTo(-8)
          }
     }
 

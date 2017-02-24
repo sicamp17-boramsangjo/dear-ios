@@ -26,12 +26,14 @@ class PhotoAnswerCell: UITableViewCell {
 
                 self.imageAnswerView.snp.updateConstraints { maker in
 
-                    let maxHeight = (UIScreen.main.bounds.width - 60)
+                    let maxHeight = self.maxMediaLength()
                     let newHeight =  (maxHeight / CGFloat(newAnswer.mediaWidth)) * CGFloat(newAnswer.mediaHeight)
 
                     maker.size.equalTo(CGSize(width:maxHeight, height: (newHeight < maxHeight) ? newHeight : maxHeight))
                  }
             }
+
+            self.dateLabel.text = Date(timeIntervalSince1970: newAnswer.lastUpdate).timeAgoSinceDate(numericDates: true)
 
             self.videoButton.isHidden = newAnswer.answerVideo == nil
         }
@@ -59,8 +61,8 @@ class PhotoAnswerCell: UITableViewCell {
         self.imageAnswerView = imageView
         self.imageAnswerView.snp.makeConstraints { maker in
             maker.centerX.equalToSuperview()
-            maker.topMargin.equalTo(14)
-            maker.size.equalTo(CGSize(width:(UIScreen.main.bounds.width - 60),height:(UIScreen.main.bounds.width - 60) * 0.6))
+            maker.topMargin.equalTo(39)
+            maker.size.equalTo(CGSize(width:self.maxMediaLength() ,height:self.maxMediaLength()))
         }
 
         let videoButton = UIButton(type:.custom)
@@ -77,18 +79,32 @@ class PhotoAnswerCell: UITableViewCell {
         let dateLabel = UILabel(frame: .zero)
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.lineBreakMode = .byWordWrapping
-        dateLabel.textAlignment = .left
-        dateLabel.font = UIFont.drNMB13Font()
+        dateLabel.textAlignment = .center
+        dateLabel.font = UIFont.drSDRegular12Font()
         dateLabel.textColor = UIColor.drGR01
-        dateLabel.numberOfLines = 0
+        dateLabel.numberOfLines = 1
         self.contentView.addSubview(dateLabel)
         self.dateLabel = dateLabel
         dateLabel.snp.makeConstraints { maker in
             maker.left.equalTo(imageView.snp.left)
             maker.right.equalTo(imageView.snp.right)
-            maker.top.equalTo(imageView.snp.bottom).offset(9)
-            maker.bottomMargin.equalTo(14)
+            maker.top.equalTo(imageView.snp.bottom).offset(6)
+            maker.bottomMargin.equalTo(-25)
         }
+        let splitView = UIView(frame: .zero)
+        splitView.backgroundColor = UIColor.rgb256(229, 229, 229)
+        splitView.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(splitView)
+        splitView.snp.makeConstraints { maker in
+            maker.leadingMargin.equalTo(45)
+            maker.trailingMargin.equalTo(0)
+            maker.bottomMargin.equalTo(0)
+            maker.height.equalTo(1)
+        }
+    }
+
+    private func maxMediaLength() -> CGFloat {
+        return (UIScreen.main.bounds.width - 110)
     }
 
 }

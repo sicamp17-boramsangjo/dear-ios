@@ -27,6 +27,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
             if self.question != nil {
                 self.questionView.question = self.question?["text"] as? String
                 self.questionView.deliveredAt = self.question?["deliveredAt"] as? Double
+                self.textInputView.questionID = self.question?["questionId"] as? String
             }
         }
     }
@@ -75,13 +76,13 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
 
     private func fetchWillItem(willItemID: String, completion:@escaping ((WillItem?, Error?) -> Void)) {
 
-        self.apiManager.getWillItem(willItemId: willItemID) { response, error in
+        self.apiManager.getWillItem(willItemId: willItemID) { dictionary, error in
 
             guard error == nil else {
                 completion(nil, error)
                 return
             }
-            guard let willItemID = response?["willItemID"] as? String, let willItemRawInfo = response else {
+            guard let willItemID = dictionary?["willItemID"] as? String, let willItemRawInfo = dictionary else {
                 completion(nil, InternalError.unknown)
                 return
             }
@@ -120,12 +121,22 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
 
     private func setupView() {
 
+        self.view.backgroundColor =  UIColor.drGR00
         if self.navigationController != nil {
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(closeButtonTapped(_:)))
         }
 
         let textInputView = InputView(frame: .zero)
         textInputView.translatesAutoresizingMaskIntoConstraints = false
+        textInputView.reloadWillItem = { (willItemID:String) in
+            self.fetchWillItem(willItemID: willItemID) {[unowned self] item, error in
+                guard error == nil else {
+                    Alert.showError(error!)
+                    return
+                }
+                self.willItem = item
+            }
+        }
         self.view.addSubview(textInputView)
         self.textInputView = textInputView
         self.textInputView.snp.makeConstraints { maker in
@@ -135,7 +146,8 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
 
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.contentInset = UIEdgeInsetsMake(40, 0, 40, 0)
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 40, 0)
+        tableView.backgroundColor = UIColor.drGR00
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
@@ -163,7 +175,6 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
 
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[questionView][tableView][textInputView]", metrics: nil, views: ["questionView":questionView, "tableView": tableView, "textInputView": textInputView]))
         let inputViewBottomMargin = NSLayoutConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: textInputView, attribute: .bottom, multiplier: 1.0, constant: 0)
-        inputViewBottomMargin.identifier = "bottomMargin for keyboard"
         self.view.addConstraint(inputViewBottomMargin)
         self.inputViewBottomMargin = inputViewBottomMargin
     }

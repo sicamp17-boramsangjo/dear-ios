@@ -34,7 +34,7 @@ enum ReceiverSelectionConfig {
 
 class ReceiverNameCell: UICollectionViewCell {
 
-    static let font = UIFont.drSDULight155Font()
+    static let font = UIFont.drSDULight16Font()
     weak var nameLabel: UILabel!
 
     override init(frame:CGRect) {
