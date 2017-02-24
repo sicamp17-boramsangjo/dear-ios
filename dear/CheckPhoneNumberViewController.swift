@@ -28,20 +28,28 @@ class CheckPhoneNumberViewController: UIViewController {
     }
 
     private func setupView() {
-
         self.view.backgroundColor = UIColor.flatWhite
-
-        let signInButton = UIButton(type:.custom)
-        signInButton.setTitle("Sign in with Phone number", for: .normal)
-        signInButton.setTitleColor(UIColor.white, for: .normal)
-        signInButton.backgroundColor = UIColor.flatSkyBlue
-        signInButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
-        signInButton.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(signInButton)
-        signInButton.snp.makeConstraints { makes in
-            makes.centerX.equalToSuperview()
-            makes.bottom.equalTo(-60)
-        }
+        
+        let label1 = UILabel()
+        label1.uni(frame: [41, 116.5, 239.5, 226], pad: [])
+        label1.font = UIFont()
+        label1.textColor = UIColor(hexString: "8c96a5")
+        label1.text = "갑작스러운\n당신의 빈자리.\n\n남겨질\n소중한 사람들에게\n메세지를 남기세요"
+        view.addSubview(label1)
+        
+        let label2 = UILabel()
+        label2.uni(frame: [41.5, 401.5, 73.5, 35], pad: [])
+        label2.font = UIFont()
+        label2.textColor = UIColor(hexString: "f1520b")
+        label2.text = "디어."
+        view.addSubview(label2)
+        
+        let button1 = UIButton(type: .system)
+        button1.uni(frame: [37.5, 577, 300, 50], pad: [])
+        button1.backgroundColor = UIColor(hexString: "f1520b")
+        button1.titleLabel?.font = UIFont()
+        button1.setTitle("전화번호로 시작하기", for: .normal)
+        view.addSubview(button1)
     }
 
     @objc private func signInButtonTapped() {
