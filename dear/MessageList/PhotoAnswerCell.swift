@@ -23,6 +23,14 @@ class PhotoAnswerCell: UITableViewCell {
 
             if newAnswer.answerPhoto != nil {
                 self.imageAnswerView.sd_setImage(with: URL(string: newAnswer.answerPhoto!))
+
+                self.imageAnswerView.snp.updateConstraints { maker in
+
+                    let maxHeight = (UIScreen.main.bounds.width - 60)
+                    let newHeight =  (maxHeight / CGFloat(newAnswer.mediaWidth)) * CGFloat(newAnswer.mediaHeight)
+
+                    maker.size.equalTo(CGSize(width:maxHeight, height: (newHeight < maxHeight) ? newHeight : maxHeight))
+                 }
             }
 
             self.videoButton.isHidden = newAnswer.answerVideo == nil
@@ -44,13 +52,14 @@ class PhotoAnswerCell: UITableViewCell {
 
         let imageView = UIImageView(frame:.zero)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+
         self.contentView.addSubview(imageView)
         self.imageAnswerView = imageView
         self.imageAnswerView.snp.makeConstraints { maker in
-            maker.leading.equalToSuperview().offset(30)
-            maker.trailing.equalToSuperview().offset(30)
-            maker.top.equalToSuperview()
+            maker.centerX.equalToSuperview()
+            maker.topMargin.equalTo(14)
             maker.size.equalTo(CGSize(width:(UIScreen.main.bounds.width - 60),height:(UIScreen.main.bounds.width - 60) * 0.6))
         }
 
@@ -78,6 +87,7 @@ class PhotoAnswerCell: UITableViewCell {
             maker.left.equalTo(imageView.snp.left)
             maker.right.equalTo(imageView.snp.right)
             maker.top.equalTo(imageView.snp.bottom).offset(9)
+            maker.bottomMargin.equalTo(14)
         }
     }
 

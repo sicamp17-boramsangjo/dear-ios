@@ -36,7 +36,7 @@
 		D86C95A32DA32ADE97D3CD33 /* ReadyOnlyPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9ECB0EA8C9C18A9ABD59 /* ReadyOnlyPasswordViewController.swift */; };
 		D86C961B9BC70664A0A94367 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C91E49229C094A24F3FC8 /* InputView.swift */; };
 		D86C9651C6CB7AD0087AFB53 /* TimelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C90B101C46C694ABF9EEA /* TimelineViewController.swift */; };
-		D86C9689C85F2812C712E175 /* QuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C92F2DFAD778663F94D8C /* QuestionCell.swift */; };
+		D86C9689C85F2812C712E175 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C92F2DFAD778663F94D8C /* QuestionView.swift */; };
 		D86C975CF7640EED8B13A69F /* ReadOnlyQuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9044656089049F213FB3 /* ReadOnlyQuestionCell.swift */; };
 		D86C98D39DEE20C941557725 /* ReceiverSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C945730DCE7FBC4608B81 /* ReceiverSelectionView.swift */; };
 		D86C99A754807C1CFA108AB0 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C97090AFA8B5364BF61AD /* Style.swift */; };
@@ -52,6 +52,7 @@
 		D86C9E294B377B907F68447B /* UIWindowExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C90743BA33E536BEC6B74 /* UIWindowExtension.swift */; };
 		D86C9E556F78C7736113558F /* ReadOnlyDeceasedProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9A37A6AF3657F6FBB595 /* ReadOnlyDeceasedProfileCell.swift */; };
 		D86C9E6A8608C4EDE5F42A4D /* ResultExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C92A510D23ABE3D45109E /* ResultExtension.swift */; };
+		D86C9EC5BFB4329ABA218655 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C90A55F116E5A6FDFB7F4 /* StringExtension.swift */; };
 		D86C9ED2C2F5BFF1917EC6FF /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C90BA57EFAE921DFF9A54 /* IntroViewController.swift */; };
 		D86C9F83E51EB845F506139C /* TextAnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C97D01A83EC2F13D382AC /* TextAnswerCell.swift */; };
 		EAF5E92856FB232AFEEBC363 /* Pods_dearTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400A8C2F4EC5ADE895FA54C8 /* Pods_dearTests.framework */; };
@@ -98,6 +99,7 @@
 		D86C9044656089049F213FB3 /* ReadOnlyQuestionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadOnlyQuestionCell.swift; sourceTree = "<group>"; };
 		D86C9046F26909F3F0CCDE81 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		D86C90743BA33E536BEC6B74 /* UIWindowExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWindowExtension.swift; sourceTree = "<group>"; };
+		D86C90A55F116E5A6FDFB7F4 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		D86C90B101C46C694ABF9EEA /* TimelineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineViewController.swift; sourceTree = "<group>"; };
 		D86C90BA57EFAE921DFF9A54 /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		D86C91AF1F82A176A6A599FD /* ReadOnlyContnetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadOnlyContnetViewController.swift; sourceTree = "<group>"; };
@@ -106,7 +108,7 @@
 		D86C92A510D23ABE3D45109E /* ResultExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultExtension.swift; sourceTree = "<group>"; };
 		D86C92DE988FD7BC5C07C1B1 /* FIleManagerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FIleManagerExtension.swift; sourceTree = "<group>"; };
 		D86C92F213A4640C8715E693 /* UploadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadManager.swift; sourceTree = "<group>"; };
-		D86C92F2DFAD778663F94D8C /* QuestionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionCell.swift; sourceTree = "<group>"; };
+		D86C92F2DFAD778663F94D8C /* QuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		D86C9300D95365432A664E0E /* PhotoAnswerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoAnswerCell.swift; path = MessageList/PhotoAnswerCell.swift; sourceTree = "<group>"; };
 		D86C93110158751F24B21BE4 /* AnswerDateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerDateCell.swift; sourceTree = "<group>"; };
 		D86C9348163543568AD90FCE /* UITableViewCellExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewCellExtension.swift; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 				16848CEA1E5E7CF300EA15BE /* KeyboardObserver.swift */,
 				D86C92A510D23ABE3D45109E /* ResultExtension.swift */,
 				D86C97090AFA8B5364BF61AD /* Style.swift */,
+				D86C90A55F116E5A6FDFB7F4 /* StringExtension.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -285,7 +288,7 @@
 			isa = PBXGroup;
 			children = (
 				D86C9300D95365432A664E0E /* PhotoAnswerCell.swift */,
-				D86C92F2DFAD778663F94D8C /* QuestionCell.swift */,
+				D86C92F2DFAD778663F94D8C /* QuestionView.swift */,
 				D86C91E49229C094A24F3FC8 /* InputView.swift */,
 				D86C97D01A83EC2F13D382AC /* TextAnswerCell.swift */,
 				D86C9FF94240360B8E719A85 /* TimelineWillItemCell.swift */,
@@ -596,7 +599,7 @@
 				D86C9ABAAE36D512B38C74FC /* UIColorExtension.swift in Sources */,
 				D86C953118E2280259AE2653 /* UITableViewCellExtension.swift in Sources */,
 				D86C9A7F5A62DBD2B2DDF6D4 /* PhotoAnswerCell.swift in Sources */,
-				D86C9689C85F2812C712E175 /* QuestionCell.swift in Sources */,
+				D86C9689C85F2812C712E175 /* QuestionView.swift in Sources */,
 				D86C961B9BC70664A0A94367 /* InputView.swift in Sources */,
 				D86C9F83E51EB845F506139C /* TextAnswerCell.swift in Sources */,
 				D86C9E294B377B907F68447B /* UIWindowExtension.swift in Sources */,
@@ -615,6 +618,7 @@
 				D86C9E6A8608C4EDE5F42A4D /* ResultExtension.swift in Sources */,
 				D86C99A754807C1CFA108AB0 /* Style.swift in Sources */,
 				D86C9A109FEE17FD6C89FD3C /* AnswerDateCell.swift in Sources */,
+				D86C9EC5BFB4329ABA218655 /* StringExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

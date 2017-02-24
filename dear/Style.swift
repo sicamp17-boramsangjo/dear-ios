@@ -56,6 +56,10 @@ extension UIFont {
         return UIFont(name: "NanumMyeongjoOTF", size: 24.0)
     }
 
+    class func drNM13Font() -> UIFont? {
+        return UIFont(name: "NanumMyeongjoOTF", size: 13)
+    }
+
     class func drNM23Font() -> UIFont? {
         return UIFont(name: "NanumMyeongjoOTF", size: 23.12)
     }

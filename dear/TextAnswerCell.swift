@@ -48,9 +48,9 @@ class TextAnswerCell: UITableViewCell {
         self.contentView.addSubview(answerLabel)
         self.textAnswerLabel = answerLabel
         self.textAnswerLabel.snp.makeConstraints { maker in
-            maker.leading.equalTo(30)
-            maker.trailing.equalTo(30)
-            maker.top.equalTo(23)
+            maker.leadingMargin.equalTo(30)
+            maker.trailingMargin.equalTo(-30)
+            maker.topMargin.equalTo(14)
         }
 
         let dateLabel = UILabel(frame: .zero)
@@ -66,6 +66,7 @@ class TextAnswerCell: UITableViewCell {
             maker.left.equalTo(answerLabel.snp.left)
             maker.right.equalTo(answerLabel.snp.right)
             maker.top.equalTo(answerLabel.snp.bottom).offset(9)
+            maker.bottomMargin.equalTo(14)
         }
     }
 }

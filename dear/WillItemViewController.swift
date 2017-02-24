@@ -25,12 +25,8 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
     var question:[String: Any]? {
         didSet {
             if self.question != nil {
-
-                guard let question = self.question?["question"] as? String, let deliveredAt = self.question?["deliveredAt"] as? Double else {
-                    return
-                }
-                self.questionView.question = question
-                self.questionView.deliveredAt = deliveredAt
+                self.questionView.question = self.question?["text"] as? String
+                self.questionView.deliveredAt = self.question?["deliveredAt"] as? Double
             }
         }
     }
@@ -128,16 +124,6 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(closeButtonTapped(_:)))
         }
 
-        let questionView = QuestionView(frame: .zero)
-        questionView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(questionView)
-        self.questionView = questionView
-        questionView.snp.makeConstraints { maker in
-            maker.top.equalToSuperview()
-            maker.leading.equalToSuperview()
-            maker.trailing.equalToSuperview()
-         }
-
         let textInputView = InputView(frame: .zero)
         textInputView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(textInputView)
@@ -149,23 +135,33 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
 
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.contentInset = UIEdgeInsetsMake(40, 0, 40, 0)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .vertical)
         self.view.addSubview(tableView)
         self.tableView = tableView
         self.tableView.snp.makeConstraints { maker in
             maker.leading.equalToSuperview()
             maker.trailing.equalToSuperview()
-            maker.top.equalTo(questionView.snp.bottom)
+        }
+
+        let questionView = QuestionView(frame: .zero)
+        questionView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(questionView)
+        self.questionView = questionView
+        questionView.snp.makeConstraints { maker in
+            maker.leading.equalToSuperview()
+            maker.trailing.equalToSuperview()
         }
 
         tableView.register(TextAnswerCell.self, forCellReuseIdentifier: TextAnswerCell.identifier())
         tableView.register(PhotoAnswerCell.self, forCellReuseIdentifier: PhotoAnswerCell.identifier())
 
-        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[tableView][textInputView]", metrics: nil, views: ["tableView": tableView, "textInputView": textInputView]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[questionView][tableView][textInputView]", metrics: nil, views: ["questionView":questionView, "tableView": tableView, "textInputView": textInputView]))
         let inputViewBottomMargin = NSLayoutConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: textInputView, attribute: .bottom, multiplier: 1.0, constant: 0)
         inputViewBottomMargin.identifier = "bottomMargin for keyboard"
         self.view.addConstraint(inputViewBottomMargin)
@@ -212,14 +208,6 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
 
     // MARK: TableViewDelegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-
-            guard self.question != nil else {
-                return 0
-            }
-
-            return 1
-        }
 
         guard let willItem = self.willItem else {
             return 0
@@ -228,9 +216,6 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
         return willItem.answers.count
     }
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
