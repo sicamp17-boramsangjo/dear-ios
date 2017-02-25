@@ -63,7 +63,10 @@ class SignInViewController: UIViewController {
         button1.setTitleColor(UIColor.white, for: .normal)
         button1.addTarget(self, action: #selector(loginButtonTapped(_:)), for: .touchUpInside)
         view.addSubview(button1)
-        
+
+        textField1.font = UIFont.drSDThin28Font()
+        textField1.textAlignment = .center
+        textField1.isSecureTextEntry = true
         textField1.rx.text.orEmpty.subscribe({
             if let text = $0.element, text.characters.count > 3 {
                 self.button1.isEnabled = true
