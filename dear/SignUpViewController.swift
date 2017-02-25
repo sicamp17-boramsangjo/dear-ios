@@ -43,7 +43,7 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
         self.view.backgroundColor = UIColor.flatWhite
 
         let label1 = UILabel()
-        label1.uni(frame: [106.5, 136, 165, 70.5], pad: [])
+        label1.uni(frame: [0, 120, 375, 100], pad: [])
         label1.font = UIFont.drNM28Font()
         label1.textColor = UIColor(hexString: "8c96a5")
         label1.text = "나머지 정보를\n입력해주세요"
@@ -93,7 +93,7 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
         view.addSubview(view3)
         
         let label2 = UILabel()
-        label2.uni(frame: [76.5, 473.5, 222.5, 37], pad: [])
+        label2.uni(frame: [0, 473.5, 375, 50], pad: [])
         label2.font = UIFont.drSDULight16Font()
         label2.textColor = UIColor(hexString: "8c96a5")
         label2.text = "작성하신 내용은 심적효력만 있어요 :)\n법적효력은 없으니 주의해주세요!"
@@ -102,7 +102,7 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
         view.addSubview(label2)
         
         let label3 = UILabel()
-        label3.uni(frame: [69.5, 535, 236.5, 14], pad: [])
+        label3.uni(frame: [0, 525, 375, 50], pad: [])
         label3.font = UIFont.drSDULight16Font()
         label3.textColor = UIColor(hexString: "8c96a5")
         label3.text = "푸시 메세지를 받아보시는걸 권장드려요"

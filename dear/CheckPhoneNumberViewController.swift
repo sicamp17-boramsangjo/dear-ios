@@ -33,7 +33,7 @@ class CheckPhoneNumberViewController: UIViewController {
         navigationController?.isNavigationBarHidden = true
         
         let label1 = UILabel()
-        label1.uni(frame: [41, 116.5, 239.5, 226], pad: [])
+        label1.uni(frame: [41, 116.5, 250, 250], pad: [])
         label1.font = UIFont.drSDThin34Font()
         label1.textColor = UIColor(hexString: "8c96a5")
         label1.text = "갑작스러운\n당신의 빈자리.\n\n남겨질\n소중한 사람들에게\n메세지를 남기세요"
@@ -41,7 +41,7 @@ class CheckPhoneNumberViewController: UIViewController {
         view.addSubview(label1)
         
         let label2 = UILabel()
-        label2.uni(frame: [41.5, 401.5, 73.5, 35], pad: [])
+        label2.uni(frame: [41.5, 401.5, 100, 100], pad: [])
         label2.font = UIFont.drNM37Font()
         label2.textColor = UIColor(hexString: "f1520b")
         label2.text = "디어."

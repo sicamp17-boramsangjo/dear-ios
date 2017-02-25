@@ -7,7 +7,8 @@ import UIKit
 
 class ReadOnlyQuestionCell: UITableViewCell {
     
-    var label1 = UILabel()    
+    var label1 = UILabel()
+    var type = 0
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

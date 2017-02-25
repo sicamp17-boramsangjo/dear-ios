@@ -12,6 +12,8 @@ class ReadOnlyAnswerCell: UITableViewCell {
     var label2 = UILabel()
     var uiView1 = UIView()
     
+    var type = 0
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         initView()
@@ -47,9 +49,14 @@ class ReadOnlyAnswerCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        label1.frame.size.height = bounds.height
-        label2.frame.origin.y = label1.frame.maxX + uni(height: [6])
-        
+        if type == 0 {
+            label1.frame.size.height = bounds.height
+            label2.frame.origin.y = label1.frame.maxX + uni(height: [6])
+        } else if type == 1 {
+            label2.frame.origin.y = imageVIew1.frame.maxX + uni(height: [6])
+        } else {
+            //video
+        }
         uiView1.frame.origin.y = bounds.height - 0.5
     }
     
