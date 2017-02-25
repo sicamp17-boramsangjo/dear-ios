@@ -165,8 +165,10 @@ class ContentBaseViewController: UIViewController {
     @objc private func menuChanged(_ sender: UIButton) {
 
         self.childViewControllers.forEach { element in
-            element.view.removeFromSuperview()
-            element.removeFromParentViewController()
+            if !(element is SideMenuViewController) {
+                element.view.removeFromSuperview()
+                element.removeFromParentViewController()
+            }
         }
 
         if sender == self.todayButton {
