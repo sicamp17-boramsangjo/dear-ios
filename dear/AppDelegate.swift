@@ -94,7 +94,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         self.deviceToken = token
 
-        self.updateDeviceTokenIfAvailable()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.updateDeviceTokenIfAvailable()
+        }
     }
 
     func setupWindowWithLoginStatus() {

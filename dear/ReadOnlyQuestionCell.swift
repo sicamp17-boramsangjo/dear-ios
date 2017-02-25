@@ -9,6 +9,16 @@ class ReadOnlyQuestionCell: UITableViewCell {
     
     var label1 = UILabel()
     var type = 0
+
+    var willItem:WillItem? {
+        didSet {
+            guard let currentWillItem = willItem else {
+                return
+            }
+
+            label1.text = currentWillItem.text
+        }
+    }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

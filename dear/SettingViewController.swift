@@ -8,6 +8,7 @@
 
 import UIKit
 import MessageUI
+import DigitsKit
 
 class SettingViewController: UIViewController, MFMessageComposeViewControllerDelegate {
     
@@ -133,8 +134,13 @@ class SettingViewController: UIViewController, MFMessageComposeViewControllerDel
     @objc private func action(button: UIButton) {
         if button.tag == 5 {
             if MFMessageComposeViewController.canSendText() {
+
+                guard let user = DataSource.instance.fetchLoginUser() else {
+                    return
+                }
+
                 messageComposer = MFMessageComposeViewController()
-                messageComposer.body = "[dear.] 선영님이 당신을 위해 미리 준비해둔 메세지입니다. 꼭 기억하시다가, 때가 되었을때 확인해주세요"
+                messageComposer.body = "[dear.] \(user.userName)님이 당신을 위해 미리 준비해둔 메세지입니다. 꼭 기억하시다가, 때가 되었을때 확인해주세요 dear://readonly/\(user.readOnlyToken)"
                 messageComposer.messageComposeDelegate = self
                 modalTransitionStyle = .crossDissolve
                 present(messageComposer, animated: true, completion: nil)
@@ -143,6 +149,16 @@ class SettingViewController: UIViewController, MFMessageComposeViewControllerDel
         else if button.tag == 4 {
             receiverListViewController = ReceiverListViewController()
             self.navigationController?.pushViewController(receiverListViewController, animated: true)
+        }
+        else if button.tag == 7 {
+            DataSource.instance.cleanAllDB()
+            Digits.sharedInstance().logOut()
+
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                return
+            }
+
+            appDelegate.setupWindowWithLoginStatus()
         }
     }
     

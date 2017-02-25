@@ -237,6 +237,7 @@ class InputView: UIView, UITextViewDelegate {
     func handlerPostCompletion() {
         self.textView.text.removeAll()
         self.heightConstraint?.updateOffset(amount: 40)
+        self.textView.resignFirstResponder()
     }
 
     public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {

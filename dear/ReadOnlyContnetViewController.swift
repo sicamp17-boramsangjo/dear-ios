@@ -5,6 +5,7 @@
 
 import UIKit
 import SnapKit
+import SDWebImage
 
 class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ReadOnlyProfileHeaderDelegate {
     
@@ -12,12 +13,17 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
     let apiManager:APIManager = APIManager()
     var deceased:User? {
         didSet {
-            //TODO: setup tableHeaderView
+            guard let headerView = self.tableView.tableHeaderView as? ReadOnlyDeceasedProfileHeaderView else {
+                return
+            }
+
+            headerView.user = deceased
+            label1.text = deceased!.userName
         }
     }
     var willItemList:[WillItem]? {
         didSet {
-            //TODO: reload TableView
+            self.tableView.reloadData()
         }
     }
     
@@ -79,13 +85,13 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
         imageView1.uni(frame: [0, -261, 375, 331], pad: [])
         imageView1.image = #imageLiteral(resourceName: "nightBg")
         imageView1.isHidden = true
+        imageView1.contentMode = .scaleAspectFill
         view.addSubview(imageView1)
         
         label1.uni(frame: [0, 281, 375, 50], pad: [])
         label1.textAlignment = .center
         label1.font = UIFont.drNM19Font()
         label1.textColor = UIColor.white
-        label1.text = "dear. 엄마"
         label1.alpha = 0
         label1.isHidden = true
         imageView1.addSubview(label1)
@@ -123,13 +129,13 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        //guard let count = self.willItemList?.count else { return 0 }
-        return 1//count
+        guard let count = self.willItemList?.count else { return 0 }
+        return count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //guard let willItem = self.willItemList?[section] else { return 0 }
-        return 5//willItem.answers.count + 1 // +1 == question
+        guard let willItem = self.willItemList?[section] else { return 0 }
+        return willItem.answers.count + 1 // +1 == question
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -137,7 +143,7 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
             return uni(height: [152]) +
                 "string data".boundingRect(with: CGSize.init(width: uni(width: [265]), height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: nil, context: nil).height
         } else {
-            if let text = willItemList?[indexPath.section].answers[indexPath.row].answerText {
+            if let text = willItemList?[indexPath.section].answers[(indexPath.row - 1)].answerText {
                 return uni(height: [92]) +
                     text.boundingRect(with: CGSize.init(width: uni(width: [265]), height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: nil, context: nil).height
             } else {
@@ -147,23 +153,37 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        guard let willItem = self.willItemList?[indexPath.section] else {
+            fatalError()
+        }
+
         if indexPath.row == 0 {
+
             let questionCell = tableView.dequeueReusableCell(withIdentifier: ReadOnlyQuestionCell.identifier()) as! ReadOnlyQuestionCell
             
-            questionCell.label1.text = "호랑이는 죽어서 가죽을 남긴다는데, 당신은 죽어서 무엇을 남기고 싶나요?"
+            questionCell.label1.text = willItem.text
             
             return questionCell
         } else {
             let answerCell = tableView.dequeueReusableCell(withIdentifier: ReadOnlyAnswerCell.identifier()) as! ReadOnlyAnswerCell
-            
-            answerCell.label1.text = "비현실적인거 까지는 모르겠고, 버스타고 집에 가는데 문득 예전 일과 오버랩 되는 그런 날이 있는듯. 다 그럴까?"
-            answerCell.label2.text = "2016.02.10"
-            
-            if let _ = willItemList?[indexPath.section].answers[indexPath.row].answerText {
+
+            let answer = willItem.answers[(indexPath.row - 1)]
+
+            answerCell.label2.text = Date(timeIntervalSince1970: answer.modifiedAt).format(format: "yyyyMMMd")
+
+            if let answerText = answer.answerText {
+                answerCell.label1.text = answerText
+            }
+            if let answerPhoto = answer.answerPhoto {
+                answerCell.imageVIew1.sd_setImage(with:URL(string:answerPhoto))
+            }
+
+            if let _ = willItemList?[indexPath.section].answers[(indexPath.row - 1)].answerText {
                 answerCell.type = 0
-            } else if let _ = willItemList?[indexPath.section].answers[indexPath.row].answerPhoto {
+            } else if let _ = willItemList?[indexPath.section].answers[(indexPath.row - 1)].answerPhoto {
                 answerCell.type = 1
-            } else if let _ = willItemList?[indexPath.section].answers[indexPath.row].answerVideo {
+            } else if let _ = willItemList?[indexPath.section].answers[(indexPath.row - 1)].answerVideo {
                 answerCell.type = 2
             }
             

@@ -6,58 +6,31 @@
     "userName": "Kyungtaek",
     "receivers": [
       {
-        "receiverID":"RECEIVER_ID1",
-        "name":"차혁흔",
-        "phoneNumber":"phoneNumber1"
-      },
-      {
-        "receiverID":"RECEIVER_ID2",
-        "name":"김은혜",
-        "phoneNumber":"phoneNumber2"
-      },
-      {
-        "receiverID":"RECEIVER_ID3",
-        "name":"김지영",
-        "phoneNumber":"phoneNumber2"
-      },
-      {
-        "receiverID":"RECEIVER_ID4",
-        "name":"권수지",
-        "phoneNumber":"phoneNumber2"
-      },
-      {
-        "receiverID":"RECEIVER_ID5",
-        "name":"한승민",
-        "phoneNumber":"phoneNumber2"
-      },
-      {
-        "receiverID":"RECEIVER_ID6",
-        "name":"안선영",
-        "phoneNumber":"phoneNumber2"
-      },
-      {
-        "receiverID":"RECEIVER_ID7",
-        "name":"김경록",
-        "phoneNumber":"phoneNumber2"
+        "status": "normal",
+        "receiverID": "58b1e63abf825f790eede16b_0",
+        "phoneNumber": "010-8953-7871",
+        "name": "\uc784\uacbd\ud0dd",
+        "registeredTime": 1488054509
       }
     ],
     "pushDuration": 31536000,
-    "userID": "58b123babf825f2f8b8aa8a4",
+    "userID": "58b1e63abf825f790eede16b",
     "todaysQuestion": {
-      "questionID": "58b121e1bf825f2f8b8aa8a1",
-      "deliveredAt": 1488004026
+      "questionID": "58b1e4b1bf825f790eede165",
+      "deliveredAt": 1488053818
     },
-    "profileImageUrl": "http://indiweb08.cafe24.com:8888/images/a6b810a5-5fd2-4a1a-b439-652ac0c915b5_63ca1508-fb62-11e6-845e-00163e7e8a2f.jpg",
-    "birthDay": 856852006,
+    "profileImageUrl": "http://indiweb08.cafe24.com:8888/images/a0db30ec-618b-4425-8fb3-b3aaaaed66f5_e3c488fc-fb98-11e6-ab38-00163e7e8a2f.jpg",
+    "birthDay": 366495392,
     "phoneNumber": "+821089537871",
-    "lastLoginTime": 1488030794,
+    "lastLoginTime": 1488056674,
     "willitems": {
-      "58b121e1bf825f2f8b8aa8a1": {
-        "willitemID": "58b123c6bf825f2f8b8aa8a5",
-        "modifiedAt": 1488023999
+      "58b1e4b1bf825f790eede165": {
+        "willitemID": "58b1e7a1bf825f790eede16f",
+        "modifiedAt": 1488054845
       }
     },
     "password": "1234",
-    "deviceToken": "cf36caf3f1152f45af02a882c7d49904acc1c5c00b275bb4d523c37eda775833"
+    "readOnlyToken": "58b1e63abf825f790eede16c",
+    "deviceToken": ""
   }
 }

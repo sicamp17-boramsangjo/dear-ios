@@ -29,7 +29,7 @@ class User: Object {
     dynamic var pushDuration: Double = 60*60*24
     dynamic var lastLoginAlarmDuration: Double = 60*60*24*365
     dynamic var isDead: Bool = false
-    dynamic var readKey: String = ""
+    dynamic var readOnlyToken: String = ""
     let receivers = List<Receiver>()
 
     override class func primaryKey() -> String? {

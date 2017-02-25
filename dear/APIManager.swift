@@ -73,7 +73,7 @@ class APIManager {
         params["birthDay"] = Int64(birthDay.timeIntervalSince1970)
         params["password"] = password
 
-        self.request(path: .createUser, params: params) { [unowned self] dictionary, error in
+        self.request(path: .createUser, params: params, preventSessionToken: true ) { [unowned self] dictionary, error in
 
             if error != nil {
                 completion(nil, error)
@@ -107,7 +107,7 @@ class APIManager {
 
         let params = ["phoneNumber":phoneNumber, "password":password]
 
-        self.request(path: .login, params:params) { dictionary, error in
+        self.request(path: .login, params:params, preventSessionToken:true) { dictionary, error in
 
             if error != nil {
                 completion(false, error)
@@ -186,7 +186,7 @@ class APIManager {
 
     func checkAlreadyJoin(phoneNumber: String, completion: @escaping APIBoolCompletion) {
 
-        self.request(path: .checkAlreadyJoin, params:["phoneNumber":phoneNumber]) { dictionary, error in
+        self.request(path: .checkAlreadyJoin, params:["phoneNumber":phoneNumber], preventSessionToken: true) { dictionary, error in
 
             if error != nil {
                 completion(false, error)

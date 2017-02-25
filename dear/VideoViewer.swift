@@ -26,6 +26,17 @@ class VideoViewer: UIViewController {
         self.setupView()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.shared.setStatusBarHidden(true, with: .none)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        UIApplication.shared.setStatusBarHidden(false, with: .none)
+    }
+
+
     private func setupView() {
         self.view.backgroundColor = UIColor.black
 

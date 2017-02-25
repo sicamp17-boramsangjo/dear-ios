@@ -218,10 +218,13 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
 
         let receiverSelectionView = ReceiverSelectionView(config: .forRecommand) {[unowned self] receiver in
             if receiver != nil {
-                self.textInputView.textView.text = "\(self.textInputView.textView.text) \(receiver!.name)"
+                let receiverName:String = String(receiver!.name)
+                self.textInputView.textView.text = "\(self.textInputView.textView.text as! String)\(receiverName)"
+
+                self.textInputView.receivers.append(receiver!)
             }
-                self.receiverSelectionView.isHidden = true
-         }
+            self.receiverSelectionView.isHidden = true
+        }
         receiverSelectionView.receivers = DataSource.instance.fetchAllReceivers()
         receiverSelectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(receiverSelectionView)
@@ -307,17 +310,13 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
             if self.questionView.status == .open {
                 self.questionView.status = .close
             }
-
-            if self.textInputView.textView.isFirstResponder {
-                self.textInputView.textView.resignFirstResponder()
-            }
         }
 
         guard let cell = tableView.cellForRow(at: indexPath) as? PhotoAnswerCell else {
             return
         }
 
-        guard let answer = self.willItem?.answers[indexPath.row], let question = self.question?["text"] as? String, let imagePath = answer.answerPhoto else {
+        guard let answer = self.willItem?.answers[indexPath.row], let imagePath = answer.answerPhoto else {
             return
         }
 
@@ -326,7 +325,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
             self.present(videoViewer, animated: true)
         } else {
             let lastUpdate = Date(timeIntervalSince1970: answer.modifiedAt).timeAgoSinceDate()
-            let photo = PhotoModel(image:cell.imageAnswerView.image, summary:question, credit: lastUpdate)
+            let photo = PhotoModel(image:cell.imageAnswerView.image)
             let photosViewController = NYTPhotosViewController(photos: [photo])
 
             self.present(photosViewController, animated: true)

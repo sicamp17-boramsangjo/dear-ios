@@ -15,7 +15,7 @@ class PhotoModel: NSObject, NYTPhoto {
     let attributedCaptionSummary: NSAttributedString?
     let attributedCaptionCredit: NSAttributedString?
 
-    init(image:UIImage?, summary:String, credit:String) {
+    init(image:UIImage?) {
         self.image = image
         self.imageData = nil
         self.attributedCaptionTitle = nil

@@ -10,11 +10,10 @@ import RxSwift
 
 class ReadyOnlyPasswordViewController: UIViewController {
     
-    var imageView1 = UIImageView()
+    var label1 = UILabel()
     var textField1 = UITextField()
     var view1 = UIView()
-    var label1 = UILabel()
-    var imageView2 = UIImageView()
+    var button1 = UIButton()
     
     var disposeBag: DisposeBag! = DisposeBag()
 
@@ -39,44 +38,54 @@ class ReadyOnlyPasswordViewController: UIViewController {
     }
 
     private func setupView() {
-        view.backgroundColor = UIColor(hexString: "f4f4f4")
+        view.backgroundColor = UIColor.white
         
-        imageView1.uni(frame: [138.5, 118.5, 98, 60], pad: [])
-        imageView1.image = #imageLiteral(resourceName: "dearCalli")
-        view.addSubview(imageView1)
+        label1.uni(frame: [0, 216, 375, 30], pad: [])
+        label1.textColor = UIColor(hexString: "555555")
+        label1.textAlignment = .center
+        label1.font = UIFont.drNM28Font()
+        label1.text = "생년월일을 입력해주세요"
+        view.addSubview(label1)
         
-        textField1.uni(frame: [50, 217, 270, 30], pad: [])
+        textField1.uni(frame: [50, 273, 270, 30], pad: [])
         textField1.textAlignment = .center
         textField1.font = UIFont.drSDThin28Font()
         textField1.textColor = UIColor(hexString: "8c96a5")
         textField1.keyboardType = .numberPad
+        textField1.clearButtonMode = .always
         view.addSubview(textField1)
         
-        view1.uni(frame: [50, 248, 270, 1], pad: [])
-        view1.backgroundColor = UIColor(hexString: "aaaaaa")
+        view1.uni(frame: [50, 304, 270, 0.5], pad: [])
+        view1.backgroundColor = UIColor(hexString: "8c96a5")
         view.addSubview(view1)
         
-        label1.uni(frame: [0, 262, 375, 25], pad: [])
-        label1.textColor = UIColor(hexString: "555555")
-        label1.textAlignment = .center
-        label1.font = UIFont.drSDLight16Font()
-        label1.text = "생일 4자리를 입력해주세요"
-        view.addSubview(label1)
+        button1.uni(frame: [37.5, 585, 300, 50], pad: [])
+        button1.backgroundColor = UIColor(hexString: "f1520b")
+        button1.setTitle("로그인", for: .normal)
+        button1.titleLabel!.font = UIFont.drSDLight16Font()
+        button1.setTitleColor(UIColor.white, for: .normal)
+        button1.addTarget(self, action: #selector(doneButtonTapped(_:)), for: .touchUpInside)
+        view.addSubview(button1)
         
-        imageView2.uni(frame: [0, 363, 375, 304], pad: [])
-        imageView2.image = #imageLiteral(resourceName: "envelope")
-        view.addSubview(imageView2)
-
         textField1.rx.text.orEmpty.subscribe({
-            if let text = $0.element {
-                if text.characters.count > 3 {
-                   self.getTokenForReadOnly()
-                }
+            if let text = $0.element, text.characters.count > 3 {
+                self.button1.isEnabled = true
+                self.button1.alpha = 1
                 if text.characters.count > 4 {
                     self.textField1.text = text.substring(to: text.characters.index(text.startIndex, offsetBy: 4))
                 }
+            } else {
+                self.button1.isEnabled = false
+                self.button1.alpha = 0.3
             }
         }).addDisposableTo(disposeBag)
+        
+        keyboardWillShow {
+            self.button1.frame.origin.y = self.view.bounds.height - $0.height - self.uni(height: [60])
+        }
+        keyboardWillHide { _ in
+            self.button1.frame.origin.y = self.uni(height: [585])
+        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -91,16 +100,16 @@ class ReadyOnlyPasswordViewController: UIViewController {
         }
     }
 
-
-    private func getTokenForReadOnly() {
-        self.apiManager.getSessionTokenForReadOnly(readOnlyToken: self.userID, birthDayString:textField1.text!) { [unowned self] dictionary, error in
-
+    @objc private func doneButtonTapped(_ button: UIButton) {
+        guard let birthdayString = textField1.text else {
+            return
+        }
+        self.apiManager.getSessionTokenForReadOnly(readOnlyToken: self.userID, birthDayString:birthdayString) { [unowned self] dictionary, error in
             guard error == nil, let sessionToken = dictionary?["sessionToken"] as? String else {
-                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                self.textField1.text = ""
                 Alert.showError(error ?? InternalError.unknown)
                 return
             }
+
             self.launchReadOnlyContentViewController(sessionToken: sessionToken)
         }
     }

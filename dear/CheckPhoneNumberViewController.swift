@@ -64,8 +64,8 @@ class CheckPhoneNumberViewController: UIViewController {
             return
         }
         let appearlance = DGTAppearance()
-        appearlance.backgroundColor = UIColor.flatWhite
-        appearlance.accentColor = UIColor.flatSkyBlue
+        appearlance.backgroundColor = UIColor.drGR00
+        appearlance.accentColor = UIColor.drOR
         configuration.appearance = appearlance
         configuration.phoneNumber = "+82"
 
