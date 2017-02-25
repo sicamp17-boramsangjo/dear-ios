@@ -152,7 +152,7 @@ class ContentBaseViewController: UIViewController {
                 self.menuCoverView.alpha = 0
                 self.sideMenuView.view.frame.origin.x = -300
             }, completion: { finish in
-                self.menuCoverView.isHidden = false
+                self.menuCoverView.isHidden = true
             })
         } else {
             menuCoverView.isHidden = false
