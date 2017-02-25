@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SDWebImage
+import DKImagePickerController
 
 class SideMenuViewController: UIViewController {
     
@@ -18,6 +20,24 @@ class SideMenuViewController: UIViewController {
     var button1 = UIButton(type: .system)
     var button2 = UIButton(type: .system)
     var button3 = UIButton(type: .system)
+    let apiManager = APIManager()
+
+    var user:User? {
+        didSet {
+
+            guard self.user != nil, let userName = self.user?.userName else {
+                return
+            }
+
+            if let profileImageUrl = self.user?.profileImageUrl {
+                self.imageView1.sd_setImage(with:URL(string:profileImageUrl))
+            }
+
+            self.label1.text = userName
+            self.label2.text = nil
+            self.label3.text = "\(DataSource.instance.numOfAnswers())개 답변 작성"
+        }
+    }
     
     var isOpen = false
     
@@ -25,7 +45,13 @@ class SideMenuViewController: UIViewController {
         super.viewDidLoad()
         initView()
     }
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.user = DataSource.instance.fetchLoginUser()
+    }
+
+
     private func initView() {
         view.uni(frame: [-300, 0, 300, 667], pad: [])
         view.backgroundColor = UIColor.white
@@ -34,9 +60,13 @@ class SideMenuViewController: UIViewController {
         imageView1.backgroundColor = UIColor(hexString: "bec3c8")
         imageView1.layer.cornerRadius = imageView1.bounds.width / 2
         imageView1.layer.masksToBounds = true
+        imageView1.isUserInteractionEnabled = true
         view.addSubview(imageView1)
+
+        let tapGesture = UITapGestureRecognizer(target:self, action:#selector(profileImageTapped(_:)))
+        imageView1.addGestureRecognizer(tapGesture)
         
-        label1.uni(frame: [0, 180, 300, 20], pad: [])
+        label1.uni(frame: [0, 180, 300, 25], pad: [])
         label1.textAlignment = .center
         label1.font = UIFont.drNM20Font()
         label1.text = "선영"
@@ -91,5 +121,61 @@ class SideMenuViewController: UIViewController {
     @objc private func action(button3: UIButton) {
         
     }
-    
+
+    @objc private func profileImageTapped(_ gesture: UITapGestureRecognizer) {
+        if gesture.state != .ended {
+            return
+        }
+
+        self.launchImagePickerController()
+    }
+
+    private func launchImagePickerController() {
+        let pickerController = DKImagePickerController()
+        pickerController.singleSelect = true
+        pickerController.assetType = .allPhotos
+        pickerController.didSelectAssets = { (assets: [DKAsset]) in
+            guard let selectedAsset = assets.first else {
+                return
+            }
+
+            selectedAsset.fetchFullScreenImage(false) {[unowned self] (image:UIImage?, info:[AnyHashable:Any]?) in
+
+                guard let resultImage = image else {
+                    return
+                }
+
+                let imageData = UIImageJPEGRepresentation(resultImage, 0.8)
+                let savedImageFilePath = "\(FileManager.uploadCachePath())/\(FileManager.uniqueFileName(fileExtension: "jpg"))"
+                try! imageData?.write(to: URL(fileURLWithPath: savedImageFilePath))
+
+                UploadManager.instance.uploadNewProfileImage(imagePath: savedImageFilePath) { url, _ in
+                    if url == nil {
+                        return
+                    }
+                    self.updateUserProfile()
+                }
+            }
+        }
+
+        DispatchQueue.main.async {
+            UIWindow.visibleViewController()?.present(pickerController, animated: true)
+        }
+    }
+
+    private func updateUserProfile() {
+        self.apiManager.getUserInfo {[unowned self] dictionary, error in
+
+            guard let loginUserValue = dictionary else {
+                return
+            }
+
+            DataSource.instance.storeLoginUser(loginUserValue: loginUserValue)
+
+            DispatchQueue.main.async { [unowned self] in
+                self.user = DataSource.instance.fetchLoginUser()
+            }
+        }
+    }
+
 }
