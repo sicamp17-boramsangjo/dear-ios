@@ -49,9 +49,7 @@ class ContentBaseViewController: UIViewController {
         }
 
         let sideMenuButton = UIButton(type: .custom)
-        sideMenuButton.setTitle("M", for: .normal)
-        sideMenuButton.titleLabel?.font = UIFont.drSDMedium16Font()
-        sideMenuButton.setTitleColor(UIColor.drGR02, for: .normal)
+        sideMenuButton.setImage(UIImage(named: "burger"), for: .normal)
         sideMenuButton.addTarget(self, action: #selector(sideMenuButtonTapped(_:)), for: .touchUpInside)
         menuBar.addSubview(sideMenuButton)
         self.sideMenuButton = sideMenuButton

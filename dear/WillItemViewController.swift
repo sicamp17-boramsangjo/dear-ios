@@ -10,6 +10,7 @@ import SDWebImage
 
 class WillItemViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NYTPhotosViewControllerDelegate {
 
+    weak var closeButton: UIButton!
     weak var questionView: QuestionView!
     weak var tableView: UITableView!
     weak var textInputView: InputView!
@@ -19,7 +20,17 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
     var willItemID: String?
     var willItem: WillItem? {
         didSet {
-            self.tableView.reloadData()
+
+            defer {
+                self.tableView.reloadData()
+            }
+
+            guard let question = self.willItem?.text, let questionID = self.willItem?.questionID else {
+                return
+            }
+
+            self.questionView.question = question
+            self.textInputView.questionID = questionID
         }
     }
     var question:[String: Any]? {
@@ -31,6 +42,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
             }
         }
     }
+    var showCloseButton:Bool = false
 
     init(willItemID: String?) {
         super.init(nibName: nil, bundle: nil)
@@ -108,7 +120,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
                 return
             }
 
-            if willItemRaw != nil, let willItemID = willItemRaw?["willItemID"] as? String {
+            if willItemRaw != nil, let willItemID = willItemRaw?["willitemID"] as? String {
                 DataSource.instance.storeWIllItem(willItemRawInfo: willItemRaw!)
                 let willItem = DataSource.instance.fetchWillItem(willItemId: willItemID)
                 completion(questionRaw, willItem, nil)
@@ -121,10 +133,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
 
     private func setupView() {
 
-        self.view.backgroundColor =  UIColor.drGR00
-        if self.navigationController != nil {
-            self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(closeButtonTapped(_:)))
-        }
+        self.view.backgroundColor =  UIColor.white
 
         let textInputView = InputView(frame: .zero)
         textInputView.translatesAutoresizingMaskIntoConstraints = false
@@ -173,10 +182,25 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.register(TextAnswerCell.self, forCellReuseIdentifier: TextAnswerCell.identifier())
         tableView.register(PhotoAnswerCell.self, forCellReuseIdentifier: PhotoAnswerCell.identifier())
 
-        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[questionView][tableView][textInputView]", metrics: nil, views: ["questionView":questionView, "tableView": tableView, "textInputView": textInputView]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(space)-[questionView][tableView][textInputView]",
+                metrics: ["space": (self.showCloseButton == true ? 40 : 0)],
+                views: ["questionView":questionView, "tableView": tableView, "textInputView": textInputView]))
         let inputViewBottomMargin = NSLayoutConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: textInputView, attribute: .bottom, multiplier: 1.0, constant: 0)
         self.view.addConstraint(inputViewBottomMargin)
         self.inputViewBottomMargin = inputViewBottomMargin
+
+        let closeButton = UIButton(type: .custom)
+        closeButton.setImage(UIImage(named: "closeButton"), for: .normal)
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.addTarget(self, action: #selector(closeButtonTapped(_:)), for: .touchUpInside)
+        self.view.addSubview(closeButton)
+        self.closeButton = closeButton
+        self.closeButton.snp.makeConstraints { maker in
+            maker.leadingMargin.equalTo(7)
+            maker.topMargin.equalTo(20)
+            maker.size.equalTo(CGSize(width: 40, height: 40))
+        }
+        self.closeButton.isHidden = !self.showCloseButton
     }
 
     private func registerNotifications() {
@@ -213,7 +237,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
         }, completion: nil)
     }
 
-    @objc private func closeButtonTapped(_ button: UIBarButtonItem) {
+    @objc private func closeButtonTapped(_ button: UIButton) {
         self.dismiss(animated: true)
     }
 

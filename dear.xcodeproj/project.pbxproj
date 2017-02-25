@@ -14,8 +14,6 @@
 		B32F0F871E4E0BD300562F86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B32F0F851E4E0BD300562F86 /* LaunchScreen.storyboard */; };
 		B32F0F921E4E0BD300562F86 /* dearTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32F0F911E4E0BD300562F86 /* dearTests.swift */; };
 		B3377F1E1E520281001ABFE9 /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3377F1D1E520281001ABFE9 /* SideMenuViewController.swift */; };
-		B3377F201E520748001ABFE9 /* SideMenuProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3377F1F1E520748001ABFE9 /* SideMenuProfileCell.swift */; };
-		B3377F221E52D3BB001ABFE9 /* SIdeMenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3377F211E52D3BB001ABFE9 /* SIdeMenuItemCell.swift */; };
 		B37353D21E51B800008B22D7 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37353D11E51B800008B22D7 /* DateExtension.swift */; };
 		B387CF611E6031EC001D881E /* NanumMyeongjo.otf in Resources */ = {isa = PBXBuildFile; fileRef = B387CF601E6031EC001D881E /* NanumMyeongjo.otf */; };
 		B387CF641E60326F001D881E /* NanumMyeongjoBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B387CF621E60326F001D881E /* NanumMyeongjoBold.otf */; };
@@ -86,8 +84,6 @@
 		B32F0F911E4E0BD300562F86 /* dearTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dearTests.swift; sourceTree = "<group>"; };
 		B32F0F931E4E0BD300562F86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3377F1D1E520281001ABFE9 /* SideMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
-		B3377F1F1E520748001ABFE9 /* SideMenuProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuProfileCell.swift; sourceTree = "<group>"; };
-		B3377F211E52D3BB001ABFE9 /* SIdeMenuItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SIdeMenuItemCell.swift; sourceTree = "<group>"; };
 		B37353D11E51B800008B22D7 /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateExtension.swift; path = ../DateExtension.swift; sourceTree = "<group>"; };
 		B387CF601E6031EC001D881E /* NanumMyeongjo.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjo.otf; sourceTree = "<group>"; };
 		B387CF621E60326F001D881E /* NanumMyeongjoBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjoBold.otf; sourceTree = "<group>"; };
@@ -230,8 +226,6 @@
 			isa = PBXGroup;
 			children = (
 				B3377F1D1E520281001ABFE9 /* SideMenuViewController.swift */,
-				B3377F1F1E520748001ABFE9 /* SideMenuProfileCell.swift */,
-				B3377F211E52D3BB001ABFE9 /* SIdeMenuItemCell.swift */,
 			);
 			name = SideMenu;
 			sourceTree = "<group>";
@@ -583,9 +577,7 @@
 			files = (
 				B32F0F7D1E4E0BD300562F86 /* AppDelegate.swift in Sources */,
 				B37353D21E51B800008B22D7 /* DateExtension.swift in Sources */,
-				B3377F221E52D3BB001ABFE9 /* SIdeMenuItemCell.swift in Sources */,
 				B3D9D7B71E59F6FB00699DCD /* AlertHelper.swift in Sources */,
-				B3377F201E520748001ABFE9 /* SideMenuProfileCell.swift in Sources */,
 				B3377F1E1E520281001ABFE9 /* SideMenuViewController.swift in Sources */,
 				B3E065341E536D40009B67A7 /* DataModel.swift in Sources */,
 				B3E065361E537246009B67A7 /* DataSource.swift in Sources */,

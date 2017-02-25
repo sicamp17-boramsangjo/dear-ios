@@ -1,41 +1,70 @@
 {
   "status": 200,
   "msg": "OK",
-  "results":[{
-    "willItemID":"WILL_ITEM_ID2",
-    "questionID":"QUESTION_ID2",
-    "question":"질문2",
-    "answers":[
-      {
-        "answerID":"ANSWER_ID4",
-        "answerText":"엔써텍스트",
-        "lastUpdate":498841200,
-        "receivers":[
-          "RECEIVER_ID1"
-        ]
-      },
-      {
-        "answerID":"ANSWER_ID5",
-        "answerPhoto":"https://avatars2.githubusercontent.com/u/1677561?v=3&u=a07928a44ab238497c194f525538af5711e52847",
-        "mediaWidth":320,
-        "mediaHeight":240,
-        "lastUpdate":498841200,
-        "receivers":[
-          "RECEIVER_ID2"
-        ]
-      },
-      {
-        "answerID":"ANSWER_ID6",
-        "answerPhoto":"https://avatars2.githubusercontent.com/u/1677561?v=3&u=a07928a44ab238497c194f525538af5711e52847",
-        "answerVideo":"http://techslides.com/demos/sample-videos/small.mp4",
-        "mediaWidth":320,
-        "mediaHeight":240,
-        "lastUpdate":498841200,
-        "receivers":[
-          "RECEIVER_ID2"
-        ]
-      }
-    ],
-    "lastUpdate":498841200
-  }]
+  "willitems": [{
+    "status": "normal",
+    "questionID": "58b10b70bf825f2a27e2ad6",
+    "text": "\uc88b\uc544\ud558\ub294 \uc74c\uc2dd\uc740?",
+    "answers": [{
+      "answerVideo": null,
+      "answerText": "\ub0b4\uac00 \uc81c\uc77c \uc7ac\ubbf8\uc788\uac8c \ubcf4\uc558\ub5a4 \ub4dc\ub77c\ub9c8, \ub3c4\uae68\ube44.....",
+      "receivers": [],
+      "status": "normal",
+      "modifiedAt": 1488002524,
+      "answerID": "58b10bebbf825f2a27e2ad71_1",
+      "mediaHeight": 0,
+      "mediaWidth": 0,
+      "answerPhoto": null,
+      "createdAt": 1488002524
+    }, {
+      "answerVideo": null,
+      "answerText": "Dkssudksldf;kdsf",
+      "receivers": [],
+      "status": "normal",
+      "modifiedAt": 1487997931,
+      "answerID": "58b10bebbf825f2a27e2ad71_0",
+      "mediaHeight": 0,
+      "mediaWidth": 0,
+      "answerPhoto": null,
+      "createdAt": 1487997931
+    }],
+    "willitemID": "58b10bebbf825f2a27e2ad71",
+    "authorID": "58b10b73bf825f2a27e2ad6e",
+    "modifiedAt": 1488002524,
+    "createdAt": 1487997931,
+    "size": 2
+  }, {
+    "status": "normal",
+    "questionID": "58b10b70bf825f2a27e2adff",
+    "text": "\uc88b\uc544\ud558\ub294 \uc74c\uc2dd\uc740?",
+    "answers": [{
+      "answerVideo": null,
+      "answerText": null,
+      "receivers": [],
+      "status": "normal",
+      "modifiedAt": 1488002524,
+      "answerID": "58b10b70bf825f2a27e2adff_1",
+      "mediaHeight": 240,
+      "mediaWidth": 320,
+      "answerPhoto": "http://www.hancinema.net/photos/fullsizephoto790315.jpg",
+      "createdAt": 1488002524
+    }, {
+      "answerVideo": null,
+      "answerText": "Dkssudksldf;kdsf",
+      "receivers": [],
+      "status": "normal",
+      "modifiedAt": 1487997931,
+      "answerID": "58b10b70bf825f2a27e2adff_0",
+      "mediaHeight": 0,
+      "mediaWidth": 0,
+      "answerPhoto": null,
+      "createdAt": 1487997931
+    }],
+    "willitemID": "58b10bebbf825f2a27e2ad23",
+    "authorID": "58b10b73bf825f2a27e2ad6e",
+    "modifiedAt": 1488002524,
+    "createdAt": 1487997931,
+    "size": 2
+  }],
+  "size": 1
 }
