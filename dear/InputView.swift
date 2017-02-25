@@ -74,7 +74,7 @@ class InputView: UIView, UITextViewDelegate {
         placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
         placeholderLabel.font = UIFont.drSDLight16Font()
         placeholderLabel.textColor = UIColor.drGR08
-        placeholderLabel.text = "\(DataSource.instance.numOfAnswers())번째 메시지를 남겨보세요"
+        placeholderLabel.text = "\(DataSource.instance.numOfAnswers() + 1)번째 메시지를 남겨보세요"
         self.textView.addSubview(placeholderLabel)
         placeholderLabel.snp.makeConstraints { maker in
             maker.centerY.equalToSuperview()

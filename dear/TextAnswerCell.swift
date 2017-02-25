@@ -24,7 +24,7 @@ class TextAnswerCell: UITableViewCell {
                 self.dateLabel.text = Date(timeIntervalSince1970: newAnswer.modifiedAt).timeAgoSinceDate(numericDates: true)
             }
 
-            self.dateLabel.isHidden = newAnswer.answerText == nil
+            self.dateLabel.isHidden = (newAnswer.answerPhoto != nil)
         }
     }
 

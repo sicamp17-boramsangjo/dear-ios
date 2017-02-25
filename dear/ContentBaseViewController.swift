@@ -121,15 +121,7 @@ class ContentBaseViewController: UIViewController {
     }
 
     private func updateUserInfo() {
-
-        self.apiManager.getUserInfo {[unowned self] dictionary, error in
-            guard let loginUserValue = dictionary else {
-                return
-            }
-
-            DataSource.instance.storeLoginUser(loginUserValue: loginUserValue)
-        }
-
+        DataSource.instance.updateUserInfo(completion: nil)
     }
 
     private func setupTodayWillItemMode() {

@@ -23,20 +23,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        //self.setupWindowWithLoginStatus()
-        //self.setupApplication()
+        self.setupWindowWithLoginStatus()
+        self.setupApplication()
         
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController =
-            //CheckPhoneNumberViewController {_,_ in}
-            //SignUpViewController(phoneNumber: "", completion: {_,_ in})
-            //ReadOnlyContentViewController(sessionToken: "")
-            ReadyOnlyPasswordViewController(userID: "")
-            //setupContentViewGroup()
-            //SettingViewController()
-            //SignInViewController(phoneNumber: "", loginCompletion: {_,_ in})
-        window.makeKeyAndVisible()
-        self.window = window
+//        let window = UIWindow(frame: UIScreen.main.bounds)
+//        window.rootViewController =
+//            //CheckPhoneNumberViewController {_,_ in}
+//            //SignUpViewController(phoneNumber: "", completion: {_,_ in})
+//            //ReadOnlyContentViewController(sessionToken: "")
+//            //ReadyOnlyPasswordViewController(userID: "")
+//            //setupContentViewGroup()
+//            //SettingViewController()
+//            //SignInViewController(phoneNumber: "", loginCompletion: {_,_ in})
+//        window.makeKeyAndVisible()
+//        self.window = window
 
         return true
     }
@@ -107,17 +107,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         guard let user = DataSource.instance.fetchLoginUser() else {
-            window.rootViewController = self.setupIntroViewGroup()
+            window.rootViewController = self.setupCheckPhoneNumberViewGroup()
             return
         }
 
         window.rootViewController = self.setupContentViewGroup()
 
         self.apiManager.login(phoneNumber: user.phoneNumber, password: user.password) {[unowned self] loginResult, error in
-            if error != nil {
-                window.rootViewController = self.setupIntroViewGroup()
-            }
-
             self.updateDeviceTokenIfAvailable()
         }
     }
@@ -136,12 +132,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.sideMenu = sideMenuViewController
 
         return sideMenuViewController
-    }
-
-    func setupIntroViewGroup() -> UIViewController {
-        return IntroViewController(completion: { [unowned self] in
-            self.window?.rootViewController = self.setupCheckPhoneNumberViewGroup()
-        })
     }
 
     func setupCheckPhoneNumberViewGroup() -> UIViewController? {

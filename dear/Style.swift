@@ -128,6 +128,10 @@ extension UIFont {
         return UIFont(name: "AppleSDGothicNeo-Light", size: 14)
     }
 
+    class func drSDLight13Font() -> UIFont? {
+        return UIFont(name: "AppleSDGothicNeo-Light", size: 13)
+    }
+
     class func drSDRegular12Font() -> UIFont? {
         return UIFont(name: "AppleSDGothicNeo-Regular", size: 12.0)
     }
