@@ -29,6 +29,12 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
         }
     }
 
+    func getNotificationStatus(completion:@escaping (UNAuthorizationStatus) -> Void) {
+        UNUserNotificationCenter.current().getNotificationSettings { (setting: UNNotificationSettings) in
+            completion(setting.authorizationStatus)
+        }
+    }
+
     public func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Swift.Void) {
         print("alert: willPresentNotification \(notification.request.content.userInfo)")
         Alert.showMessage(message: "copied \(notification.request.content.userInfo)")
