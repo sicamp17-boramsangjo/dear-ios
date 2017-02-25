@@ -30,15 +30,17 @@ class ReadOnlyAnswerCell: UITableViewCell {
         label1.uni(frame: [55, 0, 265, 0], pad: [])
         label1.textAlignment = .center
         label1.font = UIFont.drNM17Font()
+        label1.textColor = UIColor(hexString: "55555")
         label1.numberOfLines = 0
         addSubview(label1)
         
         imageVIew1.uni(frame: [55, 0, 265, 200], pad: [])
         addSubview(imageVIew1)
         
-        label2.uni(frame: [55, 0, 265, 0], pad: [])
+        label2.uni(frame: [55, 0, 265, 15], pad: [])
         label2.font = UIFont.drSDMedium12Font()
-        label2.textColor = UIColor(hexString: "aaaaaa")
+        label2.textColor = UIColor(hexString: "999999")
+        label2.textAlignment = .center
         addSubview(label2)
         
         view1.uni(frame: [45, 0, 330, 1], pad: [])
@@ -49,8 +51,9 @@ class ReadOnlyAnswerCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         if type == 0 {
-            label1.frame.size.height = bounds.height
-            label2.frame.origin.y = label1.frame.maxX + uni(height: [6])
+            label1.sizeToFit()
+            label1.frame.origin.y = bounds.height / 2 - label1.bounds.height / 2
+            label2.frame.origin.y = label1.frame.origin.y + label1.bounds.height + uni(height: [6])
         } else if type == 1 {
             label2.frame.origin.y = imageVIew1.frame.maxX + uni(height: [6])
         } else {

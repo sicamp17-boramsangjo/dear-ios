@@ -129,19 +129,19 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //guard let willItem = self.willItemList?[section] else { return 0 }
-        return 10//willItem.answers.count + 1 // +1 == question
+        return 5//willItem.answers.count + 1 // +1 == question
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            return uni(height: [79]) +
+            return uni(height: [152]) +
                 "string data".boundingRect(with: CGSize.init(width: uni(width: [265]), height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: nil, context: nil).height
         } else {
             if let text = willItemList?[indexPath.section].answers[indexPath.row].answerText {
-                return uni(height: [72]) +
+                return uni(height: [92]) +
                     text.boundingRect(with: CGSize.init(width: uni(width: [265]), height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: nil, context: nil).height
             } else {
-                return uni(height: [72]) + uni(height: [200])
+                return uni(height: [92]) + uni(height: [200])
             }
         }
     }
@@ -149,9 +149,15 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let questionCell = tableView.dequeueReusableCell(withIdentifier: ReadOnlyQuestionCell.identifier()) as! ReadOnlyQuestionCell
+            
+            questionCell.label1.text = "호랑이는 죽어서 가죽을 남긴다는데, 당신은 죽어서 무엇을 남기고 싶나요?"
+            
             return questionCell
         } else {
             let answerCell = tableView.dequeueReusableCell(withIdentifier: ReadOnlyAnswerCell.identifier()) as! ReadOnlyAnswerCell
+            
+            answerCell.label1.text = "비현실적인거 까지는 모르겠고, 버스타고 집에 가는데 문득 예전 일과 오버랩 되는 그런 날이 있는듯. 다 그럴까?"
+            answerCell.label2.text = "2016.02.10"
             
             if let _ = willItemList?[indexPath.section].answers[indexPath.row].answerText {
                 answerCell.type = 0
@@ -166,7 +172,12 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
     }
     
     func skipHeader() {
-        tableView.setContentOffset(CGPoint(x: 0, y: uni(height: [719])), animated: true)
+        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        var offset = tableView.contentOffset
+        if !label1.isHidden {
+            offset.y = offset.y - uni(height: [70])
+        }
+        tableView.setContentOffset(offset, animated: false)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -184,7 +195,7 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
         }
         
         imageView1.isHidden = (scrollView.contentOffset.y <= uni(height: [260])) ? true : false
-        if scrollView.contentOffset.y <= uni(height: [503]) {
+        if scrollView.contentOffset.y <= uni(height: [500]) {
             UIView.animate(withDuration: 0.35, animations: {
                 self.label1.alpha = 0
             }, completion: { finish in
