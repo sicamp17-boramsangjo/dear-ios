@@ -1,5 +1,5 @@
 //
-//  asdsViewController.swift
+//  SettingViewController.swift
 //  dear
 //
 //  Created by 김경록 on 2017. 2. 25..
@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MessageUI
 
-class SettingViewController: UIViewController {
+class SettingViewController: UIViewController, MFMessageComposeViewControllerDelegate {
     
     var view1 = UIView()
     var button1 = UIButton()
@@ -25,6 +26,8 @@ class SettingViewController: UIViewController {
     var settingView7 = SettingView()
     var settingView8 = SettingView()
     var settingView9 = SettingView()
+    
+    var messageComposer: MFMessageComposeViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +59,6 @@ class SettingViewController: UIViewController {
         label1.text = "설정"
         view.addSubview(label1)
         
-        //settingView3.uni(frame: [0, 184, 375, 45], pad: [])
         settingView3.uni(frame: [0, 94, 375, 45], pad: [])
         settingView3.label1.text = "마지막 접속일 설정"
         settingView3.label2.text = "1년  >"
@@ -65,7 +67,6 @@ class SettingViewController: UIViewController {
         settingView3.button1.addTarget(self, action: #selector(action(button:)), for: .touchUpInside)
         view.addSubview(settingView3)
         
-        //settingView2.uni(frame: [0, 139, 375, 45], pad: [])
         settingView2.uni(frame: [0, 94, 375, 45], pad: [])
         settingView2.label1.text = "질문주기 설정"
         settingView2.label2.text = "월, 금  >"
@@ -128,11 +129,23 @@ class SettingViewController: UIViewController {
     }
     
     @objc private func dismiss(_ button: UIButton) {
-        dismiss(animated: true, completion: nil)
+        print("dismiss")
     }
     
     @objc private func action(button: UIButton) {
-        print(button.tag)
+        if button.tag == 5 {
+            if MFMessageComposeViewController.canSendText() {
+                messageComposer = MFMessageComposeViewController()
+                messageComposer.body = "[dear.] 선영님이 당신을 위해 미리 준비해둔 메세지입니다. 꼭 기억하시다가, 때가 되었을때 확인해주세요"
+                messageComposer.messageComposeDelegate = self
+                modalTransitionStyle = .crossDissolve
+                present(messageComposer, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        dismiss(animated: true, completion: nil)
     }
     
     @objc private func action(switchButton: UISwitch) {
