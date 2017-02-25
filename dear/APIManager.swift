@@ -186,7 +186,7 @@ class APIManager {
 
     func checkAlreadyJoin(phoneNumber: String, completion: @escaping APIBoolCompletion) {
 
-        self.request(path: .checkAlreadyJoin) { dictionary, error in
+        self.request(path: .checkAlreadyJoin, params:["phoneNumber":phoneNumber]) { dictionary, error in
 
             if error != nil {
                 completion(false, error)
@@ -225,12 +225,12 @@ class APIManager {
 
     func getTodayQuestion(completion: @escaping ([String:Any]?, [String:Any]?, Error?) -> Void) {
         self.request(path: .getTodaysQuestion) { dictionary, error in
-            guard let questionRaw = dictionary?["question"] as? Dictionary<String, Any>,
-                  let willItemRaw = dictionary?["willItem"] as? Dictionary<String, Any> else {
+            guard let questionRaw = dictionary?["question"] as? Dictionary<String, Any> else {
                 completion(nil, nil, InternalError.parsingError)
                 return
             }
 
+            let willItemRaw = dictionary?["willItem"] as? Dictionary<String, Any>
             completion(questionRaw, willItemRaw, nil)
         }
     }
@@ -244,7 +244,7 @@ class APIManager {
     }
 
 
-    func createAnswer(questionID: String, answerText: String?, answerPhoto: String?, answerVideo: String?, receivers: [String]?, completion:@escaping APICompletion) {
+    func createAnswer(questionID: String, answerText: String?, answerPhoto: String?, answerVideo: String?, receivers: [String]?, completion:@escaping (String?, Error?) ->Void) {
 
         var params: [String: Any] = [:]
         params["questionID"] = questionID
@@ -252,9 +252,15 @@ class APIManager {
         params["answerPhoto"] = answerPhoto
         params["answerVideo"] = answerVideo
         params["receivers"] = receivers
-        params["lastUpdate"] = Int64(Date().timeIntervalSince1970)
 
-        self.request(path: .createAnswer, params:params, completion:completion)
+        self.request(path: .createAnswer, params:params) { dictionary, error in
+            guard let willItemID = dictionary?["willitemID"] as? String else {
+                completion(nil, InternalError.parsingError)
+                return
+            }
+
+            completion(willItemID, error)
+         }
     }
 
     func deleteAnswer(answerID: String, completion:@escaping APIBoolCompletion) {
@@ -270,14 +276,14 @@ class APIManager {
 
 
     func getWillItem(willItemId: String, completion: @escaping APICompletion) {
-        let params = ["willItemId": willItemId]
+        let params = ["willitemID": willItemId]
         self.request(path: .getWillItem, params: params) { dictionary, error in
             if error != nil {
                 completion(nil, error)
                 return
             }
 
-            guard let result = dictionary?["result"] as? [String:Any] else {
+            guard let result = dictionary?["willitem"] as? [String:Any] else {
                 completion(nil, InternalError.parsingError)
                 return
             }

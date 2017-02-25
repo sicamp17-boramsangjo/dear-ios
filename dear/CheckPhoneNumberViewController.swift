@@ -90,6 +90,11 @@ class CheckPhoneNumberViewController: UIViewController {
 
     private func checkUser(phoneNumber: String, completion: @escaping (Bool, Error?) -> Void) {
 
+        guard phoneNumber != nil else {
+            completion(false, InternalError.notFound)
+            return
+        }
+
         self.apiManager.checkAlreadyJoin(phoneNumber: phoneNumber) { result, error in
             if error != nil {
                 Alert.showError(error!)

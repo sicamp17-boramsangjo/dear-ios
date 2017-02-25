@@ -27,7 +27,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
             if self.question != nil {
                 self.questionView.question = self.question?["text"] as? String
                 self.questionView.deliveredAt = self.question?["deliveredAt"] as? Double
-                self.textInputView.questionID = self.question?["questionId"] as? String
+                self.textInputView.questionID = self.question?["questionID"] as? String
             }
         }
     }
@@ -60,16 +60,21 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.willItem = willItem
             }
         } else {
-            self.fetchTodaysQuestion { [unowned self] question, willItem, error in
-                guard error == nil else {
-                    Alert.showError(error!)
-                    return
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+
+                self.fetchTodaysQuestion { [unowned self] question, willItem, error in
+                    guard error == nil else {
+                        Alert.showError(error!)
+                        return
+                    }
+
+                    self.question = question
+                    if willItem != nil {
+                        self.willItem = willItem
+                    }
                 }
 
-                self.question = question
-                if willItem != nil {
-                    self.willItem = willItem
-                }
             }
         }
     }
@@ -82,7 +87,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
                 completion(nil, error)
                 return
             }
-            guard let willItemID = dictionary?["willItemID"] as? String, let willItemRawInfo = dictionary else {
+            guard let willItemID = dictionary?["willitemID"] as? String, let willItemRawInfo = dictionary else {
                 completion(nil, InternalError.unknown)
                 return
             }
@@ -103,12 +108,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
                 return
             }
 
-            guard let willItemID = willItemRaw?["willItemID"] as? String else {
-                completion(nil, nil, InternalError.unknown)
-                return
-            }
-
-            if willItemRaw != nil {
+            if willItemRaw != nil, let willItemID = willItemRaw?["willItemID"] as? String {
                 DataSource.instance.storeWIllItem(willItemRawInfo: willItemRaw!)
                 let willItem = DataSource.instance.fetchWillItem(willItemId: willItemID)
                 completion(questionRaw, willItem, nil)

@@ -142,17 +142,15 @@ class InputView: UIView, UITextViewDelegate {
             let savedVideoFilePath = "\(FileManager.uploadCachePath())/\(FileManager.uniqueFileName(fileExtension: "mp4"))"
 
             selectedAsset.writeAVToFile(savedVideoFilePath, presetName:AVAssetExportPresetLowQuality) { _ in
-                UploadManager.instance.createAnswer(questionID: self.questionID!, textAnswer:nil, imageAnswer:nil, videoAnswer: savedVideoFilePath, receivers: self.receivers.map { $0.receiverID }) { [unowned self] (dictionary, error: Error?) in
+                UploadManager.instance.createAnswer(questionID: self.questionID!, textAnswer:nil, imageAnswer:nil, videoAnswer: savedVideoFilePath, receivers: self.receivers.map { $0.receiverID }) { [unowned self] (willItemID, error: Error?) in
                     if error != nil {
                         print(error)
                         return
                     }
 
-                    guard let willItemID = dictionary?["willItemID"] as? String else {
-                        return
+                    if willItemID != nil {
+                        self.reloadWillItem?(willItemID!)
                     }
-
-                    self.reloadWillItem?(willItemID)
                 }
             }
         }
@@ -167,19 +165,16 @@ class InputView: UIView, UITextViewDelegate {
             return
         }
 
-        self.apiManager.createAnswer(questionID:questionID, answerText: textContent, answerPhoto: nil, answerVideo: nil, receivers:self.receivers.map{$0.receiverID}) { [unowned self] dictionary, error in
+        UploadManager.instance.createAnswer(questionID: questionID, textAnswer: textContent, imageAnswer: nil, videoAnswer: nil, receivers: self.receivers.map {$0.receiverID}) { [unowned self] willItemID, error in
             if error != nil {
                 Alert.showError(error!)
                 return
             }
 
             self.textView.text.removeAll()
-
-            guard let willItemID = dictionary?["willItemID"] as? String else {
-                return
+            if willItemID != nil {
+                self.reloadWillItem?(willItemID!)
             }
-
-            self.reloadWillItem?(willItemID)
         }
     }
 
