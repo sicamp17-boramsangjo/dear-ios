@@ -348,6 +348,10 @@ class APIManager {
     private func upload(path: APIPath, filePath: String, completion: @escaping APICompletion) {
 
         let fullPath = path.fullPath()
+
+        //FIX: for Uploadserver dev
+        //let fullPath = "http://indiweb08.cafe24.com:25252/upload"
+        
         let fileUrl = URL(fileURLWithPath: filePath)
 
         Alamofire.upload(fileUrl, to: fullPath).responseJSON { response in
