@@ -38,6 +38,7 @@ class ReadyOnlyPasswordViewController: UIViewController {
     }
 
     private func setupView() {
+        UIApplication.shared.statusBarStyle = .lightContent
         view.backgroundColor = UIColor.white
         
         label1.uni(frame: [0, 216, 375, 30], pad: [])
@@ -48,7 +49,7 @@ class ReadyOnlyPasswordViewController: UIViewController {
         view.addSubview(label1)
         
         textField1.uni(frame: [50, 273, 270, 30], pad: [])
-        textField1.textAlignment = .center
+        textField1.textAlignment = .center  
         textField1.font = UIFont.drSDThin28Font()
         textField1.textColor = UIColor(hexString: "8c96a5")
         textField1.keyboardType = .numberPad
