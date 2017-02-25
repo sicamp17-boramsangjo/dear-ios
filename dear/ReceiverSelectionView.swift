@@ -17,7 +17,7 @@ enum ReceiverSelectionConfig {
             return (direction: .vertical,
                     itemSpacing:15,
                     lineSpacing:15,
-                    bgColor:UIColor.rgb256(225, 230, 234),
+                    bgColor:UIColor.drGR10,
                     contentInset: UIEdgeInsetsMake(15, 20, 15, 20)
             )
         case .forRecommand:
@@ -48,6 +48,8 @@ class ReceiverNameCell: UICollectionViewCell {
 
     func setupViewIfNeeds() {
 
+        self.layer.cornerRadius = 2
+        self.clipsToBounds = true
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.backgroundColor = UIColor.white
@@ -89,12 +91,16 @@ class ReceiverSelectionView: UIView, UICollectionViewDelegate, UICollectionViewD
     }
 
     private func setupView() {
+
+        self.backgroundColor = UIColor.drGR10
+
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = config.getLayoutConfig().direction
         layout.minimumInteritemSpacing = CGFloat(config.getLayoutConfig().itemSpacing)
         layout.minimumLineSpacing = CGFloat(config.getLayoutConfig().lineSpacing)
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = UIColor.drGR10
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = config.getLayoutConfig().bgColor
         collectionView.contentInset = config.getLayoutConfig().contentInset

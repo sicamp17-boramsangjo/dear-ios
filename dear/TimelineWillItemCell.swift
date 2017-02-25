@@ -11,7 +11,6 @@ import DateToolsSwift
 
 class TimelineAnswerCell: UICollectionViewCell {
     weak var dateLabel: UILabel!
-    weak var timeLabel: UILabel!
     weak var textAnswer: UILabel!
     weak var photoAnswer: UIImageView!
     weak var videoIcon: UIImageView!
@@ -53,9 +52,8 @@ class TimelineAnswerCell: UICollectionViewCell {
 
         self.backgroundColor = UIColor.white
         self.layer.cornerRadius = 2
-        self.layer.borderColor = UIColor(white: 0, alpha: 0.1).cgColor
-        self.layer.borderWidth = 1
         self.clipsToBounds = true
+        self.applyCommonShadow()
 
         let photoAnswer = UIImageView(image: nil)
         photoAnswer.translatesAutoresizingMaskIntoConstraints = false
@@ -78,43 +76,43 @@ class TimelineAnswerCell: UICollectionViewCell {
             maker.center.equalToSuperview()
         }
 
+        let textAnswer = UILabel(frame:.zero)
+        textAnswer.translatesAutoresizingMaskIntoConstraints = false
+        textAnswer.font = UIFont.drSDLight14Font()
+        textAnswer.textAlignment = .center
+        textAnswer.numberOfLines = 0
+        textAnswer.textColor = UIColor.drBK
+
         let dateLabel = UILabel(frame:.zero)
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.font = UIFont.drSDRegular13Font()
-        dateLabel.textColor = UIColor.drGR02
-        self.addSubview(dateLabel)
-        self.dateLabel = dateLabel
+        dateLabel.textColor = UIColor.drGR06
+        dateLabel.textAlignment = .center
+        dateLabel.numberOfLines = 1
         dateLabel.snp.makeConstraints { maker in
-            maker.leadingMargin.equalTo(17)
-            maker.topMargin.equalTo(18)
-        }
+            maker.height.equalTo(14)
+         }
 
-        let timeLabel = UILabel(frame:.zero)
-        timeLabel.translatesAutoresizingMaskIntoConstraints = false
-        timeLabel.font = UIFont.systemFont(ofSize: 13)
-        timeLabel.textColor = UIColor.drGR02
-        self.addSubview(timeLabel)
-        self.timeLabel = timeLabel
-        timeLabel.snp.makeConstraints { maker in
-            maker.trailingMargin.equalTo(17)
-            maker.topMargin.equalTo(18)
-        }
+        let textContainer = UIStackView(arrangedSubviews: [textAnswer, dateLabel])
+        textContainer.translatesAutoresizingMaskIntoConstraints = false
+        textContainer.spacing = 13
+        textContainer.axis = .vertical
+        textContainer.alignment = .fill
+        self.addSubview(textContainer)
+        textContainer.snp.makeConstraints { maker in
+            maker.leadingMargin.equalTo(46)
+            maker.trailingMargin.equalTo(-46)
+            maker.centerY.equalToSuperview()
+            maker.topMargin.greaterThanOrEqualTo(12)
+         }
 
-        let textAnswer = UILabel(frame:.zero)
-        textAnswer.translatesAutoresizingMaskIntoConstraints = false
-        timeLabel.font = UIFont.drSDULight16Font()
-        textAnswer.textColor = UIColor.drBK
-        self.addSubview(textAnswer)
         self.textAnswer = textAnswer
-        textAnswer.snp.makeConstraints { maker in
-            maker.leadingMargin.equalTo(17)
-            maker.top.equalTo(dateLabel.snp.bottom).offset(16)
-        }
+        self.dateLabel = dateLabel
+
     }
 
     override func prepareForReuse() {
         self.dateLabel.text = nil
-        self.timeLabel.text = nil
         self.textAnswer.text = nil
         self.photoAnswer.image = nil
         super.prepareForReuse()
@@ -156,16 +154,17 @@ class TimelineWillItemCell: UITableViewCell, UICollectionViewDelegate, UICollect
         let questionLabel = UILabel(frame:.zero)
         questionLabel.translatesAutoresizingMaskIntoConstraints = false
         questionLabel.lineBreakMode = .byWordWrapping
+        questionLabel.textAlignment = .center
         questionLabel.numberOfLines = 0
         questionLabel.backgroundColor = UIColor.clear
-        questionLabel.font = UIFont.drNM23Font()
+        questionLabel.font = UIFont.drNM20Font()
         questionLabel.textColor = UIColor.drGR01
 
         self.contentView.addSubview(questionLabel)
         self.questionLabel = questionLabel
         questionLabel.snp.makeConstraints { maker in
             maker.leading.equalTo(31)
-            maker.trailing.equalTo(31)
+            maker.trailing.equalTo(-31)
             maker.top.equalTo(31)
         }
 
@@ -173,6 +172,7 @@ class TimelineWillItemCell: UITableViewCell, UICollectionViewDelegate, UICollect
         moreLabel.text = "더보기 >"
         moreLabel.translatesAutoresizingMaskIntoConstraints = false
         moreLabel.numberOfLines = 1
+        moreLabel.textAlignment = .center
         moreLabel.font = UIFont.drSDRegular13Font()
         moreLabel.textColor = UIColor.drGR03
         moreLabel.backgroundColor = UIColor.clear
@@ -180,12 +180,13 @@ class TimelineWillItemCell: UITableViewCell, UICollectionViewDelegate, UICollect
         self.moreLabel = moreLabel
         moreLabel.snp.makeConstraints { maker in
             maker.left.equalTo(questionLabel.snp.left)
+            maker.right.equalTo(questionLabel.snp.right)
             maker.top.equalTo(questionLabel.snp.bottom).offset(12)
             maker.height.equalTo(15)
         }
 
         let collectionViewLayout = UICollectionViewFlowLayout()
-        collectionViewLayout.itemSize = CGSize(width: (UIScreen.main.bounds.width - (32 * 2)), height: (UIScreen.main.bounds.width - (32 * 2))/2 + 10)
+        collectionViewLayout.itemSize = CGSize(width: (UIScreen.main.bounds.width - (25 * 2)), height: 160)
         collectionViewLayout.scrollDirection = .horizontal
         collectionViewLayout.minimumLineSpacing = 15
         collectionViewLayout.minimumInteritemSpacing = 0
@@ -195,7 +196,7 @@ class TimelineWillItemCell: UITableViewCell, UICollectionViewDelegate, UICollect
         collectionView.backgroundColor = UIColor.clear
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.contentInset = UIEdgeInsetsMake(0, 32, 0, 32)
+        collectionView.contentInset = UIEdgeInsetsMake(0, 25, 0, 25)
         collectionView.backgroundColor = UIColor.drGR00
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
