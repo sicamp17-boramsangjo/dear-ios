@@ -10,7 +10,7 @@ class ReadOnlyAnswerCell: UITableViewCell {
     var label1 = UILabel()
     var imageVIew1 = UIImageView()
     var label2 = UILabel()
-    var uiView1 = UIView()
+    var view1 = UIView()
     
     var type = 0
     
@@ -25,7 +25,7 @@ class ReadOnlyAnswerCell: UITableViewCell {
     }
     
     private func initView() {
-        backgroundColor = UIColor.white
+        backgroundColor = UIColor(hexString: "ebeef1")
         
         label1.uni(frame: [55, 0, 265, 0], pad: [])
         label1.textAlignment = .center
@@ -41,10 +41,9 @@ class ReadOnlyAnswerCell: UITableViewCell {
         label2.textColor = UIColor(hexString: "aaaaaa")
         addSubview(label2)
         
-        uiView1.uni(frame: [35, 0, 305, 0], pad: [])
-        uiView1.backgroundColor = UIColor(hexString: "e5e5e5")
-        uiView1.frame.size.height = 0.5
-        addSubview(uiView1)
+        view1.uni(frame: [45, 0, 330, 1], pad: [])
+        view1.backgroundColor = UIColor(hexString: "cccccc")
+        addSubview(view1)
     }
     
     override func layoutSubviews() {
@@ -57,7 +56,7 @@ class ReadOnlyAnswerCell: UITableViewCell {
         } else {
             //video
         }
-        uiView1.frame.origin.y = bounds.height - 0.5
+        view1.frame.origin.y = bounds.height - 1
     }
     
 }

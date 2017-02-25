@@ -6,7 +6,8 @@
 import UIKit
 import SnapKit
 
-class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ReadOnlyProfileHeaderDelegate {
+    
     
     let apiManager:APIManager = APIManager()
     var deceased:User? {
@@ -21,6 +22,8 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
     }
     
     var tableView: UITableView!
+    var imageView1 = UIImageView()
+    var label1 = UILabel()
     
     init(sessionToken:String) {
         super.init(nibName: nil, bundle: nil)
@@ -56,10 +59,10 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
     }
     
     private func setupView() {
-        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView = UITableView(frame: .zero, style: .plain)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.backgroundColor = UIColor.white
+        tableView.backgroundColor = UIColor(hexString: "ebeef1")
         self.view.addSubview(tableView)
         tableView.snp.makeConstraints { maker in
             maker.edges.equalToSuperview()
@@ -67,10 +70,25 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
         
         tableView.separatorStyle = .none
         let tableHeaderView = ReadOnlyDeceasedProfileHeaderView()
+        tableHeaderView.delegate = self
         tableView.tableHeaderView = tableHeaderView
         
         tableView.register(ReadOnlyQuestionCell.self, forCellReuseIdentifier: ReadOnlyQuestionCell.identifier())
         tableView.register(ReadOnlyAnswerCell.self, forCellReuseIdentifier: ReadOnlyAnswerCell.identifier())
+        
+        imageView1.uni(frame: [0, -261, 375, 331], pad: [])
+        imageView1.image = #imageLiteral(resourceName: "nightBg")
+        imageView1.isHidden = true
+        view.addSubview(imageView1)
+        
+        label1.uni(frame: [0, 281, 375, 50], pad: [])
+        label1.textAlignment = .center
+        label1.font = UIFont.drNM19Font()
+        label1.textColor = UIColor.white
+        label1.text = "dear. 엄마"
+        label1.alpha = 0
+        label1.isHidden = true
+        imageView1.addSubview(label1)
     }
     
     private func fetchWillItemList(completion:@escaping (([WillItem]?, Error?) -> Void)) {
@@ -105,13 +123,13 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        guard let count = self.willItemList?.count else { return 0 }
-        return count
+        //guard let count = self.willItemList?.count else { return 0 }
+        return 1//count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let willItem = self.willItemList?[section] else { return 0 }
-        return willItem.answers.count + 1 // +1 == question
+        //guard let willItem = self.willItemList?[section] else { return 0 }
+        return 10//willItem.answers.count + 1 // +1 == question
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -144,6 +162,39 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
             }
             
             return answerCell
+        }
+    }
+    
+    func skipHeader() {
+        tableView.setContentOffset(CGPoint(x: 0, y: uni(height: [719])), animated: true)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        var percent = 1 - scrollView.contentOffset.y / uni(height: [260])
+        percent = (percent <= 0) ? 1 + percent : percent
+        if let header = tableView.tableHeaderView as? ReadOnlyDeceasedProfileHeaderView, percent >= 1 {
+                header.imageView1.transform = CGAffineTransform(scaleX: percent, y: percent)
+                header.label1.frame.origin.y = uni(height: [123]) * percent
+                header.label1.transform = CGAffineTransform(scaleX: percent, y: percent)
+                header.label1.isHidden = (percent <= 0.7) ? true : false
+                
+                header.label2.frame.origin.y = uni(height: [203]) * percent
+                header.label2.transform = CGAffineTransform(scaleX: percent, y: percent)
+                header.label2.isHidden = (percent <= 0.7) ? true : false
+        }
+        
+        imageView1.isHidden = (scrollView.contentOffset.y <= uni(height: [260])) ? true : false
+        if scrollView.contentOffset.y <= uni(height: [503]) {
+            UIView.animate(withDuration: 0.35, animations: {
+                self.label1.alpha = 0
+            }, completion: { finish in
+                self.label1.isHidden = true
+            })
+        } else {
+            label1.isHidden = false
+            UIView.animate(withDuration: 0.35, animations: {
+                self.label1.alpha = 1
+            })
         }
     }
     
