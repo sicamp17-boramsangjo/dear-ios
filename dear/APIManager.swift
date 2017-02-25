@@ -230,7 +230,7 @@ class APIManager {
                 return
             }
 
-            let willItemRaw = dictionary?["willItem"] as? Dictionary<String, Any>
+            let willItemRaw = dictionary?["willitem"] as? Dictionary<String, Any>
             completion(questionRaw, willItemRaw, nil)
         }
     }

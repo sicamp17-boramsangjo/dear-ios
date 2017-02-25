@@ -38,6 +38,8 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
 
     private func setupView() {
 
+        self.view.backgroundColor = UIColor.drGR00
+
         let receiverSelectionView = ReceiverSelectionView(config: .forFilter) {[unowned self] selectedReceiver in
             self.filteredReceiver = selectedReceiver
 
@@ -62,21 +64,22 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         self.receiverSelectionView.receivers = DataSource.instance.fetchAllReceivers()
 
         let filteringReceiverCancelButton = UIButton(type: .roundedRect)
-        filteringReceiverCancelButton.setTitle("Reset", for: .normal)
+        filteringReceiverCancelButton.setImage(UIImage(named: "icoClose01"), for: .normal)
         filteringReceiverCancelButton.addTarget(self, action: #selector(resetFilteringReceiverButtonTapped(_:)), for: .touchUpInside)
         filteringReceiverCancelButton.translatesAutoresizingMaskIntoConstraints = false
         filteringReceiverCancelButton.isHidden = true
         self.view.addSubview(filteringReceiverCancelButton)
         self.filteringReceiverCancelButton = filteringReceiverCancelButton
         self.filteringReceiverCancelButton.snp.makeConstraints { maker in
-            maker.size.equalTo(CGSize(width: 40, height: 30))
+            maker.size.equalTo(CGSize(width: 40, height: 40))
             maker.centerY.equalTo(receiverSelectionView.snp.centerY)
-            maker.right.equalTo(receiverSelectionView.snp.right)
+            maker.right.equalTo(receiverSelectionView.snp.right).offset(-20)
         }
 
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.backgroundColor = UIColor.drGR00
         tableView.separatorStyle = .none
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -97,7 +100,7 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
     private func fetchWillItemList(completion:@escaping ([WillItem]) -> Void) {
         self.apiManager.getWillItemList { response, error in
 
-            guard let willItemList = response?["results"] as? Array<Any> else {
+            guard let willItemList = response?["willitems"] as? Array<Any> else {
                 return
             }
 
@@ -108,9 +111,9 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
 
     private func launchWillItemDetailViewController(willItem: WillItem) {
 
-        let willItemViewController = WillItemViewController(willItemID: willItem.willItemID)
-        let navigationController = UINavigationController(rootViewController: willItemViewController)
-        self.present(navigationController, animated: true)
+        let willItemViewController = WillItemViewController(willItemID: willItem.willitemID)
+        willItemViewController.showCloseButton = true
+        self.present(willItemViewController, animated: true)
 
     }
 
@@ -133,8 +136,12 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: false)
-        guard let willItem = self.willItemList?[indexPath.section] else {
+
+        defer {
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
+
+        guard let willItem = self.willItemList?[indexPath.row] else {
             return
         }
 

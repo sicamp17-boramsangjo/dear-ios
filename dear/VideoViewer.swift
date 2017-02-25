@@ -40,14 +40,15 @@ class VideoViewer: UIViewController {
         videoPlayer.shouldLoop = true
         videoPlayer.videoURLs = [URL(string: videoPath)!]
 
-        let button = UIButton(type: .custom)
-        button.setTitle("Close", for: .normal)
-        button.addTarget(self, action: #selector(closeButtonTapped(_:)), for: .touchUpInside)
-        self.view.addSubview(button)
-        button.snp.makeConstraints { maker in
-            maker.size.equalTo(CGSize(width: 60, height: 40))
-            maker.leadingMargin.equalToSuperview().offset(8)
-            maker.topMargin.equalToSuperview().offset(24)
+        let closeButton = UIButton(type: .custom)
+        closeButton.setImage(UIImage(named: "closeButtonWhite"), for: .normal)
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.addTarget(self, action: #selector(closeButtonTapped(_:)), for: .touchUpInside)
+        self.view.addSubview(closeButton)
+        closeButton.snp.makeConstraints { maker in
+            maker.leadingMargin.equalTo(7)
+            maker.topMargin.equalTo(20)
+            maker.size.equalTo(CGSize(width: 40, height: 40))
         }
     }
 

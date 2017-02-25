@@ -67,13 +67,14 @@ class PhotoAnswerCell: UITableViewCell {
 
         let videoButton = UIButton(type:.custom)
         videoButton.translatesAutoresizingMaskIntoConstraints = false
-        videoButton.backgroundColor = UIColor.red
+        videoButton.contentMode = .center
+        videoButton.setImage(UIImage(named: "playButton"), for: .normal)
+        videoButton.backgroundColor = UIColor(white: 0, alpha: 0.6)
         videoButton.isUserInteractionEnabled = false
         self.contentView.addSubview(videoButton)
         self.videoButton = videoButton
         videoButton.snp.makeConstraints { maker in
-            maker.size.equalTo(CGSize(width: 40, height: 40))
-            maker.center.equalTo(imageView.snp.center)
+            maker.edges.equalTo(imageView.snp.edges)
         }
 
         let dateLabel = UILabel(frame: .zero)

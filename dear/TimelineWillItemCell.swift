@@ -24,6 +24,7 @@ class TimelineAnswerCell: UICollectionViewCell {
 
             textAnswer.isHidden = answer!.answerText == nil
             photoAnswer.isHidden = answer!.answerPhoto == nil
+            dateLabel.isHidden = answer!.answerPhoto == nil
             videoIcon.isHidden = answer!.answerVideo == nil
 
             dateLabel.text = Date(timeIntervalSince1970: answer!.lastUpdate).timeAgoSinceDate()
@@ -68,7 +69,8 @@ class TimelineAnswerCell: UICollectionViewCell {
         let videoIcon = UIImageView(image: nil)
         videoIcon.translatesAutoresizingMaskIntoConstraints = false
         videoIcon.contentMode = .scaleAspectFill
-        videoIcon.backgroundColor = UIColor.clear
+        videoIcon.backgroundColor = UIColor(white: 0, alpha: 0.6)
+        videoIcon.image = UIImage(named: "playButton")
         self.addSubview(videoIcon)
         self.videoIcon = videoIcon
         videoIcon.snp.makeConstraints { maker in
@@ -139,7 +141,7 @@ class TimelineWillItemCell: UITableViewCell, UICollectionViewDelegate, UICollect
             if self.willItem == nil {
                 return
             }
-            self.questionLabel.attributedText = self.willItem!.question.attrString(font: UIFont.drNM17Font(), color: UIColor.drGR05, lineSpacing: 10, alignment: .center)
+            self.questionLabel.attributedText = self.willItem!.text.attrString(font: UIFont.drNM17Font(), color: UIColor.drGR05, lineSpacing: 10, alignment: .center)
             self.countLabel.text = "\(currentAnswerNumber)/\(self.willItem!.answers.count)"
         }
     }
