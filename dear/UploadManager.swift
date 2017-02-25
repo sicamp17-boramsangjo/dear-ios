@@ -14,7 +14,7 @@ class UploadManager {
 
     private init() {}
 
-    func createAnswer(questionID: String, textAnswer: String?, imageAnswer: String?, videoAnswer: String?, receivers: [String]?, completion:@escaping (([String:Any]?, Error?) -> Void)) {
+    func createAnswer(questionID: String, textAnswer: String?, imageAnswer: String?, videoAnswer: String?, receivers: [String]?, completion:@escaping ((String?, Error?) -> Void)) {
         let queue = DispatchQueue.global()
         let dispatchGroup = DispatchGroup()
 

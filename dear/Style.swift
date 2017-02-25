@@ -43,6 +43,10 @@ extension UIColor {
         return UIColor(white: 85.0 / 255.0, alpha: 0.3)
     }
 
+    class var drGR10: UIColor {
+        return UIColor(red: 190.0 / 255.0, green: 195.0 / 255.0, blue: 200.0 / 255.0, alpha: 1.0)
+    }
+
 }
 
 // Text styles
@@ -113,11 +117,11 @@ extension UIFont {
     }
 
     class func drTextStyleFont() -> UIFont? {
-        return UIFont(name: "AppleSDGothicNeo-Regular", size: 13.82)
+        return UIFont(name: "AppleSDGothicNeo-Regular", size: 14)
     }
 
     class func drSDLight14Font() -> UIFont? {
-        return UIFont(name: "AppleSDGothicNeo-Light", size: 13.82)
+        return UIFont(name: "AppleSDGothicNeo-Light", size: 14)
     }
 
     class func drSDRegular12Font() -> UIFont? {
