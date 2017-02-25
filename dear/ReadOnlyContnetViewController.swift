@@ -76,7 +76,7 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
     private func fetchWillItemList(completion:@escaping (([WillItem]?, Error?) -> Void)) {
         self.apiManager.getWillItemList { response, error in
             
-            guard let willItemRawList = response?["results"] as? Array<Any> else {
+            guard let willItemRawList = response?["willitems"] as? Array<Any> else {
                 completion(nil, InternalError.unknown)
                 return
             }

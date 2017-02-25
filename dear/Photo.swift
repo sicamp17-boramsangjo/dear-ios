@@ -19,8 +19,8 @@ class PhotoModel: NSObject, NYTPhoto {
         self.image = image
         self.imageData = nil
         self.attributedCaptionTitle = nil
-        self.attributedCaptionSummary =  NSAttributedString(string: summary, attributes: [NSForegroundColorAttributeName: UIColor.gray])
-        self.attributedCaptionCredit =  NSAttributedString(string: credit, attributes: [NSForegroundColorAttributeName: UIColor.darkGray])
+        self.attributedCaptionSummary =  nil
+        self.attributedCaptionCredit =  nil
         super.init()
     }
 }

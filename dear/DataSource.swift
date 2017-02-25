@@ -60,8 +60,8 @@ class DataSource {
     }
 
     func storeWIllItem(willItemRawInfo:[String:Any]) {
-        let willItem = WillItem(value: willItemRawInfo)
 
+       let willItem = WillItem(value: willItemRawInfo)
         if let answerRawList = willItemRawInfo["answers"] as? Array<Dictionary<String, Any>> {
             for (index, item) in answerRawList.enumerated() {
 
@@ -129,7 +129,7 @@ class DataSource {
     }
 
     func fetchWillItem(willItemId: String) -> WillItem? {
-        return self.realm.objects(WillItem.self).filter("willItemID = '\(willItemId)'").first
+        return self.realm.objects(WillItem.self).filter("willitemID = '\(willItemId)'").first
     }
 
     func fetchAnswer(answerID: String) -> Answer? {

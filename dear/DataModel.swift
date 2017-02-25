@@ -76,14 +76,14 @@ class Answer: Object {
 }
 
 class WillItem: Object {
-    dynamic var willItemID: String = ""
+    dynamic var willitemID: String = ""
     dynamic var questionID: String = ""
-    dynamic var question: String = ""
+    dynamic var text: String = ""
     dynamic var lastUpdate: Double = 0
 
     let answers = List<Answer>()
 
     override class func primaryKey() -> String? {
-        return "willItemID"
+        return "willitemID"
     }
 }
