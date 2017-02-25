@@ -128,13 +128,19 @@ class TimelineWillItemCell: UITableViewCell, UICollectionViewDelegate, UICollect
     weak var collectionView: UICollectionView!
     weak var countLabel: UILabel!
 
+    var currentAnswerNumber: Int = 1 {
+        didSet {
+            self.countLabel.text = "\(currentAnswerNumber)/\(self.willItem!.answers.count)"
+        }
+    }
+
     var willItem: WillItem? {
         didSet {
             if self.willItem == nil {
                 return
             }
-
-            questionLabel.text = self.willItem!.question
+            self.questionLabel.attributedText = self.willItem!.question.attrString(font: UIFont.drNM17Font(), color: UIColor.drGR05, lineSpacing: 10, alignment: .center)
+            self.countLabel.text = "\(currentAnswerNumber)/\(self.willItem!.answers.count)"
         }
     }
 
@@ -163,9 +169,9 @@ class TimelineWillItemCell: UITableViewCell, UICollectionViewDelegate, UICollect
         self.contentView.addSubview(questionLabel)
         self.questionLabel = questionLabel
         questionLabel.snp.makeConstraints { maker in
-            maker.leading.equalTo(31)
-            maker.trailing.equalTo(-31)
-            maker.top.equalTo(31)
+            maker.leading.equalTo(49)
+            maker.trailing.equalTo(-49)
+            maker.top.equalTo(32)
         }
 
         let moreLabel = UILabel(frame:.zero)
@@ -181,7 +187,7 @@ class TimelineWillItemCell: UITableViewCell, UICollectionViewDelegate, UICollect
         moreLabel.snp.makeConstraints { maker in
             maker.left.equalTo(questionLabel.snp.left)
             maker.right.equalTo(questionLabel.snp.right)
-            maker.top.equalTo(questionLabel.snp.bottom).offset(12)
+            maker.top.equalTo(questionLabel.snp.bottom).offset(14)
             maker.height.equalTo(15)
         }
 
@@ -206,8 +212,8 @@ class TimelineWillItemCell: UITableViewCell, UICollectionViewDelegate, UICollect
         collectionView.snp.makeConstraints { maker in
             maker.leading.equalTo(0)
             maker.trailing.equalTo(0)
-            maker.top.equalTo(moreLabel.snp.bottom).offset(21)
-            maker.height.equalTo((UIScreen.main.bounds.width - (32 * 2))/2 + 10)
+            maker.top.equalTo(moreLabel.snp.bottom).offset(16)
+            maker.height.equalTo(160)
         }
 
         collectionView.register(TimelineAnswerCell.self, forCellWithReuseIdentifier: "TimelineAnswerCell")
@@ -215,25 +221,26 @@ class TimelineWillItemCell: UITableViewCell, UICollectionViewDelegate, UICollect
         let countLabel = UILabel(frame:.zero)
         countLabel.translatesAutoresizingMaskIntoConstraints = false
         countLabel.numberOfLines = 1
-        countLabel.font = UIFont.systemFont(ofSize: 13)
+        countLabel.font = UIFont.drSDRegular13Font()
+        countLabel.textColor = UIColor.drGR06
         countLabel.backgroundColor = UIColor.clear
         self.contentView.addSubview(countLabel)
         self.countLabel = countLabel
         countLabel.snp.makeConstraints { maker in
             maker.centerX.equalToSuperview()
-            maker.top.equalTo(collectionView.snp.bottom).offset(11)
+            maker.top.equalTo(collectionView.snp.bottom).offset(15)
             maker.height.equalTo(12)
-            maker.bottom.equalToSuperview().offset(-14)
+            maker.bottom.equalToSuperview().offset(-16.5)
         }
 
         let hairline = UIView(frame: .zero)
-        hairline.backgroundColor = UIColor.rgb256(150, 160, 175)
+        hairline.backgroundColor = UIColor(white: 0, alpha: 0.06)
         self.contentView.addSubview(hairline)
         hairline.snp.makeConstraints { maker in
             maker.leading.equalToSuperview()
             maker.trailing.equalToSuperview()
             maker.bottom.equalToSuperview()
-            maker.height.equalTo(0.5)
+            maker.height.equalTo(1.5)
          }
 
     }
@@ -255,6 +262,16 @@ class TimelineWillItemCell: UITableViewCell, UICollectionViewDelegate, UICollect
 
         cell.answer = answer
         return cell
+    }
+
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
+        let center = self.convert(self.collectionView.center, to: self.collectionView)
+        guard let index = collectionView!.indexPathForItem(at: center) else {
+            return
+        }
+
+        self.currentAnswerNumber = (index.row + 1)
     }
 
 }

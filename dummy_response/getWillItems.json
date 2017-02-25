@@ -4,11 +4,11 @@
   "results":[{
     "willItemID":"WILL_ITEM_ID2",
     "questionID":"QUESTION_ID2",
-    "question":"질문2",
+    "question":"현실공간이 비현실적이거나 가상현실처럼 느껴진 적이 있나요?",
     "answers":[
       {
         "answerID":"ANSWER_ID4",
-        "answerText":"엔써텍스트",
+        "answerText":"현실공간이 비현실적이거나 가상현실처럼 느껴진 적이 있나요?",
         "lastUpdate":498841200,
         "receivers":[
           "RECEIVER_ID1"
