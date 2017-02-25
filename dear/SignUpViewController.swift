@@ -13,8 +13,10 @@ import RxSwift
 class SignUpViewController: UIViewController, SMDatePickerDelegate {
     
     let textField1 = UITextField()
+    let textField2 = UITextField()
     let button1 = UIButton()
     let button2 = UIButton(type: .system)
+    let datePicker = SMDatePicker()
     
     let phoneNumber: String
     let loginCompletion: ((User?, Error?) -> Void)
@@ -49,7 +51,7 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
         label1.numberOfLines = 0
         view.addSubview(label1)
         
-        textField1.uni(frame: [70, 274, 235, 25], pad: [])
+        textField1.uni(frame: [70, 254, 235, 25], pad: [])
         textField1.backgroundColor = UIColor.clear
         textField1.font = UIFont.drSDThin28Font()
         textField1.textColor = UIColor(hexString: "8c96a5")
@@ -58,11 +60,11 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
         view.addSubview(textField1)
         
         let view1 = UIView()
-        view1.uni(frame: [70, 299, 235, 0.5], pad: [])
+        view1.uni(frame: [70, 279, 235, 0.5], pad: [])
         view1.backgroundColor = UIColor(hexString: "8c96a5")
         view.addSubview(view1)
         
-        button1.uni(frame: [70, 339, 235, 25], pad: [])
+        button1.uni(frame: [70, 319, 235, 25], pad: [])
         button1.backgroundColor = UIColor.clear
         button1.titleLabel!.font = UIFont.drSDThin28Font()
         button1.setTitleColor(UIColor(hexString: "8c96a5"), for: .normal)
@@ -72,9 +74,23 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
         view.addSubview(button1)
         
         let view2 = UIView()
-        view2.uni(frame: [70, 364, 235, 0.5], pad: [])
+        view2.uni(frame: [70, 344, 235, 0.5], pad: [])
         view2.backgroundColor = UIColor(hexString: "8c96a5")
         view.addSubview(view2)
+        
+        textField2.uni(frame: [70, 384, 235, 25], pad: [])
+        textField2.backgroundColor = UIColor.clear
+        textField2.font = UIFont.drSDThin28Font()
+        textField2.textColor = UIColor(hexString: "8c96a5")
+        textField2.textAlignment = .center
+        textField2.placeholder = "비밀번호"
+        textField2.isSecureTextEntry = true
+        view.addSubview(textField2)
+        
+        let view3 = UIView()
+        view3.uni(frame: [70, 409, 235, 0.5], pad: [])
+        view3.backgroundColor = UIColor(hexString: "8c96a5")
+        view.addSubview(view3)
         
         let label2 = UILabel()
         label2.uni(frame: [76.5, 473.5, 222.5, 37], pad: [])
@@ -105,10 +121,20 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
         textField1.rx.text.orEmpty.subscribe({ value in
             self.checkText()
         }).addDisposableTo(disposeBag)
+        textField2.rx.text.orEmpty.subscribe({ value in
+            self.checkText()
+        }).addDisposableTo(disposeBag)
+        
+        keyboardWillShow { rect in
+            self.view.frame.origin.y = -210
+        }
+        keyboardWillHide { rect in
+            self.view.frame.origin.y = 0
+        }
     }
     
     private func checkText() {
-        if !textField1.text!.isEmpty && button1.currentTitle != "생년월일" {
+        if !textField1.text!.isEmpty && button1.currentTitle != "생년월일" && textField2.text!.characters.count > 3 {
             button2.isEnabled = true
             button2.alpha = 1
         } else {
@@ -123,9 +149,16 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
             disposeBag = nil
         }
     }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        view.endEditing(false)
+        datePicker.hidePicker(true)
+    }
 
     @objc private func birthdayFieldTapped(_ sender: UIButton?) {
-        let datePicker = SMDatePicker()
+        datePicker.tintColor = UIColor.black
+        datePicker.toolbarBackgroundColor = UIColor.white
         datePicker.delegate = self
         datePicker.pickerMode = .date
         datePicker.showPickerInView(self.view, animated: true)
@@ -140,14 +173,14 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
     }
 
     @objc private func signUpButtonTapped(_ sender: UIButton) {
-        self.apiManager.createUser(userName: "kyungtaek", phoneNumber: self.phoneNumber, birthDay:self.birthDay!, password:"password") { userRawInfo, error in
+        self.apiManager.createUser(userName: textField1.text!, phoneNumber: self.phoneNumber, birthDay:self.birthDay!, password:textField2.text!) { userRawInfo, error in
 
             if userRawInfo != nil {
                 DataSource.instance.storeLoginUser(loginUserValue: userRawInfo!)
                 self.loginCompletion(DataSource.instance.fetchLoginUser(), nil)
                 return
             } else {
-                print(error)
+                print(error.debugDescription)
             }
 
         }
