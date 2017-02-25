@@ -244,7 +244,7 @@ class APIManager {
     }
 
 
-    func createAnswer(questionID: String, answerText: String?, answerPhoto: String?, answerVideo: String?, receivers: [String]?, completion:@escaping (String?, Error?) ->Void) {
+    func createAnswer(questionID: String, answerText: String?, answerPhoto: String?, answerVideo: String?, receivers: [String]?, mediaSize: CGSize?, completion:@escaping (String?, Error?) ->Void) {
 
         var params: [String: Any] = [:]
         params["questionID"] = questionID
@@ -252,6 +252,11 @@ class APIManager {
         params["answerPhoto"] = answerPhoto
         params["answerVideo"] = answerVideo
         params["receivers"] = receivers
+
+        if mediaSize != nil {
+            params["mediaWidth"] = mediaSize?.width
+            params["mediaHeight"] = mediaSize?.height
+        }
 
         self.request(path: .createAnswer, params:params) { dictionary, error in
             guard let willItemID = dictionary?["willitemID"] as? String else {
@@ -349,9 +354,6 @@ class APIManager {
 
         let fullPath = path.fullPath()
 
-        //FIX: for Uploadserver dev
-        //let fullPath = "http://indiweb08.cafe24.com:25252/upload"
-        
         let fileUrl = URL(fileURLWithPath: filePath)
 
         Alamofire.upload(fileUrl, to: fullPath).responseJSON { response in

@@ -122,6 +122,28 @@ class InputView: UIView, UITextViewDelegate {
             guard let selectedAsset = assets.first else {
                 return
             }
+
+            selectedAsset.fetchFullScreenImage(false) {[unowned self] (image:UIImage?, info:[AnyHashable:Any]?) in
+
+                guard let resultImage = image else {
+                    return
+                }
+
+                let imageData = UIImageJPEGRepresentation(resultImage, 0.8)
+                let savedImageFilePath = "\(FileManager.uploadCachePath())/\(FileManager.uniqueFileName(fileExtension: "jpg"))"
+                try! imageData?.write(to: URL(fileURLWithPath: savedImageFilePath))
+
+                UploadManager.instance.createAnswer(questionID: self.questionID!, textAnswer: nil, imageAnswer: savedImageFilePath, videoAnswer: nil, receivers: self.receivers.map { $0.receiverID }, mediaSize: resultImage.size) {  [unowned self] (willItemID, error: Error?) in
+                    if error != nil {
+                        print(error!)
+                        return
+                    }
+
+                    if willItemID != nil {
+                        self.reloadWillItem?(willItemID!)
+                    }
+                }
+            }
         }
 
         DispatchQueue.main.async {
@@ -139,12 +161,44 @@ class InputView: UIView, UITextViewDelegate {
                 return
             }
 
-            let savedVideoFilePath = "\(FileManager.uploadCachePath())/\(FileManager.uniqueFileName(fileExtension: "mp4"))"
+            let queue = DispatchQueue.global()
+            let dispatchGroup = DispatchGroup()
 
-            selectedAsset.writeAVToFile(savedVideoFilePath, presetName:AVAssetExportPresetLowQuality) { _ in
-                UploadManager.instance.createAnswer(questionID: self.questionID!, textAnswer:nil, imageAnswer:nil, videoAnswer: savedVideoFilePath, receivers: self.receivers.map { $0.receiverID }) { [unowned self] (willItemID, error: Error?) in
+            let savedVideoFilePath = "\(FileManager.uploadCachePath())/\(FileManager.uniqueFileName(fileExtension: "mp4"))"
+            let savedImageFilePath = "\(FileManager.uploadCachePath())/\(FileManager.uniqueFileName(fileExtension: "jpg"))"
+            var size:CGSize = CGSize()
+
+            dispatchGroup.enter()
+            selectedAsset.writeAVToFile(savedVideoFilePath, presetName:AVAssetExportPreset640x480) { result in
+
+                if result == false {
+                    return
+                }
+
+                dispatchGroup.leave()
+            }
+
+            dispatchGroup.enter()
+            selectedAsset.fetchFullScreenImage(false) {[unowned self] (image:UIImage?, info:[AnyHashable:Any]?) in
+
+                guard let resultImage = image else {
+                    return
+                }
+
+                size = resultImage.size
+
+                let imageData = UIImageJPEGRepresentation(resultImage, 0.8)
+                try! imageData?.write(to: URL(fileURLWithPath: savedImageFilePath))
+
+                dispatchGroup.leave()
+            }
+
+
+            dispatchGroup.notify(queue: queue) { [unowned self] in
+
+                UploadManager.instance.createAnswer(questionID: self.questionID!, textAnswer:nil, imageAnswer:savedImageFilePath, videoAnswer: savedVideoFilePath, receivers: self.receivers.map { $0.receiverID }, mediaSize: size) { [unowned self] (willItemID, error: Error?) in
                     if error != nil {
-                        print(error)
+                        print(error!)
                         return
                     }
 

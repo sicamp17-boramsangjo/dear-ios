@@ -14,8 +14,8 @@ class UploadManager {
 
     private init() {}
 
-    func createAnswer(questionID: String, textAnswer: String?, imageAnswer: String?, videoAnswer: String?, receivers: [String]?, completion:@escaping ((String?, Error?) -> Void)) {
-        let queue = DispatchQueue.global()
+    func createAnswer(questionID: String, textAnswer: String?, imageAnswer: String?, videoAnswer: String?, receivers: [String]?, mediaSize:CGSize = CGSize(), completion:@escaping ((String?, Error?) -> Void)) {
+        let queue = DispatchQueue(label: "com.allaboutswift.dispatchgroup")
         let dispatchGroup = DispatchGroup()
 
         var attachments: [String:String] = [:]
@@ -31,11 +31,7 @@ class UploadManager {
                         dispatchGroup.leave()
                     }
 
-                    guard let responseDictionary = response as? Dictionary<String, String> else {
-                        return
-                    }
-
-                    imageUrl = responseDictionary["url"]
+                    imageUrl = response?["url"] as? String
                 }
             }
         }
@@ -48,17 +44,13 @@ class UploadManager {
                         dispatchGroup.leave()
                     }
 
-                    guard let responseDictionary = response as? Dictionary<String, String> else {
-                        return
-                    }
-
-                    imageUrl = responseDictionary["url"]
+                    videoUrl = response?["url"] as? String
                 }
             }
         }
 
         dispatchGroup.notify(queue: queue) { [unowned self] in
-            self.apiManager.createAnswer(questionID: questionID, answerText: textAnswer, answerPhoto:imageUrl, answerVideo: videoUrl, receivers:receivers, completion:completion)
+            self.apiManager.createAnswer(questionID: questionID, answerText: textAnswer, answerPhoto:imageUrl, answerVideo: videoUrl, receivers:receivers, mediaSize:mediaSize, completion:completion)
         }
     }
 

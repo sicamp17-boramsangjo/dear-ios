@@ -24,18 +24,31 @@ enum ReceiverSelectionConfig {
             return (direction: .horizontal,
                     itemSpacing:15,
                     lineSpacing:15,
-                    bgColor:UIColor.rgb256(225, 230, 234),
-                    contentInset: UIEdgeInsetsMake(15, 20, 15, 20)
+                    bgColor:UIColor.rgb256(80, 95, 138, 0.6),
+                    contentInset: UIEdgeInsetsMake(15, 12, 15, 12)
             )
         }
+    }
+
+    func textFont() -> UIFont? {
+        switch self {
+        case .forFilter:
+            return UIFont.drSDULight16Font()
+        case .forRecommand:
+            return UIFont.drSDLight16Font()
+        }
+    }
+
+    func textColor() -> UIColor {
+        return UIColor.drOR
     }
 }
 
 
 class ReceiverNameCell: UICollectionViewCell {
 
-    static let font = UIFont.drSDULight16Font()
     weak var nameLabel: UILabel!
+    var config: ReceiverSelectionConfig = .forFilter
 
     override init(frame:CGRect) {
         super.init(frame:frame)
@@ -53,8 +66,8 @@ class ReceiverNameCell: UICollectionViewCell {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.backgroundColor = UIColor.white
-        label.textColor = UIColor.drOR
-        label.font = ReceiverNameCell.font
+        label.textColor = self.config.textColor()
+        label.font = self.config.textFont()
         label.textAlignment = .center
         self.addSubview(label)
         self.nameLabel = label
@@ -125,6 +138,7 @@ class ReceiverSelectionView: UIView, UICollectionViewDelegate, UICollectionViewD
               let receiver = self.receivers?[indexPath.row] else {
             fatalError()
         }
+        cell.config = self.config
         cell.setupViewIfNeeds()
         cell.nameLabel.text = receiver.name
         return cell
@@ -136,7 +150,7 @@ class ReceiverSelectionView: UIView, UICollectionViewDelegate, UICollectionViewD
             return CGSize(width: 0, height: 0)
         }
 
-        let size = (receiver.name as NSString).size(attributes: [NSFontAttributeName : ReceiverNameCell.font])
+        let size = (receiver.name as NSString).size(attributes: [NSFontAttributeName : self.config.textFont()])
         return CGSize(width: size.width + 18, height: 30)
     }
 

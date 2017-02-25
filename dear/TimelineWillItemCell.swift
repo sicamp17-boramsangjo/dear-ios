@@ -27,7 +27,7 @@ class TimelineAnswerCell: UICollectionViewCell {
             dateLabel.isHidden = answer!.answerPhoto == nil
             videoIcon.isHidden = answer!.answerVideo == nil
 
-            dateLabel.text = Date(timeIntervalSince1970: answer!.lastUpdate).timeAgoSinceDate()
+            dateLabel.text = Date(timeIntervalSince1970: answer!.modifiedAt).format(with: "yyyyMMMd")
 
             if answer!.answerText != nil {
                 textAnswer.text = answer!.answerText

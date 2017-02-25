@@ -33,7 +33,7 @@ class PhotoAnswerCell: UITableViewCell {
                  }
             }
 
-            self.dateLabel.text = Date(timeIntervalSince1970: newAnswer.lastUpdate).timeAgoSinceDate(numericDates: true)
+            self.dateLabel.text = Date(timeIntervalSince1970: newAnswer.modifiedAt).timeAgoSinceDate(numericDates: true)
 
             self.videoButton.isHidden = newAnswer.answerVideo == nil
         }

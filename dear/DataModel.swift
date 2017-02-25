@@ -44,7 +44,8 @@ class Answer: Object {
     dynamic var answerVideo: String?
     dynamic var mediaWidth: Int = 0
     dynamic var mediaHeight: Int = 0
-    dynamic var lastUpdate: Double = 0
+    dynamic var modifiedAt: Double = 0
+    dynamic var createdAt: Double = 0
 
     let willItem = LinkingObjects(fromType: WillItem.self, property: "answers")
 
@@ -79,7 +80,8 @@ class WillItem: Object {
     dynamic var willitemID: String = ""
     dynamic var questionID: String = ""
     dynamic var text: String = ""
-    dynamic var lastUpdate: Double = 0
+    dynamic var modifiedAt: Double = 0
+    dynamic var createdAt: Double = 0
 
     let answers = List<Answer>()
 

@@ -15,6 +15,8 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
     weak var tableView: UITableView!
     weak var textInputView: InputView!
     weak var inputViewBottomMargin: NSLayoutConstraint!
+    weak var receiverSelectionView: ReceiverSelectionView!
+
     var apiManager: APIManager = APIManager()
 
     var willItemID: String?
@@ -201,6 +203,20 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
             maker.size.equalTo(CGSize(width: 40, height: 40))
         }
         self.closeButton.isHidden = !self.showCloseButton
+
+        let receiverSelectionView = ReceiverSelectionView(config: .forRecommand) { receiver in
+
+         }
+        receiverSelectionView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(receiverSelectionView)
+        self.receiverSelectionView = receiverSelectionView
+        receiverSelectionView.snp.makeConstraints { maker in
+            maker.leadingMargin.equalTo(0)
+            maker.trailingMargin.equalTo(0)
+            maker.height.equalTo(57)
+            maker.bottom.equalTo(textInputView.snp.top)
+        }
+        receiverSelectionView.isHidden = true
     }
 
     private func registerNotifications() {
@@ -271,6 +287,14 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
 
         defer {
             tableView.deselectRow(at: indexPath, animated: true)
+
+            if self.questionView.status == .open {
+                self.questionView.status = .close
+            }
+
+            if self.textInputView.textView.isFirstResponder {
+                self.textInputView.textView.resignFirstResponder()
+            }
         }
 
         guard let cell = tableView.cellForRow(at: indexPath) as? PhotoAnswerCell else {
@@ -285,7 +309,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
             let videoViewer = VideoViewer(videoPath: answer.answerVideo!)
             self.present(videoViewer, animated: true)
         } else {
-            let lastUpdate = Date(timeIntervalSince1970: answer.lastUpdate).timeAgoSinceDate()
+            let lastUpdate = Date(timeIntervalSince1970: answer.modifiedAt).timeAgoSinceDate()
             let photo = PhotoModel(image:cell.imageAnswerView.image, summary:question, credit: lastUpdate)
             let photosViewController = NYTPhotosViewController(photos: [photo])
 
