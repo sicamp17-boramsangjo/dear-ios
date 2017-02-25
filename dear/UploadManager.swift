@@ -14,7 +14,7 @@ class UploadManager {
 
     private init() {}
 
-    func createAnswer(questionID: String, textAnswer: String?, imageAnswer: String?, videoAnswer: String?, receivers: [String]?, completion:@escaping ((Bool, Error?) -> Void)) {
+    func createAnswer(questionID: String, textAnswer: String?, imageAnswer: String?, videoAnswer: String?, receivers: [String]?, completion:@escaping (([String:Any]?, Error?) -> Void)) {
         let queue = DispatchQueue.global()
         let dispatchGroup = DispatchGroup()
 
@@ -58,14 +58,7 @@ class UploadManager {
         }
 
         dispatchGroup.notify(queue: queue) { [unowned self] in
-            self.apiManager.createAnswer(questionID: questionID, answerText: textAnswer, answerPhoto:imageUrl, answerVideo: videoUrl, receivers:receivers) { _, error in
-                guard error == nil else {
-                    completion(false, error)
-                    return
-                }
-
-                completion(true, nil)
-            }
+            self.apiManager.createAnswer(questionID: questionID, answerText: textAnswer, answerPhoto:imageUrl, answerVideo: videoUrl, receivers:receivers, completion:completion)
         }
     }
 

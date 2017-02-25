@@ -94,7 +94,7 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
         
         let label2 = UILabel()
         label2.uni(frame: [76.5, 473.5, 222.5, 37], pad: [])
-        label2.font = UIFont.drSDULight155Font()
+        label2.font = UIFont.drSDULight16Font()
         label2.textColor = UIColor(hexString: "8c96a5")
         label2.text = "작성하신 내용은 심적효력만 있어요 :)\n법적효력은 없으니 주의해주세요!"
         label2.textAlignment = .center
@@ -103,7 +103,7 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
         
         let label3 = UILabel()
         label3.uni(frame: [69.5, 535, 236.5, 14], pad: [])
-        label3.font = UIFont.drSDULight155Font()
+        label3.font = UIFont.drSDULight16Font()
         label3.textColor = UIColor(hexString: "8c96a5")
         label3.text = "푸시 메세지를 받아보시는걸 권장드려요"
         label3.textAlignment = .center
@@ -112,7 +112,7 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
         
         button2.uni(frame: [37.5, 585, 300, 50], pad: [])
         button2.backgroundColor = UIColor(hexString: "f1520b")
-        button2.titleLabel?.font = UIFont.drSDLight155Font()
+        button2.titleLabel?.font = UIFont.drSDLight16Font()
         button2.setTitle("가입하기", for: .normal)
         button2.tintColor = UIColor.white
         button2.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)

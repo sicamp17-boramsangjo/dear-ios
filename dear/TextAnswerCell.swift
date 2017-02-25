@@ -20,7 +20,8 @@ class TextAnswerCell: UITableViewCell {
             }
 
             if newAnswer.answerText != nil {
-                textAnswerLabel.text = newAnswer.answerText
+                textAnswerLabel.attributedText = newAnswer.answerText!.attrString(font: UIFont.drSDULight14Font(), color: UIColor.drGR05, lineSpacing: 1.16, alignment: .center)
+                self.dateLabel.text = Date(timeIntervalSince1970: newAnswer.lastUpdate).timeAgoSinceDate(numericDates: true)
             }
         }
     }
@@ -41,31 +42,40 @@ class TextAnswerCell: UITableViewCell {
         let answerLabel = UILabel(frame: .zero)
         answerLabel.translatesAutoresizingMaskIntoConstraints = false
         answerLabel.lineBreakMode = .byWordWrapping
-        answerLabel.textAlignment = .left
-        answerLabel.font = UIFont.drSDULight16Font()
-        answerLabel.textColor = UIColor.drBK
         answerLabel.numberOfLines = 0
         self.contentView.addSubview(answerLabel)
         self.textAnswerLabel = answerLabel
         self.textAnswerLabel.snp.makeConstraints { maker in
-            maker.leading.equalTo(30)
-            maker.trailing.equalTo(30)
-            maker.top.equalTo(23)
+            maker.topMargin.equalTo(35)
+            maker.leadingMargin.equalTo(55)
+            maker.trailingMargin.equalTo(-55)
         }
 
         let dateLabel = UILabel(frame: .zero)
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.lineBreakMode = .byWordWrapping
-        dateLabel.textAlignment = .left
-        dateLabel.font = UIFont.drNMB13Font()
+        dateLabel.textAlignment = .center
+        dateLabel.font = UIFont.drSDRegular12Font()
         dateLabel.textColor = UIColor.drGR01
-        dateLabel.numberOfLines = 0
+        dateLabel.numberOfLines = 1
         self.contentView.addSubview(dateLabel)
         self.dateLabel = dateLabel
         dateLabel.snp.makeConstraints { maker in
             maker.left.equalTo(answerLabel.snp.left)
             maker.right.equalTo(answerLabel.snp.right)
-            maker.top.equalTo(answerLabel.snp.bottom).offset(9)
+            maker.top.equalTo(answerLabel.snp.bottom).offset(6)
+            maker.bottomMargin.equalTo(-25)
         }
+
+        let splitView = UIView(frame: .zero)
+        splitView.backgroundColor = UIColor.rgb256(229, 229, 229)
+        splitView.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(splitView)
+        splitView.snp.makeConstraints { maker in
+            maker.leadingMargin.equalTo(45)
+            maker.trailingMargin.equalTo(0)
+            maker.bottomMargin.equalTo(0)
+            maker.height.equalTo(1)
+         }
     }
 }
