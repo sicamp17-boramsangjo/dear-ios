@@ -6,142 +6,90 @@
 //  Copyright © 2017년 sicamp. All rights reserved.
 //
 
-import Foundation
 import UIKit
-import SnapKit
-import CoreGraphics
-import SDWebImage
-import ChameleonFramework
-import DigitsKit
 
-class SideMenuViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
-    private var tableView: UITableView!
-    private var menuItems: [[Any]] = [
-            [SideMenuProfileItem(name: "최순실", profileImageUrl:"https://static-cdn.jtvnw.net/jtv_user_pictures/gmdkdsla-profile_image-23beb3368be621ec-300x300.png", receiverName: "박근혜", progress: 0.5) {
-
-            }], [
-                    SideMenuItem(title: "New message", iconName: "arrow") {
-                    },
-                    SideMenuItem(title: "Config alam", iconName: "arrow") {
-                        //TODO: open config Alarm
-                    },
-                    SideMenuItem(title: "Config sending message", iconName: "arrow") {
-                        //TODO: open config sending message
-                    },
-                    SideMenuItem(title: "Tutorial", iconName: "arrow") {
-                        //TODO: open tutorial
-                    },
-                    SideMenuItem(title: "Logout", iconName: "arrow") {
-                        DataSource.instance.cleanAllDB()
-                        Digits.sharedInstance().logOut()
-                        guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }
-                        delegate.window?.rootViewController = delegate.setupIntroViewGroup()
-                    }
-            ]
-    ]
-
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        print("init coder style")
-        super.init(coder: aDecoder)
-    }
-
+class SideMenuViewController: UIViewController {
+    
+    var imageView1 = UIImageView()
+    var label1 = UILabel()
+    var label2 = UILabel()
+    var label3 = UILabel()
+    var view1 = UIView()
+    var button1 = UIButton(type: .system)
+    var button2 = UIButton(type: .system)
+    var button3 = UIButton(type: .system)
+    
+    var isOpen = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupView()
+        initView()
     }
-
-    private func setupView() {
-
-        self.tableView = UITableView(frame: .zero, style: .plain)
-        self.tableView.backgroundColor = UIColor.flatSkyBlueDark
-        self.tableView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(self.tableView)
-        self.tableView.snp.makeConstraints {[unowned self] (make) in
-            make.top.equalTo(self.view).offset(0)
-            make.left.equalTo(self.view).offset(0)
-            make.bottom.equalTo(self.view).offset(0)
-            make.right.equalTo(self.view).offset(-120)
-        }
-        self.tableView.register(SideMenuProfileCell.self, forCellReuseIdentifier: "UserProfileCell")
-        self.tableView.register(SideMenuItemCell.self, forCellReuseIdentifier: "MenuItemCell")
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        self.tableView.separatorStyle = .none
-        self.tableView.estimatedRowHeight = 120
-        self.tableView.rowHeight = UITableViewAutomaticDimension
-
+    
+    private func initView() {
+        view.uni(frame: [-300, 0, 300, 667], pad: [])
+        view.backgroundColor = UIColor.white
+        
+        imageView1.uni(frame: [105, 60, 90, 90], pad: [])
+        imageView1.backgroundColor = UIColor(hexString: "bec3c8")
+        imageView1.layer.cornerRadius = imageView1.bounds.width / 2
+        imageView1.layer.masksToBounds = true
+        view.addSubview(imageView1)
+        
+        label1.uni(frame: [0, 180, 300, 20], pad: [])
+        label1.textAlignment = .center
+        label1.font = UIFont.drNM20Font()
+        label1.text = "선영"
+        view.addSubview(label1)
+        
+        label2.uni(frame: [0, 220, 300, 15], pad: [])
+        label2.textAlignment = .center
+        label2.font = UIFont.drNM13Font()
+        label2.text = "6일째 작성중"
+        view.addSubview(label2)
+        
+        label3.uni(frame: [0, 240, 300, 15], pad: [])
+        label3.textAlignment = .center
+        label3.font = UIFont.drNM13Font()
+        label3.text = "36개 답변 작성"
+        view.addSubview(label3)
+        
+        view1.uni(frame: [45, 303, 210, 1], pad: [])
+        view1.backgroundColor = UIColor.black
+        view.addSubview(view1)
+        
+        button1.uni(frame: [0, 340, 300, 70], pad: [])
+        button1.titleLabel!.font = UIFont.drNM24Font()
+        button1.setTitle("dear", for: .normal)
+        button1.tintColor = UIColor(hexString: "555555")
+        button1.addTarget(self, action: #selector(action(button1:)), for: .touchUpInside)
+        view.addSubview(button1)
+        
+        button2.uni(frame: [0, 410, 300, 70], pad: [])
+        button2.titleLabel!.font = UIFont.drNM24Font()
+        button2.setTitle("도움말", for: .normal)
+        button2.tintColor = UIColor(hexString: "555555")
+        button2.addTarget(self, action: #selector(action(button2:)), for: .touchUpInside)
+        view.addSubview(button2)
+        
+        button3.uni(frame: [0, 480, 300, 70], pad: [])
+        button3.titleLabel!.font = UIFont.drNM24Font()
+        button3.setTitle("설정", for: .normal)
+        button3.tintColor = UIColor(hexString: "555555")
+        button3.addTarget(self, action: #selector(action(button3:)), for: .touchUpInside)
+        view.addSubview(button3)
     }
-
-    public func numberOfSections(in tableView: UITableView) -> Int {
-        return self.menuItems.count
+    
+    @objc private func action(button1: UIButton) {
+        
     }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let menuItems: [Any] = self.menuItems[section]
-        return menuItems.count
+    
+    @objc private func action(button2: UIButton) {
+        
     }
-
-    private func menuItem(indexPath: IndexPath) -> SideMenuItemRunnable {
-        let section = self.menuItems[indexPath.section]
-        return section[indexPath.row] as! SideMenuItemRunnable
+    
+    @objc private func action(button3: UIButton) {
+        
     }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        if indexPath.section == 0 {
-            let profileCell: SideMenuProfileCell = tableView.dequeueReusableCell(withIdentifier: "UserProfileCell", for: indexPath) as! SideMenuProfileCell
-
-            let menuItem = self.menuItem(indexPath: indexPath) as! SideMenuProfileItem
-            profileCell.setupUserProfile(profileImageUrl: menuItem.profileImageUrl, userName: menuItem.name)
-            return profileCell
-
-        } else {
-
-            let menuCell: SideMenuItemCell = tableView.dequeueReusableCell(withIdentifier: "MenuItemCell", for: indexPath) as! SideMenuItemCell
-
-            let menuItem = self.menuItem(indexPath: indexPath) as! SideMenuItem
-            menuCell.setupMenuItem(icon: UIImage(named:menuItem.iconName)!, itemName: menuItem.title)
-
-            return menuCell
-        }
-
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        let runnableMenuItem: SideMenuItemRunnable = self.menuItem(indexPath: indexPath)
-        runnableMenuItem.handleTapEvent()
-    }
-}
-
-protocol SideMenuItemRunnable {
-    func handleTapEvent() -> Void
-}
-
-struct SideMenuItem: SideMenuItemRunnable {
-    let title: String
-    let iconName: String
-    let tapEvent: (Void) -> Void
-
-    func handleTapEvent() {
-        self.tapEvent()
-    }
-}
-
-struct SideMenuProfileItem: SideMenuItemRunnable {
-    let name: String
-    let profileImageUrl: String
-    let receiverName: String
-    let progress: Float
-    let tapEvent: (Void) -> Void
-
-    func handleTapEvent() {
-        tapEvent()
-    }
-
+    
 }

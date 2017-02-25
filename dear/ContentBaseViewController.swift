@@ -22,7 +22,10 @@ class ContentBaseViewController: UIViewController {
     weak var timelineButton: UIButton!
 
     var menuMode: MenuMode = .todaysWillItem
-
+    
+    var sideMenuView: SideMenuViewController!
+    var menuCoverView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupView()
@@ -98,6 +101,18 @@ class ContentBaseViewController: UIViewController {
         }
 
         self.setupTodayWillItemMode()
+        
+        menuCoverView = UIView()
+        menuCoverView.uni(frame: [0, 0, 375, 667], pad: [])
+        menuCoverView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        menuCoverView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sideMenuButtonTapped(_:))))
+        menuCoverView.isHidden = true
+        menuCoverView.alpha = 0
+        view.addSubview(menuCoverView)
+        
+        sideMenuView = SideMenuViewController()
+        addChildViewController(sideMenuView)
+        view.addSubview(sideMenuView.view)
     }
 
     private func setupTodayWillItemMode() {
@@ -126,10 +141,26 @@ class ContentBaseViewController: UIViewController {
     }
 
     @objc private func sideMenuButtonTapped(_ sender: UIButton) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+        /*guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         appDelegate.sideMenu?.presentLeftMenuViewController()
+         */
+        if sideMenuView.isOpen {
+            UIView.animate(withDuration: 0.35, animations: {
+                self.menuCoverView.alpha = 0
+                self.sideMenuView.view.frame.origin.x = -300
+            }, completion: { finish in
+                self.menuCoverView.isHidden = false
+            })
+        } else {
+            menuCoverView.isHidden = false
+            UIView.animate(withDuration: 0.35, animations: {
+                self.menuCoverView.alpha = 1
+                self.sideMenuView.view.frame.origin.x = 0
+            })
+        }
+        sideMenuView.isOpen = !sideMenuView.isOpen
     }
 
     @objc private func menuChanged(_ sender: UIButton) {
