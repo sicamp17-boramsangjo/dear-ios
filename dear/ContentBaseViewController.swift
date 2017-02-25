@@ -21,6 +21,8 @@ class ContentBaseViewController: UIViewController {
     weak var todayButton: UIButton!
     weak var timelineButton: UIButton!
 
+    let apiManager = APIManager()
+
     var menuMode: MenuMode = .todaysWillItem
     
     var sideMenuView: SideMenuViewController!
@@ -29,6 +31,10 @@ class ContentBaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupView()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [unowned self] in
+            self.updateUserInfo()
+        }
     }
 
     private func setupView() {
@@ -112,6 +118,18 @@ class ContentBaseViewController: UIViewController {
         sideMenuView = SideMenuViewController()
         addChildViewController(sideMenuView)
         view.addSubview(sideMenuView.view)
+    }
+
+    private func updateUserInfo() {
+
+        self.apiManager.getUserInfo {[unowned self] dictionary, error in
+            guard let loginUserValue = dictionary else {
+                return
+            }
+
+            DataSource.instance.storeLoginUser(loginUserValue: loginUserValue)
+        }
+
     }
 
     private func setupTodayWillItemMode() {

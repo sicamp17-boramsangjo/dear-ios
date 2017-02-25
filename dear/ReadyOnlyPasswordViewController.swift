@@ -91,8 +91,10 @@ class ReadyOnlyPasswordViewController: UIViewController {
         }
     }
 
+
     private func getTokenForReadOnly() {
-        self.apiManager.getSessionTokenForReadOnly(userID: self.userID, birthDay: textField1.text!) { [unowned self] dictionary, error in
+        self.apiManager.getSessionTokenForReadOnly(readOnlyToken: self.userID, birthDayString:textField1.text!) { [unowned self] dictionary, error in
+
             guard error == nil, let sessionToken = dictionary?["sessionToken"] as? String else {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 self.textField1.text = ""

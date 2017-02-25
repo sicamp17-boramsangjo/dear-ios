@@ -297,12 +297,12 @@ class APIManager {
          }
     }
 
-    func getSessionTokenForReadOnly(userID:String, birthDay:Date, completion: @escaping APICompletion) {
-        self.request(path: .getSessionTokenForReadOnly, params: ["userID":userID, "birthDay":Int64(birthDay.timeIntervalSince1970)], completion: completion)
+    func getSessionTokenForReadOnly(readOnlyToken:String, birthDayString:String, completion: @escaping APICompletion) {
+        self.request(path: .getSessionTokenForReadOnly, params: ["readOnlyToken": readOnlyToken, "birthDay":birthDayString], preventSessionToken: true, completion: completion)
     }
 
 
-    private func request(path: APIPath, params: [String:Any]? = nil, completion:APICompletion?) {
+    private func request(path: APIPath, params: [String:Any]? = nil, preventSessionToken:Bool = false, completion:APICompletion?) {
 
         let headers = ["Content-Type": "application/json"]
 
@@ -310,7 +310,9 @@ class APIManager {
 
         var paramsWithDefaultParam: [String:Any] = params != nil ? params! : [:]
 
-        paramsWithDefaultParam["sessionToken"] = self.readOnlySessionToken ?? APIManager.sessionToken
+        if preventSessionToken == false {
+            paramsWithDefaultParam["sessionToken"] = self.readOnlySessionToken ?? APIManager.sessionToken
+        }
 
         Alamofire.request(fullPath,
                         method:.post,

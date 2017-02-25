@@ -23,6 +23,8 @@ class TextAnswerCell: UITableViewCell {
                 textAnswerLabel.attributedText = newAnswer.answerText!.attrString(font: UIFont.drSDULight14Font(), color: UIColor.drGR05, lineSpacing: 1.16, alignment: .center)
                 self.dateLabel.text = Date(timeIntervalSince1970: newAnswer.modifiedAt).timeAgoSinceDate(numericDates: true)
             }
+
+            self.dateLabel.isHidden = newAnswer.answerText == nil
         }
     }
 

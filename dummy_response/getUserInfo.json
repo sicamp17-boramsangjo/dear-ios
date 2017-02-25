@@ -2,8 +2,8 @@
   "status": 200,
   "msg": "OK",
   "user": {
-    "userName": "sjkim",
-    "_id": "58ae628ebf825f4bb046dd24",
+    "status": "normal",
+    "userName": "Kyungtaek",
     "receivers": [
       {
         "receiverID":"RECEIVER_ID1",
@@ -42,16 +42,22 @@
       }
     ],
     "pushDuration": 31536000,
+    "userID": "58b123babf825f2f8b8aa8a4",
     "todaysQuestion": {
-      "questionId": "58ac500abf825f120f773d22",
-      "deliveredAt": 1487976208
+      "questionID": "58b121e1bf825f2f8b8aa8a1",
+      "deliveredAt": 1488004026
     },
-    "profileImageUrl": "",
-    "birthDay": 49881200,
-    "phoneNumber": "011-1274-5313",
-    "lastLoginTime": 1487976208,
-    "willitems": {},
-    "password": "sjsj!",
-    "deviceToken": ""
+    "profileImageUrl": "http://indiweb08.cafe24.com:8888/images/a6b810a5-5fd2-4a1a-b439-652ac0c915b5_63ca1508-fb62-11e6-845e-00163e7e8a2f.jpg",
+    "birthDay": 856852006,
+    "phoneNumber": "+821089537871",
+    "lastLoginTime": 1488030794,
+    "willitems": {
+      "58b121e1bf825f2f8b8aa8a1": {
+        "willitemID": "58b123c6bf825f2f8b8aa8a5",
+        "modifiedAt": 1488023999
+      }
+    },
+    "password": "1234",
+    "deviceToken": "cf36caf3f1152f45af02a882c7d49904acc1c5c00b275bb4d523c37eda775833"
   }
 }

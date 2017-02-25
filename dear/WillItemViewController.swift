@@ -7,6 +7,7 @@ import UIKit
 import SnapKit
 import NYTPhotoViewer
 import SDWebImage
+import SVProgressHUD
 
 class WillItemViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NYTPhotosViewControllerDelegate {
 
@@ -75,7 +76,13 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
             }
         } else {
 
+            SVProgressHUD.show()
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+
+                defer {
+                    SVProgressHUD.dismiss()
+                }
 
                 self.fetchTodaysQuestion { [unowned self] question, willItem, error in
                     guard error == nil else {
@@ -148,6 +155,11 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.willItem = item
             }
         }
+
+        textInputView.showReceiverList = { isShow in
+            self.receiverSelectionView.isHidden = !isShow
+        }
+
         self.view.addSubview(textInputView)
         self.textInputView = textInputView
         self.textInputView.snp.makeConstraints { maker in
@@ -185,7 +197,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.register(PhotoAnswerCell.self, forCellReuseIdentifier: PhotoAnswerCell.identifier())
 
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(space)-[questionView][tableView][textInputView]",
-                metrics: ["space": (self.showCloseButton == true ? 40 : 0)],
+                metrics: ["space": (self.showCloseButton == true ? 60 : 0)],
                 views: ["questionView":questionView, "tableView": tableView, "textInputView": textInputView]))
         let inputViewBottomMargin = NSLayoutConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: textInputView, attribute: .bottom, multiplier: 1.0, constant: 0)
         self.view.addConstraint(inputViewBottomMargin)
@@ -198,21 +210,25 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
         self.view.addSubview(closeButton)
         self.closeButton = closeButton
         self.closeButton.snp.makeConstraints { maker in
-            maker.leadingMargin.equalTo(7)
-            maker.topMargin.equalTo(20)
+            maker.leadingMargin.equalTo(3)
+            maker.topMargin.equalTo(30)
             maker.size.equalTo(CGSize(width: 40, height: 40))
         }
         self.closeButton.isHidden = !self.showCloseButton
 
-        let receiverSelectionView = ReceiverSelectionView(config: .forRecommand) { receiver in
-
+        let receiverSelectionView = ReceiverSelectionView(config: .forRecommand) {[unowned self] receiver in
+            if receiver != nil {
+                self.textInputView.textView.text = "\(self.textInputView.textView.text) \(receiver!.name)"
+            }
+                self.receiverSelectionView.isHidden = true
          }
+        receiverSelectionView.receivers = DataSource.instance.fetchAllReceivers()
         receiverSelectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(receiverSelectionView)
         self.receiverSelectionView = receiverSelectionView
         receiverSelectionView.snp.makeConstraints { maker in
-            maker.leadingMargin.equalTo(0)
-            maker.trailingMargin.equalTo(0)
+            maker.left.equalTo(0)
+            maker.right.equalTo(0)
             maker.height.equalTo(57)
             maker.bottom.equalTo(textInputView.snp.top)
         }

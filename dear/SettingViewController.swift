@@ -35,6 +35,10 @@ class SettingViewController: UIViewController, MFMessageComposeViewControllerDel
     }
     
     private func initView() {
+
+        self.navigationItem.title = "환경설정"
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "closeButton"), style: .plain, target: self, action: #selector(closeButtonTapped(_:)))
+
         view.backgroundColor = UIColor(hexString: "f1f2f3")
         
         view1.uni(frame: [0, 0, 375, 64], pad: [])
@@ -184,7 +188,11 @@ class SettingViewController: UIViewController, MFMessageComposeViewControllerDel
             })
         }
     }
-    
+
+    @objc private func closeButtonTapped(_ button: UIBarButtonItem) {
+        self.dismiss(animated:true)
+    }
+
 }
 
 class SettingView: UIView {
@@ -245,5 +253,5 @@ class SettingView: UIView {
         layer.shadowOpacity = isLast ? 0.08 : 0
         view1.isHidden = isLast ? true : false
     }
-    
+
 }

@@ -52,8 +52,14 @@ class TimelineAnswerCell: UICollectionViewCell {
     private func setupView() {
 
         self.backgroundColor = UIColor.white
-        self.layer.cornerRadius = 2
-        self.clipsToBounds = true
+        self.layer.cornerRadius = 3
+
+        self.backgroundColor = UIColor.white
+        self.layer.shadowOffset = CGSize(width: 0, height: 3)
+        self.layer.shadowRadius = 4
+        self.layer.shadowOpacity = 0.3
+        self.layer.shadowColor = UIColor.black.cgColor
+
         self.applyCommonShadow()
 
         let photoAnswer = UIImageView(image: nil)

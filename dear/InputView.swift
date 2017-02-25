@@ -20,7 +20,9 @@ class InputView: UIView, UITextViewDelegate {
     var questionID: String?
     var receivers: [Receiver] = []
     let apiManager = APIManager()
+
     var reloadWillItem:((String) -> Void)?
+    var showReceiverList:((Bool) -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -225,11 +227,16 @@ class InputView: UIView, UITextViewDelegate {
                 return
             }
 
-            self.textView.text.removeAll()
+            self.handlerPostCompletion()
             if willItemID != nil {
                 self.reloadWillItem?(willItemID!)
             }
         }
+    }
+
+    func handlerPostCompletion() {
+        self.textView.text.removeAll()
+        self.heightConstraint?.updateOffset(amount: 40)
     }
 
     public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
@@ -256,6 +263,12 @@ class InputView: UIView, UITextViewDelegate {
         var numLine = Int(height / lineHeight)
 
         self.heightConstraint?.updateOffset(amount: min(90, (25 * numLine + 15)))
+
+        if textView.text.characters.last == "@" {
+            self.showReceiverList?(true)
+        } else {
+            self.showReceiverList?(false)
+        }
     }
 
 }

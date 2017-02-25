@@ -46,8 +46,8 @@ class VideoViewer: UIViewController {
         closeButton.addTarget(self, action: #selector(closeButtonTapped(_:)), for: .touchUpInside)
         self.view.addSubview(closeButton)
         closeButton.snp.makeConstraints { maker in
-            maker.leadingMargin.equalTo(7)
-            maker.topMargin.equalTo(20)
+            maker.leadingMargin.equalTo(3)
+            maker.topMargin.equalTo(30)
             maker.size.equalTo(CGSize(width: 40, height: 40))
         }
     }
