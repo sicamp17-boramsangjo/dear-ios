@@ -57,6 +57,7 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
         textField1.textColor = UIColor(hexString: "8c96a5")
         textField1.textAlignment = .center
         textField1.placeholder = "사용자 이름"
+        textField1.clearButtonMode = .always
         view.addSubview(textField1)
         
         let view1 = UIView()
@@ -85,6 +86,7 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
         textField2.textAlignment = .center
         textField2.placeholder = "비밀번호"
         textField2.isSecureTextEntry = true
+        textField2.clearButtonMode = .always
         view.addSubview(textField2)
         
         let view3 = UIView()

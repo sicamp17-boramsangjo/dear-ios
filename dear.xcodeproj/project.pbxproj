@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		15CF281DF8F7C0293FE56E02 /* Pods_dear.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A48E70C91AB463A84DB5F6F /* Pods_dear.framework */; };
+		16228E331E61BC220064BC2A /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16228E321E61BC220064BC2A /* SettingViewController.swift */; };
 		16848CEB1E5E7CF300EA15BE /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16848CEA1E5E7CF300EA15BE /* KeyboardObserver.swift */; };
 		B32F0F7D1E4E0BD300562F86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32F0F7C1E4E0BD300562F86 /* AppDelegate.swift */; };
 		B32F0F841E4E0BD300562F86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B32F0F831E4E0BD300562F86 /* Assets.xcassets */; };
@@ -68,6 +69,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		16228E321E61BC220064BC2A /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		16848CEA1E5E7CF300EA15BE /* KeyboardObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
 		182203C0668201E466FD0B43 /* Pods-dearTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dearTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-dearTests/Pods-dearTests.release.xcconfig"; sourceTree = "<group>"; };
 		400A8C2F4EC5ADE895FA54C8 /* Pods_dearTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_dearTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -226,6 +228,7 @@
 			isa = PBXGroup;
 			children = (
 				B3377F1D1E520281001ABFE9 /* SideMenuViewController.swift */,
+				16228E321E61BC220064BC2A /* SettingViewController.swift */,
 			);
 			name = SideMenu;
 			sourceTree = "<group>";
@@ -613,6 +616,7 @@
 				D86C9E6A8608C4EDE5F42A4D /* ResultExtension.swift in Sources */,
 				D86C99A754807C1CFA108AB0 /* Style.swift in Sources */,
 				D86C9A109FEE17FD6C89FD3C /* AnswerDateCell.swift in Sources */,
+				16228E331E61BC220064BC2A /* SettingViewController.swift in Sources */,
 				D86C9EC5BFB4329ABA218655 /* StringExtension.swift in Sources */,
 				D86C98706763225275951D78 /* UIViewExtension.swift in Sources */,
 			);
@@ -745,13 +749,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = dear/dear.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 3KJGH5B54Q;
 				INFOPLIST_FILE = dear/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bezierpaths.dear;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6c6fd67c-fb68-42a3-8b37-cd108f78f4e2";
+				PROVISIONING_PROFILE = "a52e2f34-d6a4-4e85-927e-a0be6410f00b";
 				PROVISIONING_PROFILE_SPECIFIER = dev_dear;
 				SWIFT_VERSION = 3.0;
 			};
@@ -763,15 +768,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = dear/dear.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 3KJGH5B54Q;
 				INFOPLIST_FILE = dear/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bezierpaths.dear;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f8b3fd5b-2523-4ae1-ae08-f6c2fdea0a1c";
-				PROVISIONING_PROFILE_SPECIFIER = appstore_dear;
+				PROVISIONING_PROFILE = "a52e2f34-d6a4-4e85-927e-a0be6410f00b";
+				PROVISIONING_PROFILE_SPECIFIER = dev_dear;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -863,15 +868,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = dear/dear.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 3KJGH5B54Q;
 				INFOPLIST_FILE = dear/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bezierpaths.dear;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0cc6919d-ab68-4d6b-bd2d-bc967777558e";
-				PROVISIONING_PROFILE_SPECIFIER = adhoc_dear;
+				PROVISIONING_PROFILE = "a52e2f34-d6a4-4e85-927e-a0be6410f00b";
+				PROVISIONING_PROFILE_SPECIFIER = dev_dear;
 				SWIFT_VERSION = 3.0;
 			};
 			name = AdHoc;

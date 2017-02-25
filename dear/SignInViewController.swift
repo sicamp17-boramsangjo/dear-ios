@@ -45,7 +45,11 @@ class SignInViewController: UIViewController {
         label1.text = "비밀번호를 입력해주세요"
         view.addSubview(label1)
         
-        textField1.uni(frame: [50, 279, 270, 25], pad: [])
+        textField1.uni(frame: [50, 273, 270, 30], pad: [])
+        textField1.textAlignment = .center
+        textField1.font = UIFont.drSDThin28Font()
+        textField1.textColor = UIColor(hexString: "8c96a5")
+        textField1.clearButtonMode = .always
         view.addSubview(textField1)
         
         view1.uni(frame: [50, 304, 270, 0.5], pad: [])

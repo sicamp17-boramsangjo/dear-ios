@@ -23,8 +23,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        self.setupWindowWithLoginStatus()
-        self.setupApplication()
+        //self.setupWindowWithLoginStatus()
+        //self.setupApplication()
+        
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        window.rootViewController =
+            //CheckPhoneNumberViewController {_,_ in}
+            //SignUpViewController(phoneNumber: "", completion: {_,_ in})
+            //ReadOnlyContentViewController(sessionToken: "")
+            ReadyOnlyPasswordViewController(userID: "")
+            //setupContentViewGroup()
+            //SettingViewController()
+            //SignInViewController(phoneNumber: "", loginCompletion: {_,_ in})
+        window.makeKeyAndVisible()
+        self.window = window
 
         return true
     }
