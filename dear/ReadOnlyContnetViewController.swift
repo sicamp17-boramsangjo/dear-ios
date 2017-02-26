@@ -148,7 +148,7 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
             let answer = willItem.answers[(indexPath.row - 1)]
             if let answerText = answer.answerText {
                 return uni(height: [92]) +
-                    answerText.boundingRect(with: CGSize(width: uni(width: [265]), height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [NSFontAttributeName : UIFont.drNM17Font()!], context: nil).height
+                    answerText.boundingRect(with: CGSize(width: uni(width: [265]), height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [NSFontAttributeName : UIFont.drSDLight16Font()!], context: nil).height
             } else {
                 return uni(height: [92]) + uni(height: [200])
             }

@@ -43,7 +43,7 @@ class ReadOnlyAnswerCell: UITableViewCell {
         
         label1.uni(frame: [55, 0, 265, 0], pad: [])
         label1.textAlignment = .center
-        label1.font = UIFont.drNM17Font()
+        label1.font = UIFont.drSDLight16Font()
         label1.textColor = UIColor(hexString: "55555")
         label1.numberOfLines = 0
         addSubview(label1)
