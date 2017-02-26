@@ -40,7 +40,7 @@ class ReadOnlyQuestionCell: UITableViewCell {
         label1.uni(frame: [55, 0, 265, 0], pad: [])
         label1.textColor = UIColor(hexString: "666666")
         label1.textAlignment = .center
-        label1.font = UIFont.drNM17Font()
+        label1.font = UIFont.drNM20Font()
         label1.numberOfLines = 0
         addSubview(label1)
     }

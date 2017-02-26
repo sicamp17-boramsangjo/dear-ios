@@ -143,12 +143,12 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
         }
         if indexPath.row == 0 {
             return uni(height: [152]) +
-                willItem.text.boundingRect(with: CGSize.init(width: uni(width: [265]), height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: nil, context: nil).height
+                willItem.text.boundingRect(with: CGSize(width: uni(width: [265]), height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [NSFontAttributeName : UIFont.drNM20Font()!], context: nil).height
         } else {
             let answer = willItem.answers[(indexPath.row - 1)]
             if let answerText = answer.answerText {
                 return uni(height: [92]) +
-                    answerText.boundingRect(with: CGSize.init(width: uni(width: [265]), height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: nil, context: nil).height
+                    answerText.boundingRect(with: CGSize(width: uni(width: [265]), height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [NSFontAttributeName : UIFont.drNM17Font()!], context: nil).height
             } else {
                 return uni(height: [92]) + uni(height: [200])
             }

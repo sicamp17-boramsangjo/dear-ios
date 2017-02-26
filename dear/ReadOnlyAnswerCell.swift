@@ -68,7 +68,7 @@ class ReadOnlyAnswerCell: UITableViewCell {
         if type == 0 {
             label1.isHidden = false
             imageVIew1.isHidden = true
-            label1.sizeToFit()
+            label1.frame.size.height = bounds.height - uni(height: [92])
             label1.frame.origin.x = bounds.width / 2 - label1.bounds.width / 2
             label1.frame.origin.y = bounds.height / 2 - label1.bounds.height / 2 - label2.bounds.height / 2
             label2.frame.origin.y = label1.frame.origin.y + label1.bounds.height + uni(height: [6])
