@@ -7,8 +7,12 @@ import UIKit
 import DigitsKit
 import SnapKit
 import ChameleonFramework
+import FLAnimatedImage
 
 class CheckPhoneNumberViewController: UIViewController {
+
+    var imageView:FLAnimatedImageView!
+    var charImageView:UIImageView!
 
     var loginCompletion: (User?, Error?) -> Void
     let apiManager: APIManager = APIManager()
@@ -29,34 +33,49 @@ class CheckPhoneNumberViewController: UIViewController {
 
     private func setupView() {
         self.view.backgroundColor = UIColor.flatWhite
-        
         navigationController?.isNavigationBarHidden = true
-        
-        let label1 = UILabel()
-        label1.uni(frame: [41, 116.5, 250, 250], pad: [])
-        label1.font = UIFont.drSDThin34Font()
-        label1.textColor = UIColor(hexString: "8c96a5")
-        label1.text = "갑작스러운\n당신의 빈자리.\n\n남겨질\n소중한 사람들에게\n메세지를 남기세요"
-        label1.numberOfLines = 0
-        view.addSubview(label1)
-        
-        let label2 = UILabel()
-        label2.uni(frame: [41.5, 401.5, 100, 100], pad: [])
-        label2.font = UIFont.drNM37Font()
-        label2.textColor = UIColor(hexString: "f1520b")
-        label2.text = "디어."
-        label2.numberOfLines = 0
-        view.addSubview(label2)
-        
+
+        let imageView = FLAnimatedImageView(frame:.zero)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(imageView)
+        imageView.snp.makeConstraints { maker in
+            maker.edges.equalToSuperview()
+         }
+        imageView.loopCompletionBlock = { _ in
+            imageView.stopAnimating()
+        }
+        self.imageView = imageView
+
+        let charImageView = UIImageView(image: UIImage(named: "introIllust"))
+        charImageView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(charImageView)
+        charImageView.snp.makeConstraints { maker in
+            maker.size.equalTo(CGSize(width: 148, height: 135))
+            maker.centerX.equalToSuperview()
+            maker.centerY.equalToSuperview().offset(103)
+         }
+
         let button1 = UIButton(type: .system)
         button1.uni(frame: [37.5, 577, 300, 50], pad: [])
-        button1.backgroundColor = UIColor(hexString: "f1520b")
-        button1.titleLabel?.font = UIFont.drSDLight16Font()
+        button1.backgroundColor = UIColor.drDB
+        button1.titleLabel?.font = UIFont.drSDMedium16Font()
         button1.setTitle("전화번호로 시작하기", for: .normal)
-        button1.tintColor = UIColor.white
+        button1.setTitleColor(UIColor.white, for: .normal)
         button1.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
         view.addSubview(button1)
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        let bundle = Bundle.main
+        guard let path = bundle.path(forResource: "app_intro", ofType: "gif") else {
+            return
+        }
+        let image = FLAnimatedImage(animatedGIFData: NSData(contentsOfFile: path) as Data!)
+        self.imageView.animatedImage = image!
+    }
+
 
     @objc private func signInButtonTapped() {
         let digits = Digits.sharedInstance()
@@ -65,7 +84,7 @@ class CheckPhoneNumberViewController: UIViewController {
         }
         let appearlance = DGTAppearance()
         appearlance.backgroundColor = UIColor.drGR00
-        appearlance.accentColor = UIColor.drOR
+        appearlance.accentColor = UIColor.drDB
         configuration.appearance = appearlance
         configuration.phoneNumber = "+82"
 

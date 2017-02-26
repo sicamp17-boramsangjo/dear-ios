@@ -51,6 +51,7 @@
 		D86C9B10620D074D408E11BA /* CheckPhoneNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9868805AEF9C6D038A37 /* CheckPhoneNumberViewController.swift */; };
 		D86C9D7CF3D647F28A1F79F8 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9FA3569F4B6D52E7B4D2 /* SignInViewController.swift */; };
 		D86C9E294B377B907F68447B /* UIWindowExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C90743BA33E536BEC6B74 /* UIWindowExtension.swift */; };
+		D86C9E3F2ED69DDD9DF197EA /* app_intro.gif in Resources */ = {isa = PBXBuildFile; fileRef = D86C9D1F41AFA9D60BF48C46 /* app_intro.gif */; };
 		D86C9E556F78C7736113558F /* ReadOnlyDeceasedProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C9A37A6AF3657F6FBB595 /* ReadOnlyDeceasedProfileCell.swift */; };
 		D86C9E6A8608C4EDE5F42A4D /* ResultExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C92A510D23ABE3D45109E /* ResultExtension.swift */; };
 		D86C9EC5BFB4329ABA218655 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86C90A55F116E5A6FDFB7F4 /* StringExtension.swift */; };
@@ -124,6 +125,7 @@
 		D86C9A37A6AF3657F6FBB595 /* ReadOnlyDeceasedProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadOnlyDeceasedProfileCell.swift; sourceTree = "<group>"; };
 		D86C9B2671E058EBF44FB0BA /* ContentBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentBaseViewController.swift; sourceTree = "<group>"; };
 		D86C9C5D2D0DB0C8D875E9D0 /* ReceiverEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReceiverEditViewController.swift; sourceTree = "<group>"; };
+		D86C9D1F41AFA9D60BF48C46 /* app_intro.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = app_intro.gif; sourceTree = "<group>"; };
 		D86C9E598102BA9D423F7365 /* ReadOnlyAnswerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadOnlyAnswerCell.swift; sourceTree = "<group>"; };
 		D86C9ECB0EA8C9C18A9ABD59 /* ReadyOnlyPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadyOnlyPasswordViewController.swift; sourceTree = "<group>"; };
 		D86C9ECC62F9C65C350B9FDE /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 				D86C9C0BCAECFEFAA42006BA /* ReadOnlyMode */,
 				D86C9F88E6464DE01C8EDE84 /* PhotoViewer */,
 				D86C9D07103D668E21879F3C /* VideoViewer */,
+				D86C9D1F41AFA9D60BF48C46 /* app_intro.gif */,
 			);
 			path = dear;
 			sourceTree = "<group>";
@@ -461,6 +464,7 @@
 				B387CF651E60326F001D881E /* NanumMyeongjoExtraBold.otf in Resources */,
 				B32F0F871E4E0BD300562F86 /* LaunchScreen.storyboard in Resources */,
 				B32F0F841E4E0BD300562F86 /* Assets.xcassets in Resources */,
+				D86C9E3F2ED69DDD9DF197EA /* app_intro.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

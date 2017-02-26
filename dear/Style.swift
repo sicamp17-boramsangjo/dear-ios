@@ -3,6 +3,10 @@ import UIKit
 
 extension UIColor {
 
+    class var drDB: UIColor {
+        return UIColor(red: 80.0 / 255.0, green: 96.0 / 255.0, blue: 138.0 / 255.0, alpha: 1.0)
+    }
+
     class var drOR: UIColor {
         return UIColor(red: 241.0 / 255.0, green: 82.0 / 255.0, blue: 11.0 / 255.0, alpha: 1.0)
     }

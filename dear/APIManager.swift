@@ -44,6 +44,7 @@ enum APIPath: String {
     case createAnswer = "createAnswer"
     case deleteAnswer = "deleteAnswer"
     case getWillItemList = "getWillItems"
+    case getWillItemsWithReceiver = "getWillItemsWithReceiver"
     case getWillItem = "getWillItem"
     case getSessionTokenForReadOnly = "getSessionTokenForReadOnly"
     case checkAlreadyJoin = "checkAlreadyJoin"
@@ -276,6 +277,10 @@ class APIManager {
 
 
     func getWillItemList(completion: @escaping APICompletion) {
+        self.request(path: .getWillItemList, completion:completion)
+    }
+
+    func getWillItemListHavingReceivers(receiverID:String, completion: @escaping APICompletion) {
         self.request(path: .getWillItemList, completion:completion)
     }
 

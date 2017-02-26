@@ -61,6 +61,7 @@ class SideMenuViewController: UIViewController {
         imageView1.layer.cornerRadius = imageView1.bounds.width / 2
         imageView1.layer.masksToBounds = true
         imageView1.isUserInteractionEnabled = true
+        imageView1.image = UIImage(named: "profileSample")
         view.addSubview(imageView1)
 
         let tapGesture = UITapGestureRecognizer(target:self, action:#selector(profileImageTapped(_:)))

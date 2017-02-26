@@ -57,7 +57,7 @@ class SignInViewController: UIViewController {
         view.addSubview(view1)
         
         button1.uni(frame: [37.5, 585, 300, 50], pad: [])
-        button1.backgroundColor = UIColor(hexString: "f1520b")
+        button1.backgroundColor = UIColor.drDB
         button1.setTitle("로그인", for: .normal)
         button1.titleLabel!.font = UIFont.drSDLight16Font()
         button1.setTitleColor(UIColor.white, for: .normal)
