@@ -58,7 +58,7 @@ class ReadOnlyDeceasedProfileHeaderView: UIView {
         backgroundColor = UIColor(hexString: "ebeef1")
         
         let backView = UIView()
-        backView.uni(frame: [0, -300, 375, 300], pad: [])
+        backView.uni(frame: [0, -500, 375, 500], pad: [])
         backView.backgroundColor = UIColor(hexString: "6c7281")
         addSubview(backView)
         
