@@ -165,7 +165,7 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
             
             let questionCell = tableView.dequeueReusableCell(withIdentifier: ReadOnlyQuestionCell.identifier()) as! ReadOnlyQuestionCell
             
-            questionCell.label1.text = willItem.text
+            questionCell.label1.attributedText = willItem.text.attrString(font: UIFont.drNM20Font(), color: UIColor(hexString: "666666"), lineSpacing: 3, alignment: .center)
             
             return questionCell
         } else {
@@ -177,7 +177,7 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
             
             if let answerText = answer.answerText {
                 answerCell.type = 0
-                answerCell.label1.text = answerText
+                answerCell.label1.attributedText = answerText.attrString(font: UIFont.drSDLight16Font(), color: UIColor(hexString: "555555"), lineSpacing: 3, alignment: .center)
             } else if let answerPhoto = answer.answerPhoto {
                 answerCell.type = 1
                 answerCell.imageVIew1.sd_setImage(with:URL(string:answerPhoto))
