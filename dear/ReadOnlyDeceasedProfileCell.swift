@@ -20,7 +20,7 @@ class ReadOnlyDeceasedProfileHeaderView: UIView {
     
     var view2 = UIView()
     var imageView2 = UIImageView()
-    var label3 = UILabel()
+    var imageView3 = UIImageView()
     
     var button1 = UIButton()
     
@@ -91,12 +91,10 @@ class ReadOnlyDeceasedProfileHeaderView: UIView {
         imageView2.layer.masksToBounds = true
         view2.addSubview(imageView2)
         
-        label3.uni(frame: [0, 218, 375, 30], pad: [])
-        label3.font = UIFont.drNM20Font()
-        label3.textAlignment = .center
-        label3.textColor = UIColor(hexString:"555555")
-        label3.text = "dear. YOU"
-        view2.addSubview(label3)
+        imageView3.uni(frame: [159, 207, 57.5, 23], pad: [])
+        imageView3.contentMode = .scaleAspectFit
+        imageView3.image = #imageLiteral(resourceName: "logoDark")
+        view2.addSubview(imageView3)
         
         button1.uni(frame: [172.5, 627, 30, 30], pad: [])
         button1.setImage(#imageLiteral(resourceName: "arrowDown"), for: .normal)

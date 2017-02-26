@@ -18,7 +18,6 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
             }
             
             headerView.user = deceased
-            label1.text = deceased!.userName
         }
     }
     var willItemList:[WillItem]? {
@@ -29,7 +28,7 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
     
     var tableView: UITableView!
     var imageView1 = UIImageView()
-    var label1 = UILabel()
+    var imageView2 = UIImageView()
     
     init(sessionToken:String) {
         super.init(nibName: nil, bundle: nil)
@@ -68,6 +67,7 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
         tableView = UITableView(frame: .zero, style: .plain)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.allowsSelection = false
         tableView.backgroundColor = UIColor(hexString: "ebeef1")
         self.view.addSubview(tableView)
         tableView.snp.makeConstraints { maker in
@@ -88,13 +88,12 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
         imageView1.contentMode = .scaleAspectFill
         view.addSubview(imageView1)
         
-        label1.uni(frame: [0, 281, 375, 50], pad: [])
-        label1.textAlignment = .center
-        label1.font = UIFont.drNM19Font()
-        label1.textColor = UIColor.white
-        label1.alpha = 0
-        label1.isHidden = true
-        imageView1.addSubview(label1)
+        imageView2.uni(frame: [159, 30, 57.5, 23], pad: [])
+        imageView2.contentMode = .scaleAspectFit
+        imageView2.image = #imageLiteral(resourceName: "logoWhite")
+        imageView2.alpha = 0
+        imageView2.isHidden = true
+        view.addSubview(imageView2)
     }
     
     private func fetchWillItemList(completion:@escaping (([WillItem]?, Error?) -> Void)) {
@@ -174,7 +173,7 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
             
             let answer = willItem.answers[(indexPath.row - 1)]
             
-            answerCell.label2.text = Date(timeIntervalSince1970: answer.modifiedAt).format(format: "yyyyMMMd")
+            answerCell.label2.text = Date(timeIntervalSince1970: answer.modifiedAt).format(format: "yyyy.MM.dd")
             
             if let answerText = answer.answerText {
                 answerCell.type = 0
@@ -191,7 +190,7 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
     func skipHeader() {
         tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         var offset = tableView.contentOffset
-        if !label1.isHidden {
+        if !imageView2.isHidden {
             offset.y = offset.y - uni(height: [70])
         }
         tableView.setContentOffset(offset, animated: false)
@@ -214,14 +213,14 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
         imageView1.isHidden = (scrollView.contentOffset.y <= uni(height: [260])) ? true : false
         if scrollView.contentOffset.y <= uni(height: [500]) {
             UIView.animate(withDuration: 0.35, animations: {
-                self.label1.alpha = 0
+                self.imageView2.alpha = 0
             }, completion: { finish in
-                self.label1.isHidden = true
+                self.imageView2.isHidden = true
             })
         } else {
-            label1.isHidden = false
+            imageView2.isHidden = false
             UIView.animate(withDuration: 0.35, animations: {
-                self.label1.alpha = 1
+                self.imageView2.alpha = 1
             })
         }
     }
