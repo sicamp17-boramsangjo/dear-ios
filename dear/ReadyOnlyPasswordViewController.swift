@@ -17,8 +17,7 @@ class ReadyOnlyPasswordViewController: UIViewController {
     
     var disposeBag: DisposeBag! = DisposeBag()
 
-
-    let userID: String
+    var userID: String
     let apiManager = APIManager()
     weak var textField: UITextField!
     weak var doneButton: UIButton!
@@ -105,6 +104,7 @@ class ReadyOnlyPasswordViewController: UIViewController {
         guard let birthdayString = textField1.text else {
             return
         }
+        //userID = "58b1e63abf825f790eede16c"
         self.apiManager.getSessionTokenForReadOnly(readOnlyToken: self.userID, birthDayString:birthdayString) { [unowned self] dictionary, error in
             guard error == nil, let sessionToken = dictionary?["sessionToken"] as? String else {
                 Alert.showError(error ?? InternalError.unknown)

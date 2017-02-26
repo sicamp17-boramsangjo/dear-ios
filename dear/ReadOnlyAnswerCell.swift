@@ -13,15 +13,15 @@ class ReadOnlyAnswerCell: UITableViewCell {
     var view1 = UIView()
     
     var type = 0
-
+    
     var answer:Answer? {
         didSet {
             guard let currentAnswer = answer else {
                 return
             }
-
+            
             label2.text = Date(timeIntervalSince1970: currentAnswer.modifiedAt).format(format:"yyyy-MM-dd")
-
+            
             if let textAnswer = currentAnswer.answerText {
                 label1.text = textAnswer
             }
@@ -49,6 +49,7 @@ class ReadOnlyAnswerCell: UITableViewCell {
         addSubview(label1)
         
         imageVIew1.uni(frame: [55, 0, 265, 200], pad: [])
+        imageVIew1.contentMode = .scaleAspectFit
         addSubview(imageVIew1)
         
         label2.uni(frame: [55, 0, 265, 15], pad: [])
@@ -65,13 +66,19 @@ class ReadOnlyAnswerCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         if type == 0 {
+            label1.isHidden = false
+            imageVIew1.isHidden = true
+            
             label1.sizeToFit()
+            label1.frame.origin.x = bounds.width / 2 - label1.bounds.width / 2
             label1.frame.origin.y = bounds.height / 2 - label1.bounds.height / 2
             label2.frame.origin.y = label1.frame.origin.y + label1.bounds.height + uni(height: [6])
-        } else if type == 1 {
-            label2.frame.origin.y = imageVIew1.frame.maxX + uni(height: [6])
         } else {
-            //video
+            label1.isHidden = true
+            imageVIew1.isHidden = false
+            
+            imageVIew1.frame.origin.y = bounds.height / 2 - imageVIew1.bounds.height / 2
+            label2.frame.origin.y = imageVIew1.frame.origin.y + imageVIew1.bounds.height + uni(height: [6])
         }
         view1.frame.origin.y = bounds.height - 1
     }

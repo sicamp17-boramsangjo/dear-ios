@@ -16,7 +16,7 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
             guard let headerView = self.tableView.tableHeaderView as? ReadOnlyDeceasedProfileHeaderView else {
                 return
             }
-
+            
             headerView.user = deceased
             label1.text = deceased!.userName
         }
@@ -139,13 +139,17 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let willItem = self.willItemList?[indexPath.section] else {
+            fatalError()
+        }
         if indexPath.row == 0 {
             return uni(height: [152]) +
-                "string data".boundingRect(with: CGSize.init(width: uni(width: [265]), height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: nil, context: nil).height
+                willItem.text.boundingRect(with: CGSize.init(width: uni(width: [265]), height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: nil, context: nil).height
         } else {
-            if let text = willItemList?[indexPath.section].answers[(indexPath.row - 1)].answerText {
+            let answer = willItem.answers[(indexPath.row - 1)]
+            if let answerText = answer.answerText {
                 return uni(height: [92]) +
-                    text.boundingRect(with: CGSize.init(width: uni(width: [265]), height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: nil, context: nil).height
+                    answerText.boundingRect(with: CGSize.init(width: uni(width: [265]), height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: nil, context: nil).height
             } else {
                 return uni(height: [92]) + uni(height: [200])
             }
@@ -153,13 +157,13 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         guard let willItem = self.willItemList?[indexPath.section] else {
             fatalError()
         }
-
+        
         if indexPath.row == 0 {
-
+            
             let questionCell = tableView.dequeueReusableCell(withIdentifier: ReadOnlyQuestionCell.identifier()) as! ReadOnlyQuestionCell
             
             questionCell.label1.text = willItem.text
@@ -167,24 +171,17 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
             return questionCell
         } else {
             let answerCell = tableView.dequeueReusableCell(withIdentifier: ReadOnlyAnswerCell.identifier()) as! ReadOnlyAnswerCell
-
+            
             let answer = willItem.answers[(indexPath.row - 1)]
-
+            
             answerCell.label2.text = Date(timeIntervalSince1970: answer.modifiedAt).format(format: "yyyyMMMd")
-
+            
             if let answerText = answer.answerText {
-                answerCell.label1.text = answerText
-            }
-            if let answerPhoto = answer.answerPhoto {
-                answerCell.imageVIew1.sd_setImage(with:URL(string:answerPhoto))
-            }
-
-            if let _ = willItemList?[indexPath.section].answers[(indexPath.row - 1)].answerText {
                 answerCell.type = 0
-            } else if let _ = willItemList?[indexPath.section].answers[(indexPath.row - 1)].answerPhoto {
+                answerCell.label1.text = answerText
+            } else if let answerPhoto = answer.answerPhoto {
                 answerCell.type = 1
-            } else if let _ = willItemList?[indexPath.section].answers[(indexPath.row - 1)].answerVideo {
-                answerCell.type = 2
+                answerCell.imageVIew1.sd_setImage(with:URL(string:answerPhoto))
             }
             
             return answerCell
@@ -204,14 +201,14 @@ class ReadOnlyContentViewController: UIViewController, UITableViewDelegate, UITa
         var percent = 1 - scrollView.contentOffset.y / uni(height: [260])
         percent = (percent <= 0) ? 1 + percent : percent
         if let header = tableView.tableHeaderView as? ReadOnlyDeceasedProfileHeaderView, percent >= 1 {
-                header.imageView1.transform = CGAffineTransform(scaleX: percent, y: percent)
-                header.label1.frame.origin.y = uni(height: [123]) * percent
-                header.label1.transform = CGAffineTransform(scaleX: percent, y: percent)
-                header.label1.isHidden = (percent <= 0.7) ? true : false
-                
-                header.label2.frame.origin.y = uni(height: [203]) * percent
-                header.label2.transform = CGAffineTransform(scaleX: percent, y: percent)
-                header.label2.isHidden = (percent <= 0.7) ? true : false
+            header.imageView1.transform = CGAffineTransform(scaleX: percent, y: percent)
+            header.label1.frame.origin.y = uni(height: [123]) * percent
+            header.label1.transform = CGAffineTransform(scaleX: percent, y: percent)
+            header.label1.isHidden = (percent <= 0.7) ? true : false
+            
+            header.label2.frame.origin.y = uni(height: [203]) * percent
+            header.label2.transform = CGAffineTransform(scaleX: percent, y: percent)
+            header.label2.isHidden = (percent <= 0.7) ? true : false
         }
         
         imageView1.isHidden = (scrollView.contentOffset.y <= uni(height: [260])) ? true : false

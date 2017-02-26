@@ -9,13 +9,13 @@ class ReadOnlyQuestionCell: UITableViewCell {
     
     var label1 = UILabel()
     var type = 0
-
+    
     var willItem:WillItem? {
         didSet {
             guard let currentWillItem = willItem else {
                 return
             }
-
+            
             label1.text = currentWillItem.text
         }
     }
@@ -49,5 +49,5 @@ class ReadOnlyQuestionCell: UITableViewCell {
         super.layoutSubviews()
         label1.frame.size.height = bounds.height
     }
-
+    
 }

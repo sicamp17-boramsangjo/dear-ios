@@ -23,22 +23,22 @@ class ReadOnlyDeceasedProfileHeaderView: UIView {
     var label3 = UILabel()
     
     var button1 = UIButton()
-
+    
     var user:User? {
         didSet {
             guard let currentUser = user else {
                 return
             }
-
+            
             label1.attributedText = String("\(currentUser.userName)님이 당신을 위해\n미리 준비해 둔 메시지입니다.").attrString(font: UIFont.drNM20Font(), color: UIColor.white, lineSpacing: 7, alignment: .center)
             label2.text = "언제든 들어오셔서 \(currentUser.userName)님을 추억해주세요."
-
+            
             if let profileUrl = currentUser.profileImageUrl as? String {
                 self.imageView2.sd_setImage(with: URL(string:profileUrl))
             }
         }
     }
-
+    
     convenience init() {
         self.init(frame: CGRect.zero)
     }
@@ -54,7 +54,7 @@ class ReadOnlyDeceasedProfileHeaderView: UIView {
     }
     
     private func initView() {
-        uni(frame: [0, 0, 375, 694], pad: [])
+        uni(frame: [0, 0, 375, 670], pad: [])
         backgroundColor = UIColor(hexString: "ebeef1")
         
         let backView = UIView()
