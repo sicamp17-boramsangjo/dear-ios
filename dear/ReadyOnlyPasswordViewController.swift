@@ -113,6 +113,7 @@ class ReadyOnlyPasswordViewController: UIViewController {
 
     private func launchReadOnlyContentViewController(sessionToken:String) {
         let readOnlyContentViewController = ReadOnlyContentViewController(sessionToken: sessionToken)
+        modalTransitionStyle = .crossDissolve
         self.present(readOnlyContentViewController, animated: true)
     }
 
