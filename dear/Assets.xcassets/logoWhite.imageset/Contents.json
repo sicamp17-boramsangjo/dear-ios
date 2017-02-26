@@ -3,17 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "plusLine.png"
+      "filename" : "logoWhite.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "plusLine@2x.png"
+      "filename" : "logoWhite@2x.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "plusLine@3x.png"
+      "filename" : "logoWhite@3x.png"
     }
   ],
   "info" : {

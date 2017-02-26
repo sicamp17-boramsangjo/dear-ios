@@ -232,7 +232,7 @@ class WillItemViewController: UIViewController, UITableViewDataSource, UITableVi
         receiverSelectionView.snp.makeConstraints { maker in
             maker.left.equalTo(0)
             maker.right.equalTo(0)
-            maker.height.equalTo(57)
+            maker.height.equalTo(43)
             maker.bottom.equalTo(textInputView.snp.top)
         }
         receiverSelectionView.isHidden = true

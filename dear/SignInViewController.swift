@@ -38,10 +38,10 @@ class SignInViewController: UIViewController {
     private func setupView() {
         view.backgroundColor = UIColor.white
         
-        label1.uni(frame: [0, 216, 375, 30], pad: [])
+        label1.uni(frame: [0, 216, 375, 33], pad: [])
         label1.textColor = UIColor(hexString: "555555")
         label1.textAlignment = .center
-        label1.font = UIFont.drNM28Font()
+        label1.font = UIFont.drNM24Font()
         label1.text = "비밀번호를 입력해주세요"
         view.addSubview(label1)
         
@@ -61,6 +61,8 @@ class SignInViewController: UIViewController {
         button1.setTitle("로그인", for: .normal)
         button1.titleLabel!.font = UIFont.drSDLight16Font()
         button1.setTitleColor(UIColor.white, for: .normal)
+        button1.layer.cornerRadius = 5
+        button1.clipsToBounds = true 
         button1.addTarget(self, action: #selector(loginButtonTapped(_:)), for: .touchUpInside)
         view.addSubview(button1)
 

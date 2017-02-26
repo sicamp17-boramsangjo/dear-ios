@@ -24,8 +24,8 @@ enum ReceiverSelectionConfig {
             return (direction: .horizontal,
                     itemSpacing:15,
                     lineSpacing:15,
-                    bgColor:UIColor.rgb256(80, 95, 138, 0.6),
-                    contentInset: UIEdgeInsetsMake(15, 12, 15, 12)
+                    bgColor:UIColor.rgb256(241, 242, 243),
+                    contentInset: UIEdgeInsetsMake(15, 8, 15, 0)
             )
         }
     }

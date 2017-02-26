@@ -50,7 +50,7 @@ class ContentBaseViewController: UIViewController {
         self.menuBar.snp.makeConstraints { maker in
             maker.leading.equalToSuperview()
             maker.trailing.equalToSuperview()
-            maker.top.equalToSuperview().offset(20)
+            maker.top.equalToSuperview().offset(22)
             maker.height.equalTo(40)
         }
 
@@ -67,7 +67,7 @@ class ContentBaseViewController: UIViewController {
 
         let todayButton = UIButton(type: .custom)
         todayButton.setTitle("오늘의 질문", for: .normal)
-        todayButton.titleLabel?.font = UIFont.drNM16Font()
+        todayButton.titleLabel?.font = UIFont.drNM15Font()
         todayButton.setTitleColor(UIColor.drGR06, for: .normal)
         todayButton.setTitleColor(UIColor.drGR05, for: .selected)
         todayButton.addTarget(self, action: #selector(menuChanged(_:)), for: .touchUpInside)
@@ -80,10 +80,9 @@ class ContentBaseViewController: UIViewController {
 
         let timelineButton = UIButton(type: .custom)
         timelineButton.setTitle("전체보기", for: .normal)
-        timelineButton.titleLabel?.font = UIFont.drSDMedium16Font()
+        timelineButton.titleLabel?.font = UIFont.drNM15Font()
         timelineButton.setTitleColor(UIColor.drGR06, for: .normal)
         timelineButton.setTitleColor(UIColor.drGR05, for: .selected)
-        timelineButton.titleLabel?.font = UIFont.drNM16Font()
         timelineButton.addTarget(self, action: #selector(menuChanged(_:)), for: .touchUpInside)
         menuBar.addSubview(timelineButton)
         self.timelineButton = timelineButton

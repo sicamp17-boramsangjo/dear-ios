@@ -280,8 +280,8 @@ class APIManager {
         self.request(path: .getWillItemList, completion:completion)
     }
 
-    func getWillItemListHavingReceivers(receiverID:String, completion: @escaping APICompletion) {
-        self.request(path: .getWillItemList, completion:completion)
+    func getWillItemsWithReceiver(receiverID:String, completion: @escaping APICompletion) {
+        self.request(path: .getWillItemsWithReceiver, params:["receiverID":receiverID], completion:completion)
     }
 
 

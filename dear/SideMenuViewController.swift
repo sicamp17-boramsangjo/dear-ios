@@ -56,7 +56,7 @@ class SideMenuViewController: UIViewController {
         view.uni(frame: [-300, 0, 300, 667], pad: [])
         view.backgroundColor = UIColor.white
         
-        imageView1.uni(frame: [105, 60, 90, 90], pad: [])
+        imageView1.uni(frame: [105, 65, 90, 90], pad: [])
         imageView1.backgroundColor = UIColor(hexString: "bec3c8")
         imageView1.layer.cornerRadius = imageView1.bounds.width / 2
         imageView1.layer.masksToBounds = true
@@ -67,29 +67,29 @@ class SideMenuViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target:self, action:#selector(profileImageTapped(_:)))
         imageView1.addGestureRecognizer(tapGesture)
         
-        label1.uni(frame: [0, 180, 300, 25], pad: [])
+        label1.uni(frame: [0, 170, 300, 25], pad: [])
         label1.textAlignment = .center
-        label1.font = UIFont.drNM20Font()
+        label1.font = UIFont.drNM21Font()
         label1.text = "선영"
         view.addSubview(label1)
         
-        label2.uni(frame: [0, 220, 300, 15], pad: [])
+        label2.uni(frame: [0, 210, 300, 15], pad: [])
         label2.textAlignment = .center
-        label2.font = UIFont.drNM13Font()
+        label2.font = UIFont.drNM15Font()
         label2.text = "6일째 작성중"
         view.addSubview(label2)
         
-        label3.uni(frame: [0, 240, 300, 15], pad: [])
+        label3.uni(frame: [0, 230, 300, 15], pad: [])
         label3.textAlignment = .center
-        label3.font = UIFont.drNM13Font()
+        label3.font = UIFont.drNM15Font()
         label3.text = "36개 답변 작성"
         view.addSubview(label3)
         
-        view1.uni(frame: [45, 303, 210, 1], pad: [])
+        view1.uni(frame: [45, 293, 210, 0.5], pad: [])
         view1.backgroundColor = UIColor.black
         view.addSubview(view1)
         
-        button1.uni(frame: [0, 340, 300, 70], pad: [])
+        button1.uni(frame: [0, 330, 300, 70], pad: [])
         button1.titleLabel!.font = UIFont.drNM24Font()
         button1.setTitle("dear", for: .normal)
         button1.tintColor = UIColor(hexString: "555555")
@@ -97,14 +97,14 @@ class SideMenuViewController: UIViewController {
         view.addSubview(button1)
         
         button2.uni(frame: [0, 410, 300, 70], pad: [])
-        button2.titleLabel!.font = UIFont.drNM24Font()
+        button2.titleLabel!.font = UIFont.drNM23Font()
         button2.setTitle("도움말", for: .normal)
         button2.tintColor = UIColor(hexString: "555555")
         button2.addTarget(self, action: #selector(action(button2:)), for: .touchUpInside)
         view.addSubview(button2)
         
         button3.uni(frame: [0, 480, 300, 70], pad: [])
-        button3.titleLabel!.font = UIFont.drNM24Font()
+        button3.titleLabel!.font = UIFont.drNM23Font()
         button3.setTitle("설정", for: .normal)
         button3.tintColor = UIColor(hexString: "555555")
         button3.addTarget(self, action: #selector(action(button3:)), for: .touchUpInside)

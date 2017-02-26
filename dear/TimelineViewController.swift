@@ -20,6 +20,11 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
     private var filteredReceiver: Receiver? {
         didSet {
             self.filteringReceiverCancelButton.isHidden = self.filteredReceiver == nil
+            self.fetchWillItemList { items in
+                if items != nil {
+                    self.willItemList = items
+                }
+             }
         }
     }
     weak var receiverSelectionView: ReceiverSelectionView!
@@ -98,14 +103,29 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
     private func fetchWillItemList(completion:@escaping ([WillItem]) -> Void) {
-        self.apiManager.getWillItemList { response, error in
 
-            guard let willItemList = response?["willitems"] as? Array<Any> else {
-                return
+
+        if self.filteredReceiver == nil {
+            self.apiManager.getWillItemList { response, error in
+
+                guard let willItemList = response?["willitems"] as? Array<Any> else {
+                    return
+                }
+
+                DataSource.instance.storeWillItemList(willItemRawList: willItemList)
+                completion(DataSource.instance.fetchAllWillItemList())
             }
+        } else {
+            self.apiManager.getWillItemsWithReceiver(receiverID: self.filteredReceiver!.receiverID) { response, error in
 
-            DataSource.instance.storeWillItemList(willItemRawList: willItemList)
-            completion(DataSource.instance.fetchAllWillItemList())
+                guard let willItemList = response?["willitems"] as? Array<Any> else {
+                    return
+                }
+
+                DataSource.instance.storeWillItemList(willItemRawList: willItemList)
+                completion(DataSource.instance.fetchAllWillItemList())
+
+            }
         }
     }
 
@@ -152,5 +172,9 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         self.receiverSelectionView.receivers = DataSource.instance.fetchAllReceivers()
         self.willItemList = DataSource.instance.fetchAllWillItemList()
         button.isHidden = true
+
+        self.fetchWillItemList { items in
+            self.willItemList = items
+         }
     }
 }
