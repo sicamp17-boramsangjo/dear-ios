@@ -98,7 +98,7 @@ class ReadyOnlyPasswordViewController: UIViewController {
         guard let birthdayString = textField1.text else {
             return
         }
-        userID = "58b1e63abf825f790eede16c"
+        //userID = "58b1e63abf825f790eede16c"
         self.apiManager.getSessionTokenForReadOnly(readOnlyToken: self.userID, birthDayString:birthdayString) { [unowned self] dictionary, error in
             guard error == nil, let sessionToken = dictionary?["sessionToken"] as? String else {
                 self.textField1.text = ""
