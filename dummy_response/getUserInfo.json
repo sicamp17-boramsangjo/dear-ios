@@ -2,56 +2,35 @@
   "status": 200,
   "msg": "OK",
   "user": {
-    "userName": "sjkim",
-    "_id": "58ae628ebf825f4bb046dd24",
+    "status": "normal",
+    "userName": "Kyungtaek",
     "receivers": [
       {
-        "receiverID":"RECEIVER_ID1",
-        "name":"차혁흔",
-        "phoneNumber":"phoneNumber1"
-      },
-      {
-        "receiverID":"RECEIVER_ID2",
-        "name":"김은혜",
-        "phoneNumber":"phoneNumber2"
-      },
-      {
-        "receiverID":"RECEIVER_ID3",
-        "name":"김지영",
-        "phoneNumber":"phoneNumber2"
-      },
-      {
-        "receiverID":"RECEIVER_ID4",
-        "name":"권수지",
-        "phoneNumber":"phoneNumber2"
-      },
-      {
-        "receiverID":"RECEIVER_ID5",
-        "name":"한승민",
-        "phoneNumber":"phoneNumber2"
-      },
-      {
-        "receiverID":"RECEIVER_ID6",
-        "name":"안선영",
-        "phoneNumber":"phoneNumber2"
-      },
-      {
-        "receiverID":"RECEIVER_ID7",
-        "name":"김경록",
-        "phoneNumber":"phoneNumber2"
+        "status": "normal",
+        "receiverID": "58b1e63abf825f790eede16b_0",
+        "phoneNumber": "010-8953-7871",
+        "name": "\uc784\uacbd\ud0dd",
+        "registeredTime": 1488054509
       }
     ],
     "pushDuration": 31536000,
+    "userID": "58b1e63abf825f790eede16b",
     "todaysQuestion": {
-      "questionId": "58ac500abf825f120f773d22",
-      "deliveredAt": 1487976208
+      "questionID": "58b1e4b1bf825f790eede165",
+      "deliveredAt": 1488053818
     },
-    "profileImageUrl": "",
-    "birthDay": 49881200,
-    "phoneNumber": "011-1274-5313",
-    "lastLoginTime": 1487976208,
-    "willitems": {},
-    "password": "sjsj!",
+    "profileImageUrl": "http://indiweb08.cafe24.com:8888/images/a0db30ec-618b-4425-8fb3-b3aaaaed66f5_e3c488fc-fb98-11e6-ab38-00163e7e8a2f.jpg",
+    "birthDay": 366495392,
+    "phoneNumber": "+821089537871",
+    "lastLoginTime": 1488056674,
+    "willitems": {
+      "58b1e4b1bf825f790eede165": {
+        "willitemID": "58b1e7a1bf825f790eede16f",
+        "modifiedAt": 1488054845
+      }
+    },
+    "password": "1234",
+    "readOnlyToken": "58b1e63abf825f790eede16c",
     "deviceToken": ""
   }
 }

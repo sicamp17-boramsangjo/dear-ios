@@ -13,6 +13,20 @@ class ReadOnlyAnswerCell: UITableViewCell {
     var view1 = UIView()
     
     var type = 0
+
+    var answer:Answer? {
+        didSet {
+            guard let currentAnswer = answer else {
+                return
+            }
+
+            label2.text = Date(timeIntervalSince1970: currentAnswer.modifiedAt).format(format:"yyyy-MM-dd")
+
+            if let textAnswer = currentAnswer.answerText {
+                label1.text = textAnswer
+            }
+        }
+    }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

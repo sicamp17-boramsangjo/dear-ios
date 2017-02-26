@@ -63,7 +63,7 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         self.receiverSelectionView = receiverSelectionView
         self.receiverSelectionView.receivers = DataSource.instance.fetchAllReceivers()
 
-        let filteringReceiverCancelButton = UIButton(type: .roundedRect)
+        let filteringReceiverCancelButton = UIButton(type: .custom)
         filteringReceiverCancelButton.setImage(UIImage(named: "icoClose01"), for: .normal)
         filteringReceiverCancelButton.addTarget(self, action: #selector(resetFilteringReceiverButtonTapped(_:)), for: .touchUpInside)
         filteringReceiverCancelButton.translatesAutoresizingMaskIntoConstraints = false
@@ -151,5 +151,6 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
     @objc private func resetFilteringReceiverButtonTapped(_ button:UIButton) {
         self.receiverSelectionView.receivers = DataSource.instance.fetchAllReceivers()
         self.willItemList = DataSource.instance.fetchAllWillItemList()
+        button.isHidden = true
     }
 }

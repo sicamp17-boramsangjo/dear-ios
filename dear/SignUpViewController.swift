@@ -113,7 +113,7 @@ class SignUpViewController: UIViewController, SMDatePickerDelegate {
         view.addSubview(label3)
         
         button2.uni(frame: [37.5, 585, 300, 50], pad: [])
-        button2.backgroundColor = UIColor(hexString: "f1520b")
+        button2.backgroundColor = UIColor.drDB
         button2.titleLabel?.font = UIFont.drSDLight16Font()
         button2.setTitle("가입하기", for: .normal)
         button2.tintColor = UIColor.white

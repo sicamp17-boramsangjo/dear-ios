@@ -26,6 +26,17 @@ class VideoViewer: UIViewController {
         self.setupView()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.shared.setStatusBarHidden(true, with: .none)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        UIApplication.shared.setStatusBarHidden(false, with: .none)
+    }
+
+
     private func setupView() {
         self.view.backgroundColor = UIColor.black
 
@@ -46,8 +57,8 @@ class VideoViewer: UIViewController {
         closeButton.addTarget(self, action: #selector(closeButtonTapped(_:)), for: .touchUpInside)
         self.view.addSubview(closeButton)
         closeButton.snp.makeConstraints { maker in
-            maker.leadingMargin.equalTo(7)
-            maker.topMargin.equalTo(20)
+            maker.leadingMargin.equalTo(3)
+            maker.topMargin.equalTo(30)
             maker.size.equalTo(CGSize(width: 40, height: 40))
         }
     }

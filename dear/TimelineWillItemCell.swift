@@ -24,10 +24,10 @@ class TimelineAnswerCell: UICollectionViewCell {
 
             textAnswer.isHidden = answer!.answerText == nil
             photoAnswer.isHidden = answer!.answerPhoto == nil
-            dateLabel.isHidden = answer!.answerPhoto == nil
+            dateLabel.isHidden = answer!.answerPhoto != nil
             videoIcon.isHidden = answer!.answerVideo == nil
 
-            dateLabel.text = Date(timeIntervalSince1970: answer!.modifiedAt).format(with: "yyyyMMMd")
+            dateLabel.text = Date(timeIntervalSince1970: answer!.modifiedAt).format(with:"yyyy,MMM,d")
 
             if answer!.answerText != nil {
                 textAnswer.text = answer!.answerText
@@ -52,8 +52,14 @@ class TimelineAnswerCell: UICollectionViewCell {
     private func setupView() {
 
         self.backgroundColor = UIColor.white
-        self.layer.cornerRadius = 2
-        self.clipsToBounds = true
+        self.layer.cornerRadius = 3
+
+        self.backgroundColor = UIColor.white
+        self.layer.shadowOffset = CGSize(width: 0, height: 3)
+        self.layer.shadowRadius = 4
+        self.layer.shadowOpacity = 0.3
+        self.layer.shadowColor = UIColor.black.cgColor
+
         self.applyCommonShadow()
 
         let photoAnswer = UIImageView(image: nil)
@@ -68,14 +74,13 @@ class TimelineAnswerCell: UICollectionViewCell {
 
         let videoIcon = UIImageView(image: nil)
         videoIcon.translatesAutoresizingMaskIntoConstraints = false
-        videoIcon.contentMode = .scaleAspectFill
+        videoIcon.contentMode = .center
         videoIcon.backgroundColor = UIColor(white: 0, alpha: 0.6)
         videoIcon.image = UIImage(named: "playButton")
         self.addSubview(videoIcon)
         self.videoIcon = videoIcon
         videoIcon.snp.makeConstraints { maker in
-            maker.size.equalTo(CGSize(width: 30, height: 30))
-            maker.center.equalToSuperview()
+            maker.edges.equalTo(photoAnswer.snp.edges)
         }
 
         let textAnswer = UILabel(frame:.zero)

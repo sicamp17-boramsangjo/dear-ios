@@ -14,6 +14,7 @@ class DataSource {
     static let modelRevision = 2
 
     var realm = try! Realm()
+    let apiManager = APIManager()
 
     static let instance = DataSource()
     private init() {
@@ -94,7 +95,9 @@ class DataSource {
             return false
         }
 
-        self.realm.delete(willItem)
+        try! self.realm.write {
+            self.realm.delete(willItem)
+        }
         return true
     }
 
@@ -103,7 +106,9 @@ class DataSource {
             return false
         }
 
-        self.realm.delete(answer)
+        try! self.realm.write {
+            self.realm.delete(answer)
+        }
         return true
     }
 
@@ -112,7 +117,10 @@ class DataSource {
             return false
         }
 
-        self.realm.delete(receiver)
+        try! self.realm.write {
+            self.realm.delete(receiver)
+        }
+
         return true
     }
 
@@ -182,5 +190,19 @@ class DataSource {
 
     func numOfAnswers() -> Int {
         return self.realm.objects(Answer.self).count
+    }
+
+    func updateUserInfo(completion:((User?) ->Void)?) {
+        self.apiManager.getUserInfo {[unowned self] dictionary, error in
+            guard let loginUserValue = dictionary else {
+                return
+            }
+
+            DataSource.instance.storeLoginUser(loginUserValue: loginUserValue)
+
+            if completion != nil {
+                completion!(self.fetchLoginUser())
+            }
+        }
     }
 }

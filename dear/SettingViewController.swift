@@ -8,6 +8,7 @@
 
 import UIKit
 import MessageUI
+import DigitsKit
 
 class SettingViewController: UIViewController, MFMessageComposeViewControllerDelegate {
     
@@ -25,9 +26,9 @@ class SettingViewController: UIViewController, MFMessageComposeViewControllerDel
     var settingView6 = SettingView()
     var settingView7 = SettingView()
     var settingView8 = SettingView()
-    var settingView9 = SettingView()
-    
+
     var messageComposer: MFMessageComposeViewController!
+    var receiverListViewController: ReceiverListViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +36,11 @@ class SettingViewController: UIViewController, MFMessageComposeViewControllerDel
     }
     
     private func initView() {
+
+        self.navigationItem.title = "환경설정"
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "closeButton"), style: .plain, target: self, action: #selector(closeButtonTapped(_:)))
+        self.navigationController?.navigationBar.tintColor = UIColor.drGR06
+
         view.backgroundColor = UIColor(hexString: "f1f2f3")
         
         view1.uni(frame: [0, 0, 375, 64], pad: [])
@@ -95,36 +101,29 @@ class SettingViewController: UIViewController, MFMessageComposeViewControllerDel
         settingView5.button1.tag = 5
         settingView5.button1.addTarget(self, action: #selector(action(button:)), for: .touchUpInside)
         view.addSubview(settingView5)
-        
+
         settingView6.uni(frame: [0, 282, 375, 45], pad: [])
-        settingView6.label1.text = "프로필 설정"
+        settingView6.label1.text = "비밀번호 설정"
         settingView6.label2.text = ">"
         settingView6.button1.tag = 6
         settingView6.button1.addTarget(self, action: #selector(action(button:)), for: .touchUpInside)
         view.addSubview(settingView6)
-        
+
         settingView7.uni(frame: [0, 327, 375, 45], pad: [])
-        settingView7.label1.text = "비밀번호 설정"
+        settingView7.label1.text = "로그아웃"
         settingView7.label2.text = ">"
         settingView7.button1.tag = 7
         settingView7.button1.addTarget(self, action: #selector(action(button:)), for: .touchUpInside)
         view.addSubview(settingView7)
         
         settingView8.uni(frame: [0, 372, 375, 45], pad: [])
-        settingView8.label1.text = "로그아웃"
+        settingView8.label1.text = "탈퇴하기"
         settingView8.label2.text = ">"
         settingView8.button1.tag = 8
         settingView8.button1.addTarget(self, action: #selector(action(button:)), for: .touchUpInside)
         view.addSubview(settingView8)
         
-        settingView9.uni(frame: [0, 417, 375, 45], pad: [])
-        settingView9.label1.text = "탈퇴하기"
-        settingView9.label2.text = ">"
-        settingView9.isLast = true
-        settingView9.button1.tag = 9
-        settingView9.button1.addTarget(self, action: #selector(action(button:)), for: .touchUpInside)
-        view.addSubview(settingView9)
-        
+
         viewExtend()
     }
     
@@ -135,12 +134,31 @@ class SettingViewController: UIViewController, MFMessageComposeViewControllerDel
     @objc private func action(button: UIButton) {
         if button.tag == 5 {
             if MFMessageComposeViewController.canSendText() {
+
+                guard let user = DataSource.instance.fetchLoginUser() else {
+                    return
+                }
+
                 messageComposer = MFMessageComposeViewController()
-                messageComposer.body = "[dear.] 선영님이 당신을 위해 미리 준비해둔 메세지입니다. 꼭 기억하시다가, 때가 되었을때 확인해주세요"
+                messageComposer.body = "[dear.] \(user.userName)님이 당신을 위해 미리 준비해둔 메세지입니다. 꼭 기억하시다가, 때가 되었을때 확인해주세요 dear://readonly/\(user.readOnlyToken)"
                 messageComposer.messageComposeDelegate = self
                 modalTransitionStyle = .crossDissolve
                 present(messageComposer, animated: true, completion: nil)
             }
+        }
+        else if button.tag == 4 {
+            receiverListViewController = ReceiverListViewController()
+            self.navigationController?.pushViewController(receiverListViewController, animated: true)
+        }
+        else if button.tag == 7 {
+            DataSource.instance.cleanAllDB()
+            Digits.sharedInstance().logOut()
+
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                return
+            }
+
+            appDelegate.setupWindowWithLoginStatus()
         }
     }
     
@@ -166,7 +184,6 @@ class SettingViewController: UIViewController, MFMessageComposeViewControllerDel
                 self.settingView6.frame.origin.y = self.uni(height: [372])
                 self.settingView7.frame.origin.y = self.uni(height: [417])
                 self.settingView8.frame.origin.y = self.uni(height: [462])
-                self.settingView9.frame.origin.y = self.uni(height: [507])
             })
         } else {
             UIView.animate(withDuration: 0.25, animations: {
@@ -177,14 +194,17 @@ class SettingViewController: UIViewController, MFMessageComposeViewControllerDel
                 self.settingView6.frame.origin.y = self.uni(height: [282])
                 self.settingView7.frame.origin.y = self.uni(height: [327])
                 self.settingView8.frame.origin.y = self.uni(height: [372])
-                self.settingView9.frame.origin.y = self.uni(height: [417])
             }, completion: { finish in
                 self.settingView1.isLast = true
                 self.settingView1.layoutSubviews()
             })
         }
     }
-    
+
+    @objc private func closeButtonTapped(_ button: UIBarButtonItem) {
+        self.dismiss(animated:true)
+    }
+
 }
 
 class SettingView: UIView {
@@ -245,5 +265,5 @@ class SettingView: UIView {
         layer.shadowOpacity = isLast ? 0.08 : 0
         view1.isHidden = isLast ? true : false
     }
-    
+
 }

@@ -14,7 +14,7 @@ enum ReceiverSelectionConfig {
     func getLayoutConfig() -> (direction:UICollectionViewScrollDirection, itemSpacing:Float, lineSpacing:Float, bgColor:UIColor, contentInset: UIEdgeInsets) {
         switch self {
         case .forFilter:
-            return (direction: .vertical,
+            return (direction: .horizontal,
                     itemSpacing:15,
                     lineSpacing:15,
                     bgColor:UIColor.drGR10,
@@ -105,7 +105,7 @@ class ReceiverSelectionView: UIView, UICollectionViewDelegate, UICollectionViewD
 
     private func setupView() {
 
-        self.backgroundColor = UIColor.drGR10
+        self.backgroundColor = self.config.getLayoutConfig().bgColor
 
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = config.getLayoutConfig().direction
@@ -113,12 +113,13 @@ class ReceiverSelectionView: UIView, UICollectionViewDelegate, UICollectionViewD
         layout.minimumLineSpacing = CGFloat(config.getLayoutConfig().lineSpacing)
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = UIColor.drGR10
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = config.getLayoutConfig().bgColor
+        collectionView.backgroundColor = UIColor.clear
         collectionView.contentInset = config.getLayoutConfig().contentInset
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
         self.addSubview(collectionView)
         self.collectionView = collectionView
         collectionView.snp.makeConstraints { maker in

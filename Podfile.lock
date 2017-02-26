@@ -39,6 +39,7 @@ PODS:
   - SDWebImage/Core (4.0.0)
   - SMDatePicker (0.1.0)
   - SnapKit (3.2.0)
+  - SVProgressHUD (2.1.2)
   - SwiftMessages (3.1.5)
   - TwitterCore (2.8.0):
     - Fabric
@@ -62,6 +63,7 @@ DEPENDENCIES:
   - SDWebImage
   - SMDatePicker
   - SnapKit
+  - SVProgressHUD
   - SwiftMessages
 
 EXTERNAL SOURCES:
@@ -94,9 +96,10 @@ SPEC CHECKSUMS:
   SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
   SMDatePicker: b4843031e6b9a1c6f4fa894d212a5abe83154d0c
   SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
+  SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
   SwiftMessages: bb85d7c30e85256f9367214b0907e1f409e1870a
   TwitterCore: e959987be23c767004d29eb7fab8d85d8585a2e5
 
-PODFILE CHECKSUM: bcc201a52c2843a89883a6afd30d939504b6f2dc
+PODFILE CHECKSUM: d0c1a7f85766b08c5028ebeda46cb0a253c96a63
 
 COCOAPODS: 1.2.0

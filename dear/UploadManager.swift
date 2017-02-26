@@ -15,7 +15,8 @@ class UploadManager {
     private init() {}
 
     func createAnswer(questionID: String, textAnswer: String?, imageAnswer: String?, videoAnswer: String?, receivers: [String]?, mediaSize:CGSize = CGSize(), completion:@escaping ((String?, Error?) -> Void)) {
-        let queue = DispatchQueue(label: "com.allaboutswift.dispatchgroup")
+
+        let queue = DispatchQueue(label: "com.bezierpaths.dear")
         let dispatchGroup = DispatchGroup()
 
         var attachments: [String:String] = [:]
@@ -51,6 +52,32 @@ class UploadManager {
 
         dispatchGroup.notify(queue: queue) { [unowned self] in
             self.apiManager.createAnswer(questionID: questionID, answerText: textAnswer, answerPhoto:imageUrl, answerVideo: videoUrl, receivers:receivers, mediaSize:mediaSize, completion:completion)
+        }
+    }
+
+    func uploadNewProfileImage(imagePath:String, completion: @escaping((String?, Error?) -> Void)) {
+
+        let queue = DispatchQueue(label: "com.bezierpaths.dear")
+        let dispatchGroup = DispatchGroup()
+
+        var imageUrl: String? = nil
+
+        dispatchGroup.enter()
+        queue.async(group: dispatchGroup) {
+            self.apiManager.uploadImage(filePath: imagePath) { response, _ in
+                imageUrl = response?["url"] as? String
+                dispatchGroup.leave()
+            }
+        }
+
+        dispatchGroup.notify(queue: queue) { [unowned self] in
+            self.apiManager.updateUserInfo(deviceToken: nil, profileImageUrl: imageUrl) { result, _ in
+                if result == true {
+                    completion(imageUrl, nil)
+                } else {
+                    completion(nil, InternalError.unknown)
+                }
+            }
         }
     }
 
