@@ -122,6 +122,7 @@ class SideMenuViewController: UIViewController {
     @objc private func action(button3: UIButton) {
         let settingViewController = SettingViewController(nibName: nil, bundle: nil)
         let navigationController = UINavigationController(rootViewController: settingViewController)
+        navigationController.modalTransitionStyle = .crossDissolve
         self.present(navigationController, animated: true)
     }
 
