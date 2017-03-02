@@ -1,0 +1,36 @@
+{
+  "status": 200,
+  "msg": "OK",
+  "user": {
+    "status": "normal",
+    "userName": "Kyungtaek",
+    "receivers": [
+      {
+        "status": "normal",
+        "receiverID": "58b1e63abf825f790eede16b_0",
+        "phoneNumber": "010-8953-7871",
+        "name": "\uc784\uacbd\ud0dd",
+        "registeredTime": 1488054509
+      }
+    ],
+    "pushDuration": 31536000,
+    "userID": "58b1e63abf825f790eede16b",
+    "todaysQuestion": {
+      "questionID": "58b1e4b1bf825f790eede165",
+      "deliveredAt": 1488053818
+    },
+    "profileImageUrl": "http://indiweb08.cafe24.com:8888/images/a0db30ec-618b-4425-8fb3-b3aaaaed66f5_e3c488fc-fb98-11e6-ab38-00163e7e8a2f.jpg",
+    "birthDay": 366495392,
+    "phoneNumber": "+821089537871",
+    "lastLoginTime": 1488056674,
+    "willitems": {
+      "58b1e4b1bf825f790eede165": {
+        "willitemID": "58b1e7a1bf825f790eede16f",
+        "modifiedAt": 1488054845
+      }
+    },
+    "password": "1234",
+    "readOnlyToken": "58b1e63abf825f790eede16c",
+    "deviceToken": ""
+  }
+}

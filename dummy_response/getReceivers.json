@@ -1,0 +1,41 @@
+{
+  "status": 200,
+  "msg": "OK",
+  "receivers":[
+    {
+      "receiverID":"RECEIVER_ID1",
+      "name":"차혁흔",
+      "phoneNumber":"phoneNumber1"
+    },
+    {
+      "receiverID":"RECEIVER_ID2",
+      "name":"김은혜",
+      "phoneNumber":"phoneNumber2"
+    },
+    {
+      "receiverID":"RECEIVER_ID3",
+      "name":"김지영",
+      "phoneNumber":"phoneNumber2"
+    },
+    {
+      "receiverID":"RECEIVER_ID4",
+      "name":"권수지",
+      "phoneNumber":"phoneNumber2"
+    },
+    {
+      "receiverID":"RECEIVER_ID5",
+      "name":"한승민",
+      "phoneNumber":"phoneNumber2"
+    },
+    {
+      "receiverID":"RECEIVER_ID6",
+      "name":"안선영",
+      "phoneNumber":"phoneNumber2"
+    },
+    {
+      "receiverID":"RECEIVER_ID7",
+      "name":"김경록",
+      "phoneNumber":"phoneNumber2"
+    }
+  ]
+}
